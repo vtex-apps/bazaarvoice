@@ -1,5 +1,5 @@
 {
   "store.product-review-form": {
-    "blocks": ["product-review-form.bazaar-reviews"]
+    "blocks": ["product-review-form.bazaarvoice"]
   }
 }

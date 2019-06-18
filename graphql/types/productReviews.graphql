@@ -7,7 +7,7 @@ type Review {
 }
 
 type Include {
-  Products: [Products] 
+  Products: [Products]
 }
 
 type Products {
@@ -98,5 +98,3 @@ type Quality {
   DisplayType: String
   MaxLabel: String
 }
-
-

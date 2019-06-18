@@ -15,36 +15,41 @@ const Reviews: FunctionComponent<ReviewProps> = props => {
   const [alreadyReviews, setAlreadyReviews] = useState(false)
 
   useEffect(() => {
-
-    if(!product) {
+    if (!product) {
       return
     }
 
     const getReviews = (orderBy: any, page: any) => {
-      props.client.query({
-        query: queryRatingSummary,
-        variables: { sort: orderBy, page: page || 0, pageId: JSON.stringify({
-          linkText: product.linkText,
-          productId: product.productId,
-          productReference: product.productReference,
-        }), filter: 0 }
-      }).then((response: any) => {
-  
-        let reviews = response.data.productReviews.Results;
-  
-        let rollup = response.data.productReviews.Includes.Products[0].ReviewStatistics
-        
-        setAverage(rollup != null ? rollup.average_rating : 0)
-        setAlreadyReviews(reviews.length ? true : false)
-  
-      }).catch((error: any) => {
-        console.log('ERROR: ', error)
-      })
+      props.client
+        .query({
+          query: queryRatingSummary,
+          variables: {
+            sort: orderBy,
+            page: page || 0,
+            pageId: JSON.stringify({
+              linkText: product.linkText,
+              productId: product.productId,
+              productReference: product.productReference,
+            }),
+            filter: 0,
+          },
+        })
+        .then((response: any) => {
+          let reviews = response.data.productReviews.Results
+
+          let rollup =
+            response.data.productReviews.Includes.Products[0].ReviewStatistics
+
+          setAverage(rollup != null ? rollup.average_rating : 0)
+          setAlreadyReviews(reviews.length ? true : false)
+        })
+        .catch((error: any) => {
+          console.log('ERROR: ', error)
+        })
     }
 
     getReviews('Newest', 0)
-
-  }, [product, props.client]) 
+  }, [product, props.client])
 
   return alreadyReviews ? (
     <div className="review__rating mw8 center ph5">

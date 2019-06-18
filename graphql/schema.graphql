@@ -6,15 +6,10 @@
 type Query {
   productReviews(sort: String!, filter: Int, page: Int, pageId: String): Review
   getConfig: GetConfigResponse @cacheControl(scope: PRIVATE)
-
 }
 
 type Mutation {
-  voteReview(
-    reviewId: String
-    voteType: String
-  ): VoteReviewResponse
-
+  voteReview(reviewId: String, voteType: String): VoteReviewResponse
 }
 
 type VoteReviewResponse {

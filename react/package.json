@@ -20,9 +20,9 @@
     "apollo-client": "^2.5.1",
     "eslint": "^5.16.0",
     "eslint-config-vtex": "^10.1.0",
-    "prettier": "^1.16.4",
+    "eslint-config-vtex-react": "^4.1.0",
+    "prettier": "^1.18.2",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "3.3.4000"
+    "typescript": "3.4.3"
   }
 }
-
