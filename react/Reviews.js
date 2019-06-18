@@ -87,6 +87,14 @@ class Reviews extends Component {
     this.setState({ percentage: arr })
   }
 
+  componentDidMount() {
+    this.mounted = true
+  }
+
+  componentWillUnmount() {
+    this.mounted = false
+  }
+
   componentDidUpdate() {
     if (!hasUpdated) {
       if (!this.props.productQuery.loading && !this.props.data.loading) {
@@ -112,6 +120,10 @@ class Reviews extends Component {
         },
       })
       .then(response => {
+        if (!this.mounted) {
+          return
+        }
+
         let reviews = response.data.productReviews.Results // revisar se sempre vem 1 item nesse array
         /* eslint-disable @typescript-eslint/camelcase */
         let paging = {

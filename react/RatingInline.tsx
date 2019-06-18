@@ -16,6 +16,8 @@ const RatingInline: FunctionComponent<RatingInlineProps> = props => {
   const [average, setAverage] = useState(0)
 
   useEffect(() => {
+    let ignore = false
+
     const getReviews = (orderBy: any, page: any) => {
       props.client
         .query({
@@ -31,6 +33,10 @@ const RatingInline: FunctionComponent<RatingInlineProps> = props => {
           },
         })
         .then((response: any) => {
+          if (ignore) {
+            return
+          }
+
           const productReviews = response.data.productReviews
 
           const results = productReviews.Results
@@ -49,6 +55,10 @@ const RatingInline: FunctionComponent<RatingInlineProps> = props => {
 
     if (count == 0) {
       getReviews('SubmissionTime:asc', 0)
+    }
+
+    return () => {
+      ignore = true
     }
   }, [count, product, props.client])
 

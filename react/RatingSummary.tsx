@@ -15,6 +15,8 @@ const Reviews: FunctionComponent<ReviewProps> = props => {
   const [alreadyReviews, setAlreadyReviews] = useState(false)
 
   useEffect(() => {
+    let ignore = false
+
     if (!product) {
       return
     }
@@ -35,6 +37,10 @@ const Reviews: FunctionComponent<ReviewProps> = props => {
           },
         })
         .then((response: any) => {
+          if (ignore) {
+            return
+          }
+
           let reviews = response.data.productReviews.Results
 
           let rollup =
@@ -49,6 +55,10 @@ const Reviews: FunctionComponent<ReviewProps> = props => {
     }
 
     getReviews('Newest', 0)
+
+    return () => {
+      ignore = true
+    }
   }, [product, props.client])
 
   return alreadyReviews ? (
