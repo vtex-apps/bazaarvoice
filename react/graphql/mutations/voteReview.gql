@@ -1,0 +1,6 @@
+mutation voteReview($reviewId: String, $voteType : String) {
+  voteReview(reviewId : $reviewId, voteType: $voteType) {
+    cookie,
+    ugc_id
+  }
+}

@@ -1,0 +1,8 @@
+query getConfig {
+  getConfig {
+    appKey
+    clientName
+    siteId
+    uniqueId
+  }
+}

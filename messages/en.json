@@ -1,0 +1,7 @@
+{
+  "qna": "Questions and answers for {name}",
+  "stars": "Stars rating for {name}",
+  "rating-summary": "Rating summary for {name}",
+  "review-form": "Review form",
+  "reviews": "Show {name} reviews here"
+}

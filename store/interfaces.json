@@ -1,0 +1,14 @@
+{
+  "product-review-form.bazaar-reviews": {
+    "component": "ReviewForm"
+  },
+  "product-reviews.bazaar-reviews": {
+    "component": "Reviews"
+  },
+  "product-rating-summary.bazaar-reviews": {
+    "component": "RatingSummary"
+  },
+  "product-rating-inline.bazaar-reviews": {
+    "component": "RatingInline"
+  }
+}

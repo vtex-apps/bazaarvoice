@@ -1,0 +1,68 @@
+/* ------------------------------------------------------------ *\
+	Commons
+\* ------------------------------------------------------------ */
+
+/* .review {
+	max-width: 775px;
+	margin: 0 auto;
+}
+
+.review__rating--stars{
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+}
+
+
+.review__rating--stars svg + svg{
+	margin-left: 5px;
+}
+
+.review__rating--active {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.review__comments_head {
+    position: relative;
+}
+
+.review__comments_head select{
+	position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.review__rating--average{
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 15px;
+}
+
+.review__histogram  > ul > li {
+	list-style: none;
+	display: flex;
+	align-items: center;
+	justify-content: space-between
+}
+
+.review__histogram  > ul > li + li {
+	margin-top: 5px;
+}
+
+.review__histogram .review__histogram--bar{
+	height: 20px;
+	width: calc(100% - 70px);
+	background-color: #fff;
+}
+.review__comments{
+	padding: 30px 0;
+}
+
+.review__comment + .review__comment{
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid #f9f9f9;
+} */
