@@ -1,0 +1,14 @@
+{
+  "product-review-form.bazaarvoice": {
+    "component": "ReviewForm"
+  },
+  "product-reviews.bazaarvoice": {
+    "component": "Reviews"
+  },
+  "product-rating-summary.bazaarvoice": {
+    "component": "RatingSummary"
+  },
+  "product-rating-inline.bazaarvoice": {
+    "component": "RatingInline"
+  }
+}

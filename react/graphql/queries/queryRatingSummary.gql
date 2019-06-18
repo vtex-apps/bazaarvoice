@@ -1,0 +1,79 @@
+query productReviews($sort: String!, $filter: Int, $page: Int, $pageId: String) {
+	productReviews(sort: $sort, page: $page, pageId: $pageId, filter: $filter) {
+    Limit
+    Offset
+    TotalResults
+    Results {
+      Id
+      Rating
+      TotalCommentCount
+      IsRatingsOnly
+      TotalFeedbackCount
+      IsRecommended
+      SecondaryRatingsOrder
+      TotalNegativeFeedbackCount
+      TotalPositiveFeedbackCount
+      UserNickname
+      UserLocation
+      SubmissionTime
+      Title
+      ReviewText
+      SecondaryRatings {
+        Size {
+          Value
+          Id
+          ValueRange
+          ValueLabel
+          MinLabel
+          Label
+          DisplayType
+          MaxLabel
+        }
+        Quality {
+          Value
+          Id
+          ValueRange
+          ValueLabel
+          MinLabel
+          Label
+          DisplayType
+          MaxLabel
+        }
+      }
+      TagDimensions {
+        Pros {
+          Values
+          Id
+          Label
+        }
+        Cons {
+          Values
+          Id
+          Label
+        }
+      }
+      Photos {
+        Sizes {
+          normal {
+            Url
+          }
+          thumbnail {
+            Url
+          }
+        }
+      }
+    }
+    Includes {
+      Products {
+        ReviewStatistics {
+          TotalReviewCount
+          AverageOverallRating
+          RatingDistribution {
+            RatingValue
+            Count
+          }
+        }
+      }
+    }
+  }
+}

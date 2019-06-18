@@ -1,0 +1,25 @@
+# Default GraphQL Type. You can learn more about GraphQL here: http://graphql.org/learn/
+
+# Specifies the available queries.
+# The resolvers for this query are implemented in here: node/graphql/index.ts
+
+type Query {
+  productReviews(sort: String!, filter: Int, page: Int, pageId: String): Review
+  getConfig: GetConfigResponse @cacheControl(scope: PRIVATE)
+}
+
+type Mutation {
+  voteReview(reviewId: String, voteType: String): VoteReviewResponse
+}
+
+type VoteReviewResponse {
+  cookie: String
+  ugc_id: String
+}
+
+type GetConfigResponse {
+  appKey: String
+  clientName: String
+  siteId: String
+  uniqueId: String
+}

@@ -1,0 +1,100 @@
+type Review {
+  Limit: Int
+  Offset: Int
+  TotalResults: Int
+  Results: [Results]
+  Includes: Include
+}
+
+type Include {
+  Products: [Products]
+}
+
+type Products {
+  ReviewStatistics: ReviewStatistics
+}
+
+type ReviewStatistics {
+  TotalReviewCount: Int
+  AverageOverallRating: Float
+  RatingDistribution: [RatingDistribution]
+}
+
+type RatingDistribution {
+  RatingValue: Int
+  Count: Int
+}
+
+type Results {
+  Id: String
+  Rating: Int
+  TotalCommentCount: Int
+  IsRatingsOnly: Boolean
+  TotalFeedbackCount: Int
+  IsRecommended: Boolean
+  SecondaryRatingsOrder: [String]
+  TotalNegativeFeedbackCount: Int
+  TotalPositiveFeedbackCount: Int
+  UserNickname: String
+  UserLocation: String
+  SubmissionTime: String
+  Title: String
+  ReviewText: String
+  SecondaryRatings: SecondaryRatings
+  TagDimensions: TagDimensions
+  Photos: [Photo]
+}
+
+type Photo {
+  Sizes: ImageSize
+}
+
+type ImageSize {
+  normal: Image
+  thumbnail: Image
+}
+
+type Image {
+  Url: String
+}
+
+type TagDimensions {
+  Pros: Pros
+  Cons: Cons
+}
+type Pros {
+  Values: [String]
+  Id: String
+  Label: String
+}
+type Cons {
+  Values: [String]
+  Id: String
+  Label: String
+}
+
+type SecondaryRatings {
+  Size: Size
+  Quality: Quality
+}
+
+type Size {
+  Value: Int
+  Id: String
+  ValueRange: Int
+  ValueLabel: String
+  MinLabel: String
+  Label: String
+  DisplayType: String
+  MaxLabel: String
+}
+type Quality {
+  Value: Int
+  Id: String
+  ValueRange: Int
+  ValueLabel: String
+  MinLabel: String
+  Label: String
+  DisplayType: String
+  MaxLabel: String
+}

@@ -1,0 +1,5 @@
+{
+  "store.product-review-form": {
+    "blocks": ["product-review-form.bazaarvoice"]
+  }
+}
