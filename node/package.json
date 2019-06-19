@@ -11,7 +11,7 @@
     "eslint": "^5.16.0",
     "eslint-config-vtex": "^10.1.0",
     "prettier": "^1.18.2",
-    "typescript": "3.4.3"
+    "typescript": "3.5.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
