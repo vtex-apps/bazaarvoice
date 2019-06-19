@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
-import getConfig from './graphql/getConfig.graphql'
-import { withApollo, graphql } from 'react-apollo'
+import withGetConfig from './components/withGetConfig'
+import { withApollo } from 'react-apollo'
 import { Pagination, Dropdown, Modal } from 'vtex.styleguide'
+import withProductContext from './components/withProductContext'
 
 import styles from './styles.css'
 
@@ -99,7 +100,7 @@ class Reviews extends Component {
 
   componentDidUpdate() {
     if (!hasUpdated) {
-      if (!this.props.productQuery.loading && !this.props.data.loading) {
+      if (!this.props.product && !this.props.data.loading) {
         this.getReviews(this.state.selected)
         hasUpdated = true
       }
@@ -114,9 +115,9 @@ class Reviews extends Component {
           sort: orderBy,
           page: page || 0,
           pageId: JSON.stringify({
-            linkText: this.props.productQuery.product.linkText,
-            productId: this.props.productQuery.product.productId,
-            productReference: this.props.productQuery.product.productReference,
+            linkText: this.props.product.linkText,
+            productId: this.props.product.productId,
+            productReference: this.props.product.productReference,
           }),
           filter: parseInt(filter) || 0,
         },
@@ -212,9 +213,9 @@ class Reviews extends Component {
           sort: orderBy,
           page: page || 0,
           pageId: JSON.stringify({
-            linkText: this.props.productQuery.product.linkText,
-            productId: this.props.productQuery.product.productId,
-            productReference: this.props.productQuery.product.productReference,
+            linkText: this.props.product.linkText,
+            productId: this.props.product.productId,
+            productReference: this.props.product.productReference,
           }),
         },
       })
@@ -381,10 +382,8 @@ class Reviews extends Component {
             <div className="mv5">
               <a
                 href={`/new-review?product_id=${
-                  this.props.productQuery.product[
-                    this.props.data.getConfig.uniqueId
-                  ]
-                }&return_page=/${this.props.slug}/p`}
+                  this.props.product[this.props.data.getConfig.uniqueId]
+                }&return_page=/${this.props.product.slug}/p`}
               >
                 {' '}
                 Write a review{' '}
@@ -510,14 +509,12 @@ class Reviews extends Component {
               />
             </div>
 
-            {!this.props.data.loading && !this.props.productQuery.loading && (
+            {!this.props.data.loading && !this.props.product && (
               <div className="mv5">
                 <a
                   href={`/new-review?product_id=${
-                    this.props.productQuery.product[
-                      this.props.data.getConfig.uniqueId
-                    ]
-                  }&return_page=/${this.props.slug}/p`}
+                    this.props.product[this.props.data.getConfig.uniqueId]
+                  }&return_page=/${this.props.product.slug}/p`}
                 >
                   {' '}
                   Write a review{' '}
@@ -537,10 +534,4 @@ class Reviews extends Component {
   }
 }
 
-const withGetConfig = graphql(getConfig, {
-  options: () => ({
-    ssr: false,
-  }),
-})
-
-export default withApollo(withGetConfig(Reviews))
+export default withApollo(withGetConfig(withProductContext(Reviews)))

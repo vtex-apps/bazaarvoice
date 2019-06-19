@@ -7,4 +7,6 @@ declare module 'vtex.render-runtime' {
       [key: string]: string
     }
   }
+
+  export const Link
 }
