@@ -3,7 +3,7 @@
   "name": "bazaarvoice",
   "title": "Bazaarvoice",
   "description": "Leverage authentic opinions, photos, and videos to sell your products.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "builders": {
     "react": "3.x",
     "graphql": "1.x",
@@ -33,7 +33,9 @@
   ],
   "mustUpdateAt": "2020-01-22",
   "categories": [],
-  "registries": ["smartcheckout"],
+  "registries": [
+    "smartcheckout"
+  ],
   "scripts": {
     "postreleasy": "vtex publish --verbose"
   },
@@ -58,7 +60,11 @@
       },
       "uniqueId": {
         "type": "string",
-        "enum": ["productId", "linkText", "productReference"],
+        "enum": [
+          "productId",
+          "linkText",
+          "productReference"
+        ],
         "default": "linkText",
         "title": "API Unique Id",
         "description": "The Unique Id referencing to the product id to get the reviews"
