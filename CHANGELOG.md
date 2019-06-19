@@ -9,4 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Rating summary layout.
+- Get Reviews product data from Context so it's possible to position in any place of the PDP.
+
+### Added
+
+- Some initial CSS handles.
+
+### Fixed
+
 - Add app title and description.
