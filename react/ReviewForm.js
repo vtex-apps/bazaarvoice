@@ -16,6 +16,7 @@ const ReviewForm = props => {
   useEffect(() => {
     if (!props.data.loading) {
       var script = document.createElement('script')
+      script.type = 'text/javascript'
       script.onload = function() {
         setProductId(query.product_id)
         setReturnPage(query.return_page)
@@ -26,13 +27,7 @@ const ReviewForm = props => {
 
       document.body.appendChild(script)
     }
-  }, [
-    props.data.getConfig.clientName,
-    props.data.getConfig.siteId,
-    props.data.loading,
-    query.product_id,
-    query.return_page,
-  ])
+  }, [props.data, query.product_id, query.return_page])
 
   useEffect(() => {
     if (!window.$BV) {
