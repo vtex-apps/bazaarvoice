@@ -4,6 +4,8 @@ import getConfig from './graphql/getConfig.graphql'
 import { withApollo, graphql } from 'react-apollo'
 import { Pagination, Dropdown, Modal } from 'vtex.styleguide'
 
+import styles from './styles.css'
+
 let hasUpdated = false
 
 class Reviews extends Component {
@@ -250,8 +252,10 @@ class Reviews extends Component {
 
   render() {
     return this.state.reviews.length ? (
-      <div className="review mw8 center ph5">
-        <h3 className="review__title t-heading-3 bb b--muted-5 mb5">Reviews</h3>
+      <div className={`${styles.review} mw8 center`}>
+        <h3 className={`${styles.reviewTitle} t-heading-3 bb b--muted-5 mb5`}>
+          Reviews
+        </h3>
         <div className="review__rating">
           <div className="review__rating--stars dib relative v-mid mr2">
             <div className="review__rating--inactive nowrap">
@@ -479,8 +483,10 @@ class Reviews extends Component {
         </Modal>
       </div>
     ) : (
-      <div className="review mw8 center ph5">
-        <h3 className="review__title t-heading-3 bb b--muted-5 mb5">Reviews</h3>
+      <div className={`${styles.review} mw8 center c-on-base`}>
+        <h3 className={`${styles.reviewTitle} t-heading-3 b--muted-5 mb5`}>
+          Reviews
+        </h3>
         <div className="review__comments">
           <div className="review__comments_head">
             <h4 className="review__comments_title t-heading-4 bb b--muted-5 mb5 pb4">
