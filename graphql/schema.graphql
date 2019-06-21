@@ -5,7 +5,7 @@
 
 type Query {
   productReviews(sort: String!, filter: Int, page: Int, pageId: String): Review
-  getConfig: GetConfigResponse @cacheControl(scope: PRIVATE)
+  getConfig: GetConfigResponse @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
 }
 
 type Mutation {

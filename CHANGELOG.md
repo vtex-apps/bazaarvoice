@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Cache to app settings query.
+
 ## [1.0.3] - 2019-06-19
 
 ### Fixed
