@@ -509,7 +509,7 @@ class Reviews extends Component {
               />
             </div>
 
-            {!this.props.data.loading && !this.props.product && (
+            {!this.props.data.loading && this.props.product && (
               <div className="mv5">
                 <a
                   href={`/new-review?product_id=${
