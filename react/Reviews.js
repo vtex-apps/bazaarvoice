@@ -100,7 +100,7 @@ class Reviews extends Component {
 
   componentDidUpdate() {
     if (!hasUpdated) {
-      if (!this.props.product && !this.props.data.loading) {
+      if (this.props.product && !this.props.data.loading) {
         this.getReviews(this.state.selected)
         hasUpdated = true
       }
@@ -126,7 +126,7 @@ class Reviews extends Component {
         if (!this.mounted) {
           return
         }
-
+        console.log("Response review: ", response)
         let reviews = response.data.productReviews.Results // revisar se sempre vem 1 item nesse array
         /* eslint-disable @typescript-eslint/camelcase */
         let paging = {
@@ -172,7 +172,7 @@ class Reviews extends Component {
   }
 
   handleClickNext = () => {
-    this.goToPage(this.state.paging.current_page_number * 10)
+    this.goToPage((this.state.paging.current_page_number + 1) * 10)
   }
 
   handleClickPrevious = () => {
@@ -460,11 +460,11 @@ class Reviews extends Component {
           <Pagination
             currentItemFrom={
               1 +
-              (this.state.paging.current_page_number - 1) *
+              ((this.state.paging.current_page_number + 1) - 1) *
                 this.state.paging.page_size
             }
             currentItemTo={
-              this.state.paging.current_page_number *
+              (this.state.paging.current_page_number + 1) *
               this.state.paging.page_size
             }
             textOf="of"
