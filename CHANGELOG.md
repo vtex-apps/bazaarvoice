@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Fixed the Reviews list and also the pagination
+
 ## [1.0.5] - 2019-07-22
 
 ### Fixed
