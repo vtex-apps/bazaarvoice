@@ -253,8 +253,8 @@ class Reviews extends Component {
 
   render() {
     return this.state.reviews.length ? (
-      <div className={`${styles.review} mw8 center`}>
-        <h3 className={`${styles.reviewTitle} t-heading-3 bb b--muted-5 mb5`}>
+      <div className={`${styles.reviews} mw8 center`}>
+        <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
           Reviews
         </h3>
         <div className="review__rating">
@@ -482,8 +482,8 @@ class Reviews extends Component {
         </Modal>
       </div>
     ) : (
-      <div className={`${styles.review} mw8 center c-on-base`}>
-        <h3 className={`${styles.reviewTitle} t-heading-3 b--muted-5 mb5`}>
+      <div className={`${styles.reviews} mw8 center c-on-base`}>
+        <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
           Reviews
         </h3>
         <div className="review__comments">
