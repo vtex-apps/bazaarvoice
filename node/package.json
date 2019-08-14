@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "apollo-server": "^2.8.1",
+    "apollo-server-errors": "^2.3.1",
     "axios": "^0.18.0"
   },
   "devDependencies": {
-    "@vtex/api": "^3.3.1",
+    "@vtex/api": "^3.41.0",
     "eslint": "^5.16.0",
     "eslint-config-vtex": "^10.1.0",
     "prettier": "^1.18.2",

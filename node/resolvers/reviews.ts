@@ -1,9 +1,4 @@
-import axios from 'axios'
-import { Apps } from '@vtex/api'
-
-const _vtexProxy = (url: any) => {
-  return url.replace(/\s+/g, '')
-}
+import {ApolloError} from 'apollo-server'
 
 declare var process: {
   env: {
@@ -12,35 +7,26 @@ declare var process: {
 }
 
 export const queries = {
-  productReviews: async (_: any, args: any, ctx: any) => {
+  productReviews: async (_: any, args: any, ctx: Context) => {
     const { sort, page, pageId, filter } = args
+    const { clients: { apps, reviews: reviewsClient }} = ctx
 
-    const { appKey, uniqueId } = await queries.getConfig(null, null, ctx)
+    const appId = process.env.VTEX_APP_ID
+    const { appKey, uniqueId } = await apps.getAppSettings(appId)
 
     const product = JSON.parse(pageId)
 
     const fieldProductId = product[uniqueId]
 
-    const endpoint = `http://api.bazaarvoice.com/data/reviews.json?apiversion=5.4&passkey=${appKey}&Filter=ProductId:eq:${fieldProductId}&Sort=${sort}&Limit=10&Offset=${page}&Include=Products&Stats=Reviews&Filter=${
-      filter ? 'Rating:eq:' + filter : 'IsRatingsOnly:eq:false'
-    }`
-
-    const requestOptions = {
-      headers: {
-        'Proxy-Authorization': ctx.vtex.authToken,
-        'X-Vtex-Proxy-To': endpoint,
-        'X-Vtex-Use-Https': true,
-        'Cache-Control': 'no-cache',
-        'Content-Type': 'application/json',
-      },
-    }
-
     let reviews: any
     try {
-      reviews = await axios.get(_vtexProxy(endpoint), requestOptions)
+      reviews = await reviewsClient.getReviews({appKey, fieldProductId, sort, page, filter})
     } catch (error) {
-      console.log('ERRO: ', error)
       throw new TypeError(error.response.data)
+    }
+
+    if (reviews.HasErrors) {
+      throw new ApolloError(reviews.Errors[0].Message, reviews.Errors[0].Code)
     }
 
     if (reviews.data.Includes.Products) {
@@ -68,8 +54,8 @@ export const queries = {
 
     return reviews.data
   },
-  getConfig: async (_: any, __: any, ctx: any) => {
-    const apps = new Apps(ctx.vtex)
+  getConfig: async (_: any, __: any, ctx: Context) => {
+    const { clients: { apps }} = ctx
     const appId = process.env.VTEX_APP_ID
     const settings = await apps.getAppSettings(appId)
     return settings

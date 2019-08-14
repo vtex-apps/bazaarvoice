@@ -4,8 +4,8 @@
 # The resolvers for this query are implemented in here: node/graphql/index.ts
 
 type Query {
-  productReviews(sort: String!, filter: Int, page: Int, pageId: String): Review
-  getConfig: GetConfigResponse @cacheControl(scope: SEGMENT, maxAge: MEDIUM)
+  productReviews(sort: String!, filter: Int, page: Int, pageId: String): Review @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
+  getConfig: GetConfigResponse @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
 }
 
 type Mutation {

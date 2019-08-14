@@ -4,7 +4,7 @@ import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import withGetConfig from './components/withGetConfig'
 import { withApollo } from 'react-apollo'
 import { Link } from 'vtex.render-runtime'
-import Star from './components/Star'
+import Stars from './components/Stars'
 
 import styles from './styles.css'
 
@@ -58,7 +58,7 @@ const Reviews = props => {
           setLoading(false)
         })
         .catch(error => {
-          console.log('ERROR: ', error)
+          console.error('Bazzarvoice', error)
         })
     }
 
@@ -78,19 +78,12 @@ const Reviews = props => {
               styles['ratingSummaryStars--loading']
             } nowrap dib`}
           >
-            {[0, 1, 2, 3, 4].map((_, index) => (
-              <Star key={`${index + 'false'}`} fill={false} />
-            ))}
+            <Stars rating={0} />
           </div>
         ) : (
           <Fragment>
             <div className={`${styles.ratingSummaryStars} nowrap dib`}>
-              {[0, 1, 2, 3, 4].map((_, index) => (
-                <Star
-                  key={`${index + average > index}`}
-                  fill={average > index}
-                />
-              ))}
+              <Stars rating={average} />
             </div>
             <span className={`${styles.ratingSummaryTotal} c-muted-2 t-body`}>
               ({totalReviews})
