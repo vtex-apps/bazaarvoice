@@ -34,4 +34,6 @@ npm-debug.log
 .build/
 lib
 react/package-lock.json
+package-lock.json
+node/package-lock.json
 .vscode
