@@ -9,7 +9,5 @@ export interface Settings {
 }
 
 const withGetConfig = graphql<{}, Settings>(getConfig)
-//const withGetConfig = graphql<{}, Settings>(getConfig, {options: {ssr:false}})
-
 
 export default withGetConfig
