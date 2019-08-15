@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useCallback, useReducer } from 'react'
 import { ProductContext } from 'vtex.product-context'
 import Stars from './components/Stars'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
-import voteReviewQuery from './graphql/mutations/voteReview.gql'
 import getConfig from './graphql/getConfig.gql'
 import { withApollo, graphql } from 'react-apollo'
 import styles from './styles.css'
@@ -60,10 +59,12 @@ const filters = [
 ]
 
 const getTimeAgo = time => {
-  let before = new Date(parseInt(time))
+  let before = new Date(time)
+  //console.log('before', before)
   let now = new Date()
   let diff = new Date(now - before)
 
+  //console.log('diff', diff)
   let minutes = diff.getUTCMinutes()
   let hours = diff.getUTCHours()
   let days = diff.getUTCDate() - 1
@@ -100,7 +101,6 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_REVIEWS': {
-      console.log('action', action)
       return {
         ...state,
         reviews: action.reviews,
@@ -128,13 +128,13 @@ const reducer = (state, action) => {
     case 'SET_NEXT_PAGE': {
       return {
         ...state,
-        page: state.paging.current_page_number * 10,
+        page: state.paging.current_page_number + 1,
       }
     }
     case 'SET_PREVIOUS_PAGE': {
       return {
         ...state,
-        page: (state.paging.current_page_number - 2) * 10,
+        page: state.paging.current_page_number - 1,
       }
     }
     case 'VOTE_REVIEW': {
@@ -219,7 +219,6 @@ const Reviews = props => {
         },
       })
       .then(response => {
-        console.log('response', response)
         let rollup = response.data.productReviews.TotalResults
           ? response.data.productReviews.Includes.Products[0].ReviewStatistics
           : null
@@ -239,7 +238,7 @@ const Reviews = props => {
         const currentAverage = rollup != null ? rollup.AverageOverallRating : 0
         let percentage = []
         currentHistogram.forEach(val => {
-          percentage.push(((100 / currentCount) * val).toFixed(2) + '%') // percentage calculation
+          percentage.push(((100 / currentCount) * val.Count).toFixed(2) + '%') // percentage calculation
         })
         percentage.reverse() // layout starts from 5, hence the .reverse()
 
@@ -318,91 +317,15 @@ const Reviews = props => {
     return <div className="review mw8 center ph5">Loading reviews</div>
   }
 
-  console.log('state', state)
-  console.log('props', props)
   return state.reviews.length ? (
     <div className={`${styles.reviews} mw8 center`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
         Reviews
       </h3>
       <div className="review__rating">
-        <div className="review__rating--stars dib relative v-mid mr2">
-          <div className="review__rating--inactive nowrap">
-            {[0, 1, 2, 3, 4].map((_, i) => {
-              return i <= 3 ? (
-                <svg
-                  className="mr2"
-                  key={i}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill={'#eee'}
-                  viewBox="0 0 14.737 14"
-                >
-                  <path
-                    d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
-                    transform="translate(0)"
-                  />
-                </svg> // se o review.Rating for 4, preenche 4 estrelas
-              ) : (
-                <svg
-                  key={i}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill={'#eee'}
-                  viewBox="0 0 14.737 14"
-                >
-                  <path
-                    d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
-                    transform="translate(0)"
-                  />
-                </svg> // se o review.Rating for 4, preenche 4 estrelas
-              )
-            })}
-          </div>
-          <div
-            className="review__rating--active nowrap overflow-hidden absolute top-0-s left-0-s"
-            style={{ width: state.average * 20 + '%' }}
-          >
-            {[0, 1, 2, 3, 4].map((_, i) => {
-              let { average } = state
-
-              return i <= 3 ? (
-                <svg
-                  className="mr2"
-                  key={i}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill={average > i ? '#fc0' : '#eee'}
-                  viewBox="0 0 14.737 14"
-                >
-                  <path
-                    d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
-                    transform="translate(0)"
-                  />
-                </svg> // se o review.Rating for 4, preenche 4 estrelas
-              ) : (
-                <svg
-                  key={i}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill={average > i ? '#fc0' : '#eee'}
-                  viewBox="0 0 14.737 14"
-                >
-                  <path
-                    d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
-                    transform="translate(0)"
-                  />
-                </svg> // se o review.Rating for 4, preenche 4 estrelas
-              )
-            })}
-          </div>
-        </div>
+        <Stars rating={average} />
         <span className="review__rating--average dib v-mid c-muted-1">
-          ({state.reviews.length})
+          ({average.toFixed(1)})
         </span>
       </div>
       <div className="review__histogram">
@@ -430,23 +353,24 @@ const Reviews = props => {
             Reviewed by {state.count}{' '}
             {state.count == 1 ? 'customer' : 'customers'}
           </h4>
-          <div className="mb7">
-            <Dropdown
-              options={options}
-              onChange={handleSort}
-              value={state.selected}
-              {...props}
-            />
+          <div className="flex mb7">
+            <div className="mr4">
+              <Dropdown
+                options={options}
+                onChange={handleSort}
+                value={state.selected}
+                {...props}
+              />
+            </div>
+            <div className="">
+              <Dropdown
+                options={filters}
+                onChange={handleFilter}
+                value={filter}
+                {...props}
+              />
+            </div>
           </div>
-          <div className="mb7">
-            <Dropdown
-              options={filters}
-              onChange={handleFilter}
-              value={filter}
-              {...props}
-            />
-          </div>
-
           <div className="mv5">
             <a
               href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
@@ -519,10 +443,10 @@ const Reviews = props => {
       <div className="review__paging">
         <Pagination
           currentItemFrom={
-            1 + (state.paging.current_page_number - 1) * state.paging.page_size
+            1 + state.paging.current_page_number * state.paging.page_size
           }
           currentItemTo={
-            state.paging.current_page_number * state.paging.page_size
+            (state.paging.current_page_number + 1) * state.paging.page_size
           }
           textOf="of"
           totalItems={state.paging.total_results}
@@ -545,21 +469,23 @@ const Reviews = props => {
             Reviewed by {state.count}{' '}
             {state.count == 1 ? 'customer' : 'customers'}
           </h4>
-          <div className="mb7">
-            <Dropdown
-              options={options}
-              onChange={handleSort}
-              value={state.selected}
-              {...props}
-            />
-          </div>
-          <div className="mb7">
-            <Dropdown
-              options={filters}
-              onChange={handleFilter}
-              value={filter}
-              {...props}
-            />
+          <div className="flex mb7">
+            <div className="mr4">
+              <Dropdown
+                options={options}
+                onChange={handleSort}
+                value={state.selected}
+                {...props}
+              />
+            </div>
+            <div className="">
+              <Dropdown
+                options={filters}
+                onChange={handleFilter}
+                value={filter}
+                {...props}
+              />
+            </div>
           </div>
 
           {!props.data.loading && props.product && (
