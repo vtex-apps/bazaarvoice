@@ -29,21 +29,21 @@ export const queries = {
       throw new ApolloError(reviews.Errors[0].Message, reviews.Errors[0].Code)
     }
 
-    if (reviews.data.Includes.Products) {
-      reviews.data.Includes.Products = Object.keys(
-        reviews.data.Includes.Products
+    if (reviews.Includes.Products) {
+      reviews.Includes.Products = Object.keys(
+        reviews.Includes.Products
       ).map(k => {
-        return reviews.data.Includes.Products[k]
+        return reviews.Includes.Products[k]
       })
 
-      reviews.data.Includes.Products[0].ReviewStatistics.RatingDistribution = [
+      reviews.Includes.Products[0].ReviewStatistics.RatingDistribution = [
         1,
         2,
         3,
         4,
         5,
       ].map(i => {
-        let current_rating = reviews.data.Includes.Products[0].ReviewStatistics.RatingDistribution.find(
+        let current_rating = reviews.Includes.Products[0].ReviewStatistics.RatingDistribution.find(
           (rating: any) => {
             return rating.RatingValue === i
           }
@@ -52,7 +52,7 @@ export const queries = {
       })
     }
 
-    return reviews.data
+    return reviews
   },
   getConfig: async (_: any, __: any, ctx: Context) => {
     const { clients: { apps }} = ctx

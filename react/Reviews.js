@@ -5,14 +5,9 @@ import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import voteReviewQuery from './graphql/mutations/voteReview.gql'
 import getConfig from './graphql/getConfig.gql'
 import { withApollo, graphql } from 'react-apollo'
+import styles from './styles.css'
 
-import {
-  IconSuccess,
-  Pagination,
-  Collapsible,
-  Dropdown,
-  Button,
-} from 'vtex.styleguide'
+import { Pagination, Dropdown, Modal } from 'vtex.styleguide'
 
 const options = [
   {
@@ -99,11 +94,13 @@ const initialState = {
   paging: {},
   page: 0,
   hasError: false,
+  isModalOpen: false,
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_REVIEWS': {
+      console.log('action', action)
       return {
         ...state,
         reviews: action.reviews,
@@ -186,6 +183,12 @@ const reducer = (state, action) => {
         hasError: true,
       }
     }
+    case 'TOGGLE_MODAL': {
+      return {
+        ...state,
+        isModalOpen: !state.isModalOpen,
+      }
+    }
   }
 }
 
@@ -216,6 +219,7 @@ const Reviews = props => {
         },
       })
       .then(response => {
+        console.log('response', response)
         let rollup = response.data.productReviews.TotalResults
           ? response.data.productReviews.Includes.Products[0].ReviewStatistics
           : null
@@ -230,13 +234,23 @@ const Reviews = props => {
           ),
         }
 
+        const currentHistogram = rollup != null ? rollup.RatingDistribution : []
+        const currentCount = rollup != null ? rollup.TotalReviewCount : 0
+        const currentAverage = rollup != null ? rollup.AverageOverallRating : 0
+        let percentage = []
+        currentHistogram.forEach(val => {
+          percentage.push(((100 / currentCount) * val).toFixed(2) + '%') // percentage calculation
+        })
+        percentage.reverse() // layout starts from 5, hence the .reverse()
+
         dispatch({
           type: 'SET_REVIEWS',
           reviews: reviews,
-          average: rollup != null ? rollup.AverageOverallRating : 0,
-          histogram: rollup != null ? rollup.RatingDistribution : [],
-          count: rollup != null ? rollup.TotalReviewCount : 0,
-          paging: paging,
+          average: currentAverage,
+          histogram: currentHistogram,
+          count: currentCount,
+          paging,
+          percentage,
         })
       })
       .catch(error => {
@@ -257,24 +271,6 @@ const Reviews = props => {
     productReference,
     props.client,
   ])
-
-  const voteReview = useCallback(
-    (reviewId, voteType, reviewIndex) => {
-      props.client
-        .mutate({
-          mutation: voteReviewQuery,
-          variables: { reviewId: reviewId, voteType: voteType },
-        })
-        .then(() => {
-          dispatch({
-            type: 'VOTE_REVIEW',
-            reviewIndex,
-            voteType,
-          })
-        })
-    },
-    [props.client]
-  )
 
   const handleSort = useCallback(
     (event, value) => {
@@ -308,6 +304,12 @@ const Reviews = props => {
     })
   }, [dispatch])
 
+  const handleModalToggle = useCallback(() => {
+    dispatch({
+      type: 'TOGGLE_MODAL',
+    })
+  }, [dispatch])
+
   if (state.hasError) {
     return <div></div>
   }
@@ -316,12 +318,92 @@ const Reviews = props => {
     return <div className="review mw8 center ph5">Loading reviews</div>
   }
 
+  console.log('state', state)
+  console.log('props', props)
   return state.reviews.length ? (
-    <div className="review mw8 center ph5" id="all-reviews">
-      <h3 className="review__title t-heading-3 bb b--muted-5 mb5">Reviews</h3>
+    <div className={`${styles.reviews} mw8 center`}>
+      <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
+        Reviews
+      </h3>
       <div className="review__rating">
-        <Stars rating={state.average} />
-        <span className="review__rating--average dib v-mid">{average}</span>
+        <div className="review__rating--stars dib relative v-mid mr2">
+          <div className="review__rating--inactive nowrap">
+            {[0, 1, 2, 3, 4].map((_, i) => {
+              return i <= 3 ? (
+                <svg
+                  className="mr2"
+                  key={i}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill={'#eee'}
+                  viewBox="0 0 14.737 14"
+                >
+                  <path
+                    d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
+                    transform="translate(0)"
+                  />
+                </svg> // se o review.Rating for 4, preenche 4 estrelas
+              ) : (
+                <svg
+                  key={i}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill={'#eee'}
+                  viewBox="0 0 14.737 14"
+                >
+                  <path
+                    d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
+                    transform="translate(0)"
+                  />
+                </svg> // se o review.Rating for 4, preenche 4 estrelas
+              )
+            })}
+          </div>
+          <div
+            className="review__rating--active nowrap overflow-hidden absolute top-0-s left-0-s"
+            style={{ width: state.average * 20 + '%' }}
+          >
+            {[0, 1, 2, 3, 4].map((_, i) => {
+              let { average } = state
+
+              return i <= 3 ? (
+                <svg
+                  className="mr2"
+                  key={i}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill={average > i ? '#fc0' : '#eee'}
+                  viewBox="0 0 14.737 14"
+                >
+                  <path
+                    d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
+                    transform="translate(0)"
+                  />
+                </svg> // se o review.Rating for 4, preenche 4 estrelas
+              ) : (
+                <svg
+                  key={i}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill={average > i ? '#fc0' : '#eee'}
+                  viewBox="0 0 14.737 14"
+                >
+                  <path
+                    d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
+                    transform="translate(0)"
+                  />
+                </svg> // se o review.Rating for 4, preenche 4 estrelas
+              )
+            })}
+          </div>
+        </div>
+        <span className="review__rating--average dib v-mid c-muted-1">
+          ({state.reviews.length})
+        </span>
       </div>
       <div className="review__histogram">
         <ul className="bg-muted-5 pa7 list">
@@ -348,34 +430,30 @@ const Reviews = props => {
             Reviewed by {state.count}{' '}
             {state.count == 1 ? 'customer' : 'customers'}
           </h4>
-          <div className="flex mb7">
-            <div className="mr4">
-              <Dropdown
-                options={options}
-                onChange={handleSort}
-                value={state.selected}
-              />
-            </div>
-            <div className="">
-              <Dropdown
-                options={filters}
-                onChange={handleFilter}
-                value={state.filter}
-              />
-            </div>
+          <div className="mb7">
+            <Dropdown
+              options={options}
+              onChange={handleSort}
+              value={state.selected}
+              {...props}
+            />
+          </div>
+          <div className="mb7">
+            <Dropdown
+              options={filters}
+              onChange={handleFilter}
+              value={filter}
+              {...props}
+            />
           </div>
 
           <div className="mv5">
-            {!props.data.loading ? (
-              <a
-                href={`/new-review?pr_page_id=${
-                  product[props.data.getConfig.uniqueId]
-                }`}
-              >
-                {' '}
-                Write a review{' '}
-              </a>
-            ) : null}
+            <a
+              href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
+            >
+              {' '}
+              Write a review{' '}
+            </a>
           </div>
         </div>
 
@@ -391,110 +469,44 @@ const Reviews = props => {
                       xmlns="http://www.w3.org/2000/svg"
                       width="14.737"
                       height="14"
-                      fill={review.metrics.rating > j ? '#fc0' : '#eee'}
+                      fill={review.Rating > j ? '#fc0' : '#eee'}
                       viewBox="0 0 14.737 14"
                     >
                       <path
                         d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
                         transform="translate(0)"
                       />
-                    </svg> // se o review.metrics.rating for 4, preenche 4 estrelas
+                    </svg> // se o review.Rating for 4, preenche 4 estrelas
                   )
                 })}
 
-                <span>{review.metrics.rating}</span>
+                <span>{review.Rating}</span>
               </div>
               <h5 className="review__comment--user lh-copy mw9 t-heading-5 mv5">
-                {review.details.headline}
+                {review.Title}
               </h5>
               <ul className="pa0">
-                {review.badges.is_verified_buyer ? (
-                  <li className="dib mr5">
-                    <IconSuccess /> Verified buyer
-                  </li>
-                ) : null}
                 <li className="dib mr5">
-                  <strong>Submitted</strong>{' '}
-                  {getTimeAgo(review.details.created_date)}
+                  <strong>Submitted</strong> {getTimeAgo(review.SubmissionTime)}
                 </li>
                 <li className="dib mr5">
-                  <strong>By</strong> {review.details.nickname}
+                  <strong>By</strong> {review.UserNickname}
                 </li>
                 <li className="dib">
-                  <strong>From</strong> {review.details.location}
+                  <strong>From</strong> {review.UserLocation}
                 </li>
               </ul>
-              <p className="t-body lh-copy mw9">{review.details.comments}</p>
-              <div>
-                <h5>Was this review helpful to you?</h5>
-                <Button
-                  disabled={review.disabled}
-                  variation="primary"
-                  size="small"
-                  onClick={() => voteReview(review.review_id, 'helpful', i)}
-                >
-                  yes {review.metrics.helpful_votes}
-                </Button>
-
-                <Button
-                  disabled={review.disabled}
-                  variation="danger-tertiary"
-                  size="small"
-                  onClick={() => voteReview(review.review_id, 'unhelpful', i)}
-                >
-                  no {review.metrics.not_helpful_votes}
-                </Button>
-              </div>
-
-              <div className="review__comment_more-details mt6">
-                <Collapsible
-                  header={<span>More details</span>}
-                  onClick={e => {
-                    dispatch({
-                      type: 'TOGGLE_REVIEW_DETAILS',
-                      reviewIndex: i,
-                    })
-                  }}
-                  isOpen={review.showDetails}
-                >
-                  <div className="flex flex-wrap mt5 justify-between-s">
-                    {review.details.properties.map((item, i) => {
-                      return (
-                        <div key={i} className="w30">
-                          <h5 className="t-heading-5 ma0">{item.label}</h5>
-                          {item.value.length ? (
-                            <ul className="pa0 list">
-                              {item.value.map((val, j) => {
-                                return <li key={j}>{val}</li>
-                              })}
-                            </ul>
-                          ) : null}
-                        </div>
-                      )
-                    })}
-                    {review.details.bottom_line ? (
-                      <div className="w30">
-                        <h5 className="t-heading-5 ma0">Bottom Line</h5>
-                        <p>
-                          {review.details.bottom_line}, I would{' '}
-                          {review.details.bottom_line == 'No' ? 'not ' : ''}
-                          recommend to a friend
-                        </p>
-                      </div>
-                    ) : null}
-                  </div>
-                </Collapsible>
-              </div>
-
-              {review.media.length ? (
-                <div className="review__comment-images mt6">
-                  {review.media.map((item, i) => {
+              <p className="t-body lh-copy mw9">{review.ReviewText}</p>
+              {review.Photos.length ? (
+                <div className="review__comment-images mt6 flex items-start">
+                  {review.Photos.map((item, i) => {
                     return (
                       <img
-                        alt=""
+                        alt="Product"
                         className="w-20 db mb5"
+                        onClick={() => openModalImage(item.Sizes.normal.Url)}
                         key={i}
-                        src={item.uri}
+                        src={item.Sizes.thumbnail.Url}
                       />
                     )
                   })}
@@ -518,50 +530,54 @@ const Reviews = props => {
           onPrevClick={handleClickPrevious}
         />
       </div>
+      <Modal centered isOpen={state.isModalOpen} onClose={handleModalToggle}>
+        <img src={state.selectedImage} />
+      </Modal>
     </div>
   ) : (
-    <div className="review mw8 center ph5">
-      <h3 className="review__title t-heading-3 bb b--muted-5 mb5">Reviews</h3>
+    <div className={`${styles.reviews} mw8 center c-on-base`}>
+      <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
+        Reviews
+      </h3>
       <div className="review__comments">
         <div className="review__comments_head">
           <h4 className="review__comments_title t-heading-4 bb b--muted-5 mb5 pb4">
             Reviewed by {state.count}{' '}
             {state.count == 1 ? 'customer' : 'customers'}
           </h4>
-          <div className="flex mb7">
-            <div className="mr4">
-              <Dropdown
-                options={options}
-                onChange={handleSort}
-                value={state.selected}
-              />
-            </div>
-            <div>
-              <Dropdown
-                options={filters}
-                onChange={handleFilter}
-                value={state.filter}
-              />
-            </div>
+          <div className="mb7">
+            <Dropdown
+              options={options}
+              onChange={handleSort}
+              value={state.selected}
+              {...props}
+            />
+          </div>
+          <div className="mb7">
+            <Dropdown
+              options={filters}
+              onChange={handleFilter}
+              value={filter}
+              {...props}
+            />
           </div>
 
-          <div className="mv5">
-            {!props.data.loading ? (
+          {!props.data.loading && props.product && (
+            <div className="mv5">
               <a
-                href={`/new-review?pr_page_id=${
-                  product[props.data.getConfig.uniqueId]
-                }`}
+                href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
               >
-                Write a review
+                {' '}
+                Write a review{' '}
               </a>
-            ) : null}
-          </div>
+            </div>
+          )}
+        </div>
 
-          <div className="review__comment bw2 bb b--muted-5 mb5 pb4">
-            <h5 className="review__comment--user lh-copy mw9 t-heading-5 mv5">
-              No reviews.
-            </h5>
-          </div>
+        <div className="review__comment bw2 bb b--muted-5 mb5 pb4">
+          <h5 className="review__comment--user lh-copy mw9 t-heading-5 mv5">
+            No reviews found!
+          </h5>
         </div>
       </div>
     </div>
