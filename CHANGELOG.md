@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Show reviews
+
+### Added
+
+- The component isn't displayed anymore when it has errors
+- Refactored the whole code to improve the code quality
+
 ## [1.0.6] - 2019-08-05
+
 ### Fixed
 - Fixed typo in CSS
 

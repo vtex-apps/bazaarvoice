@@ -1,14 +1,13 @@
 import React, { FunctionComponent } from 'react'
-import styles from '../styles.css'
 
-const Star: FunctionComponent<StarProps> = ({ fill }) => {
+const Star: FunctionComponent<StarProps> = ({fill, className, size}) => {
   return (
     <svg
-      className={`${styles.star} ${fill ? styles['star--filled'] : ''}`}
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill={fill ? '#fc0' : '#eee'}
+      width={size}
+      height={size}
+      fill={fill}
       viewBox="0 0 14.737 14"
     >
       <path
@@ -17,10 +16,16 @@ const Star: FunctionComponent<StarProps> = ({ fill }) => {
       />
     </svg>
   )
+
 }
 
+
+
 interface StarProps {
-  fill: boolean
+  key: number
+  fill: string
+  className: string
+  size: number
 }
 
 export default Star
