@@ -25,17 +25,11 @@
 .reviewForm {
 }
 
-.star {
+.ratingStars {
 }
 
-.star--filled {
+.ratingStarsInactive {
 }
 
-.review__rating_stars {
-}
-
-.review__rating_inactive {
-}
-
-.review__rating_active {
+.ratingStarsActive {
 }
