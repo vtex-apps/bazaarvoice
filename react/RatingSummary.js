@@ -27,13 +27,13 @@ const Reviews = props => {
       return
     }
 
-    const getReviews = (orderBy, page) => {
+    const getReviews = (orderBy, offset) => {
       props.client
         .query({
           query: queryRatingSummary,
           variables: {
             sort: orderBy,
-            page: page || 0,
+            offset: offset || 0,
             pageId: JSON.stringify({
               linkText: product.linkText,
               productId: product.productId,

@@ -8,7 +8,7 @@ declare var process: {
 
 export const queries = {
   productReviews: async (_: any, args: any, ctx: Context) => {
-    const { sort, page, pageId, filter } = args
+    const { sort, offset, pageId, filter } = args
     const { clients: { apps, reviews: reviewsClient }} = ctx
 
     const appId = process.env.VTEX_APP_ID
@@ -20,7 +20,7 @@ export const queries = {
 
     let reviews: any
     try {
-      reviews = await reviewsClient.getReviews({appKey, fieldProductId, sort, page, filter})
+      reviews = await reviewsClient.getReviews({appKey, fieldProductId, sort, offset, filter})
     } catch (error) {
       throw new TypeError(error.response.data)
     }
