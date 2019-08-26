@@ -60,11 +60,9 @@ const filters = [
 
 const getTimeAgo = time => {
   let before = new Date(time)
-  //console.log('before', before)
   let now = new Date()
   let diff = new Date(now - before)
 
-  //console.log('diff', diff)
   let minutes = diff.getUTCMinutes()
   let hours = diff.getUTCHours()
   let days = diff.getUTCDate() - 1
@@ -203,7 +201,6 @@ const Reviews = props => {
     if (!linkText && !productId && !productReference) {
       return
     }
-    console.log('state', state)
     props.client
       .query({
         query: queryRatingSummary,
@@ -219,7 +216,6 @@ const Reviews = props => {
         },
       })
       .then(response => {
-        console.log('response', response)
         let rollup = response.data.productReviews.TotalResults
           ? response.data.productReviews.Includes.Products[0].ReviewStatistics
           : null
@@ -287,16 +283,23 @@ const Reviews = props => {
     [dispatch]
   )
 
+  const scrollToReviews = () => {
+    const reviewElement = document.getElementById('reviews-container')
+    reviewElement.scrollIntoView()
+  }
+
   const handleClickNext = useCallback(() => {
     dispatch({
       type: 'SET_NEXT_PAGE',
     })
+    scrollToReviews()
   }, [dispatch])
 
   const handleClickPrevious = useCallback(() => {
     dispatch({
       type: 'SET_PREVIOUS_PAGE',
     })
+    scrollToReviews()
   }, [dispatch])
 
   const handleModalToggle = useCallback(() => {
@@ -314,7 +317,7 @@ const Reviews = props => {
   }
 
   return state.reviews.length ? (
-    <div className={`${styles.reviews} mw8 center`}>
+    <div id="reviews-container" className={`${styles.reviews} mw8 center`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
         Reviews
       </h3>
