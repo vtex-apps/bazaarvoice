@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useReducer } from 'react'
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useReducer,
+  useRef,
+} from 'react'
 import { ProductContext } from 'vtex.product-context'
 import Stars from './components/Stars'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
@@ -283,9 +289,13 @@ const Reviews = props => {
     [dispatch]
   )
 
+  const containerRef = useRef()
+
   const scrollToReviews = () => {
-    const reviewElement = document.getElementById('reviews-container')
-    reviewElement.scrollIntoView()
+    if (!containerRef.current) {
+      return
+    }
+    containerRef.current.scrollIntoView()
   }
 
   const handleClickNext = useCallback(() => {
@@ -317,7 +327,7 @@ const Reviews = props => {
   }
 
   return state.reviews.length ? (
-    <div id="reviews-container" className={`${styles.reviews} mw8 center`}>
+    <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
         Reviews
       </h3>
