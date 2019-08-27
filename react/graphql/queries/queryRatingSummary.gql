@@ -1,5 +1,5 @@
-query productReviews($sort: String!, $filter: Int, $page: Int, $pageId: String) {
-	productReviews(sort: $sort, page: $page, pageId: $pageId, filter: $filter) {
+query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String) {
+	productReviews(sort: $sort, offset: $offset, pageId: $pageId, filter: $filter) {
     Limit
     Offset
     TotalResults

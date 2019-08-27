@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useCallback, useReducer } from 'react'
+import React, {
+  useContext,
+  useEffect,
+  useCallback,
+  useReducer,
+  useRef,
+} from 'react'
 import { ProductContext } from 'vtex.product-context'
 import Stars from './components/Stars'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
@@ -11,11 +17,11 @@ import { Pagination, Dropdown, Modal } from 'vtex.styleguide'
 const options = [
   {
     label: 'Most Recent',
-    value: 'SubmissionTime:asc',
+    value: 'SubmissionTime:desc',
   },
   {
     label: 'Most Relevant',
-    value: 'Helpfulness:desc,SubmissionTime:asc',
+    value: 'Helpfulness:desc,SubmissionTime:desc',
   },
   {
     label: 'Highest to Lowest Rating',
@@ -60,11 +66,9 @@ const filters = [
 
 const getTimeAgo = time => {
   let before = new Date(time)
-  //console.log('before', before)
   let now = new Date()
   let diff = new Date(now - before)
 
-  //console.log('diff', diff)
   let minutes = diff.getUTCMinutes()
   let hours = diff.getUTCHours()
   let days = diff.getUTCDate() - 1
@@ -90,10 +94,10 @@ const initialState = {
   histogram: [],
   count: 0,
   percentage: [],
-  selected: 'SubmissionTime:asc',
+  selected: 'SubmissionTime:desc',
   filter: '0',
   paging: {},
-  page: 0,
+  offset: 0,
   hasError: false,
   isModalOpen: false,
 }
@@ -122,19 +126,19 @@ const reducer = (state, action) => {
       return {
         ...state,
         filter: action.filter,
-        page: 0,
+        offset: 0,
       }
     }
     case 'SET_NEXT_PAGE': {
       return {
         ...state,
-        page: state.paging.current_page_number + 1,
+        offset: state.offset + state.paging.pageSize,
       }
     }
     case 'SET_PREVIOUS_PAGE': {
       return {
         ...state,
-        page: state.paging.current_page_number - 1,
+        offset: state.offset + state.paging.pageSize,
       }
     }
     case 'VOTE_REVIEW': {
@@ -197,19 +201,18 @@ const Reviews = props => {
   const { linkText, productId, productReference } = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { filter, selected, page, count, histogram, average } = state
+  const { filter, selected, offset, count, histogram, average } = state
 
   useEffect(() => {
     if (!linkText && !productId && !productReference) {
       return
     }
-
     props.client
       .query({
         query: queryRatingSummary,
         variables: {
           sort: selected,
-          page: page,
+          offset: offset,
           pageId: JSON.stringify({
             linkText: linkText,
             productId: productId,
@@ -224,13 +227,8 @@ const Reviews = props => {
           : null
         let reviews = response.data.productReviews.Results // revisar se sempre vem 1 item nesse array
         let paging = {
-          page_size: response.data.productReviews.Limit,
-          total_results: response.data.productReviews.TotalResults,
-          current_page_number: response.data.productReviews.Offset,
-          pages_total: Math.round(
-            response.data.productReviews.TotalResults /
-              response.data.productReviews.Limit
-          ),
+          pageSize: response.data.productReviews.Limit,
+          totalResults: response.data.productReviews.TotalResults,
         }
 
         const currentHistogram = rollup != null ? rollup.RatingDistribution : []
@@ -261,7 +259,7 @@ const Reviews = props => {
   }, [
     filter,
     selected,
-    page,
+    offset,
     count,
     histogram,
     average,
@@ -291,16 +289,27 @@ const Reviews = props => {
     [dispatch]
   )
 
+  const containerRef = useRef()
+
+  const scrollToReviews = () => {
+    if (!containerRef.current) {
+      return
+    }
+    containerRef.current.scrollIntoView()
+  }
+
   const handleClickNext = useCallback(() => {
     dispatch({
       type: 'SET_NEXT_PAGE',
     })
+    scrollToReviews()
   }, [dispatch])
 
   const handleClickPrevious = useCallback(() => {
     dispatch({
       type: 'SET_PREVIOUS_PAGE',
     })
+    scrollToReviews()
   }, [dispatch])
 
   const handleModalToggle = useCallback(() => {
@@ -318,7 +327,7 @@ const Reviews = props => {
   }
 
   return state.reviews.length ? (
-    <div className={`${styles.reviews} mw8 center`}>
+    <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
         Reviews
       </h3>
@@ -442,14 +451,10 @@ const Reviews = props => {
       </div>
       <div className="review__paging">
         <Pagination
-          currentItemFrom={
-            1 + state.paging.current_page_number * state.paging.page_size
-          }
-          currentItemTo={
-            (state.paging.current_page_number + 1) * state.paging.page_size
-          }
+          currentItemFrom={1 + offset}
+          currentItemTo={offset + state.paging.pageSize}
           textOf="of"
-          totalItems={state.paging.total_results}
+          totalItems={state.paging.totalResults}
           onNextClick={handleClickNext}
           onPrevClick={handleClickPrevious}
         />

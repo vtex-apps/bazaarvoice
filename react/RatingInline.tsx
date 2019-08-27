@@ -18,13 +18,13 @@ const RatingInline: FunctionComponent<RatingInlineProps> = props => {
   useEffect(() => {
     let ignore = false
 
-    const getReviews = (orderBy: any, page: any) => {
+    const getReviews = (orderBy: any, offset: any) => {
       props.client
         .query({
           query: queryRatingSummary,
           variables: {
             sort: orderBy,
-            page: page || 0,
+            offset: offset || 0,
             pageId: JSON.stringify({
               linkText: product.linkText,
               productId: product.productId,
@@ -54,7 +54,7 @@ const RatingInline: FunctionComponent<RatingInlineProps> = props => {
     }
 
     if (count == 0) {
-      getReviews('SubmissionTime:asc', 0)
+      getReviews('SubmissionTime:desc', 0)
     }
 
     return () => {
