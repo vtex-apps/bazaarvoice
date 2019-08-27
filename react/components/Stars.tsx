@@ -9,7 +9,7 @@ const Stars: FunctionComponent<StarsProps> = ({ rating }) => {
       <div className={`${styles.ratingStarsInactive} nowrap`}>
         {[0, 1, 2, 3, 4].map((_, i) => {
           return (
-            <Star key={i} fill={'#eee'} className="mr2" size={20} />
+            <Star key={i} fill={'#eee'} className={i === 4 ? '' : 'mr2'} size={20} />
           )
         })}
       </div>
@@ -19,7 +19,7 @@ const Stars: FunctionComponent<StarsProps> = ({ rating }) => {
       >
         {[0, 1, 2, 3, 4].map((_, i) => {
           return (
-            <Star key={i} fill={rating > i ? '#fc0' : '#eee'} className="mr2" size={20} />
+            <Star key={i} fill={rating > i ? '#fc0' : '#eee'} className={i === 4 ? '' : 'mr2'} size={20} />
           )
         })}
       </div>
