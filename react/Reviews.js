@@ -7,86 +7,15 @@ import React, {
 } from 'react'
 import { ProductContext } from 'vtex.product-context'
 import Stars from './components/Stars'
+import Histogram from './components/Histogram'
+import NoReviews from './components/NoReviews'
+import ReviewsContainer from './components/ReviewsContainer'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import getConfig from './graphql/getConfig.gql'
 import { withApollo, graphql } from 'react-apollo'
 import styles from './styles.css'
 
-import { Pagination, Dropdown, Modal } from 'vtex.styleguide'
-
-const options = [
-  {
-    label: 'Most Recent',
-    value: 'SubmissionTime:desc',
-  },
-  {
-    label: 'Most Relevant',
-    value: 'Helpfulness:desc,SubmissionTime:desc',
-  },
-  {
-    label: 'Highest to Lowest Rating',
-    value: 'Rating:desc',
-  },
-  {
-    label: 'Lowest to Highest Rating',
-    value: 'Rating:asc',
-  },
-  {
-    label: 'Most Helpful',
-    value: 'Helpfulness:desc',
-  },
-]
-
-const filters = [
-  {
-    label: 'All',
-    value: '0',
-  },
-  {
-    label: '1 star',
-    value: '1',
-  },
-  {
-    label: '2 stars',
-    value: '2',
-  },
-  {
-    label: '3 stars',
-    value: '3',
-  },
-  {
-    label: '4 stars',
-    value: '4',
-  },
-  {
-    label: '5 stars',
-    value: '5',
-  },
-]
-
-const getTimeAgo = time => {
-  let before = new Date(time)
-  let now = new Date()
-  let diff = new Date(now - before)
-
-  let minutes = diff.getUTCMinutes()
-  let hours = diff.getUTCHours()
-  let days = diff.getUTCDate() - 1
-  let months = diff.getUTCMonth()
-  let years = diff.getUTCFullYear() - 1970
-
-  if (years != 0) {
-    return `${years} ${years > 1 ? 'years' : 'year'} ago`
-  } else if (months != 0) {
-    return `${months} ${months > 1 ? 'months' : 'month'} ago`
-  } else if (days != 0) {
-    return `${days} ${days > 1 ? 'days' : 'day'} ago`
-  } else if (hours != 0) {
-    return `${hours} ${hours > 1 ? 'hours' : 'hour'} ago`
-  } else {
-    return `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ago`
-  }
-}
+import { Pagination, Modal } from 'vtex.styleguide'
 
 const initialState = {
   reviews: null,
@@ -239,7 +168,6 @@ const Reviews = props => {
           percentage.push(((100 / currentCount) * val.Count).toFixed(2) + '%') // percentage calculation
         })
         percentage.reverse() // layout starts from 5, hence the .reverse()
-
         dispatch({
           type: 'SET_REVIEWS',
           reviews: reviews,
@@ -325,130 +253,29 @@ const Reviews = props => {
   if (state.reviews === null) {
     return <div className="review mw8 center ph5">Loading reviews</div>
   }
-
-  return state.reviews.length ? (
+  return !state.reviews.length ? (
     <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
         Reviews
       </h3>
       <div className="review__rating">
-        <Stars rating={average} />
+        <Stars rating={average.toFixed(1)} />
         <span className="review__rating--average dib v-mid c-muted-1">
           ({average.toFixed(1)})
         </span>
       </div>
-      <div className="review__histogram">
-        <ul className="bg-muted-5 pa7 list">
-          {state.percentage.map((percentage, i) => {
-            return (
-              <li key={i} className="mv3">
-                <span className="dib w-10 v-mid">
-                  {5 - i} {i < 4 ? 'stars' : 'star'}
-                </span>
-                <div className="review__histogram--bar bg-white dib h2 w-90 v-mid">
-                  <div
-                    className="review__histogram--bar-value h2 bg-yellow"
-                    style={{ width: percentage }}
-                  ></div>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-      <div className="review__comments">
-        <div className="review__comments_head">
-          <h4 className="review__comments_title t-heading-4 bb b--muted-5 mb5 pb4">
-            Reviewed by {state.count}{' '}
-            {state.count == 1 ? 'customer' : 'customers'}
-          </h4>
-          <div className="flex mb7">
-            <div className="mr4">
-              <Dropdown
-                options={options}
-                onChange={handleSort}
-                value={state.selected}
-                {...props}
-              />
-            </div>
-            <div className="">
-              <Dropdown
-                options={filters}
-                onChange={handleFilter}
-                value={filter}
-                {...props}
-              />
-            </div>
-          </div>
-          <div className="mv5">
-            <a
-              href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
-            >
-              {' '}
-              Write a review{' '}
-            </a>
-          </div>
-        </div>
-
-        {state.reviews.map((review, i) => {
-          return (
-            <div key={i} className="review__comment bw2 bb b--muted-5 mb5 pb4">
-              <div className="review__comment--rating">
-                {[0, 1, 2, 3, 4].map((_, j) => {
-                  return (
-                    <svg
-                      className="mr3"
-                      key={j}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="14.737"
-                      height="14"
-                      fill={review.Rating > j ? '#fc0' : '#eee'}
-                      viewBox="0 0 14.737 14"
-                    >
-                      <path
-                        d="M7.369,11.251,11.923,14,10.714,8.82l4.023-3.485-5.3-.449L7.369,0,5.3,4.885,0,5.335,4.023,8.82,2.815,14Z"
-                        transform="translate(0)"
-                      />
-                    </svg> // se o review.Rating for 4, preenche 4 estrelas
-                  )
-                })}
-
-                <span>{review.Rating}</span>
-              </div>
-              <h5 className="review__comment--user lh-copy mw9 t-heading-5 mv5">
-                {review.Title}
-              </h5>
-              <ul className="pa0">
-                <li className="dib mr5">
-                  <strong>Submitted</strong> {getTimeAgo(review.SubmissionTime)}
-                </li>
-                <li className="dib mr5">
-                  <strong>By</strong> {review.UserNickname}
-                </li>
-                <li className="dib">
-                  <strong>From</strong> {review.UserLocation}
-                </li>
-              </ul>
-              <p className="t-body lh-copy mw9">{review.ReviewText}</p>
-              {review.Photos.length ? (
-                <div className="review__comment-images mt6 flex items-start">
-                  {review.Photos.map((item, i) => {
-                    return (
-                      <img
-                        alt="Product"
-                        className="w-20 db mb5"
-                        onClick={() => openModalImage(item.Sizes.normal.Url)}
-                        key={i}
-                        src={item.Sizes.thumbnail.Url}
-                      />
-                    )
-                  })}
-                </div>
-              ) : null}
-            </div>
-          )
-        })}
-      </div>
+      <Histogram percentage={state.percentage} histogram={histogram} />
+      <ReviewsContainer
+        count={count}
+        handleSort={handleSort}
+        selected={selected}
+        props={props}
+        handleFilter={handleFilter}
+        filter={filter}
+        productReference={productReference}
+        linkText={linkText}
+        reviews={state.reviews}
+      />
       <div className="review__paging">
         <Pagination
           currentItemFrom={1 + offset}
@@ -464,54 +291,7 @@ const Reviews = props => {
       </Modal>
     </div>
   ) : (
-    <div className={`${styles.reviews} mw8 center c-on-base`}>
-      <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
-        Reviews
-      </h3>
-      <div className="review__comments">
-        <div className="review__comments_head">
-          <h4 className="review__comments_title t-heading-4 bb b--muted-5 mb5 pb4">
-            Reviewed by {state.count}{' '}
-            {state.count == 1 ? 'customer' : 'customers'}
-          </h4>
-          <div className="flex mb7">
-            <div className="mr4">
-              <Dropdown
-                options={options}
-                onChange={handleSort}
-                value={state.selected}
-                {...props}
-              />
-            </div>
-            <div className="">
-              <Dropdown
-                options={filters}
-                onChange={handleFilter}
-                value={filter}
-                {...props}
-              />
-            </div>
-          </div>
-
-          {!props.data.loading && props.product && (
-            <div className="mv5">
-              <a
-                href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
-              >
-                {' '}
-                Write a review{' '}
-              </a>
-            </div>
-          )}
-        </div>
-
-        <div className="review__comment bw2 bb b--muted-5 mb5 pb4">
-          <h5 className="review__comment--user lh-copy mw9 t-heading-5 mv5">
-            No reviews found!
-          </h5>
-        </div>
-      </div>
-    </div>
+    <NoReviews productReference={productReference} linkText={linkText} />
   )
 }
 
