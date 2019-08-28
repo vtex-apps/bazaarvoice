@@ -253,7 +253,7 @@ const Reviews = props => {
   if (state.reviews === null) {
     return <div className="review mw8 center ph5">Loading reviews</div>
   }
-  return !state.reviews.length ? (
+  return state.reviews.length ? (
     <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
         Reviews
