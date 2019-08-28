@@ -24,10 +24,7 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({productReference, linkTex
       </div>
     </div>
   )
-
 }
-
-
 
 interface NoReviewsProps {
   productReference: string

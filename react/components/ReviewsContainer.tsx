@@ -96,10 +96,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({count, hand
         </Fragment>
       </div>
   )
-
 }
-
-
 
 interface ReviewsContainerProps {
   count: number

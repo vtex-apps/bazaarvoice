@@ -6,9 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Chore
-- Refactor and modularization of thre `Reviews` component
-- Added styling to the `Reviews` component
+### Added
+- Styling to the `Reviews` component
 
 ## [1.1.1] - 2019-08-27
 ### Fixed
