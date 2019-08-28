@@ -1,6 +1,7 @@
 import React, { FunctionComponent, Fragment } from 'react'
 import {Dropdown} from 'vtex.styleguide'
 import Review from './Review'
+import styles from '../styles.css'
 
 const options = [
   {
@@ -54,14 +55,14 @@ const filters = [
 
 const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({count, handleSort, selected, props, handleFilter, filter, productReference, linkText, reviews}) => {
   return (
-    <div className="review__comments">
-        <div className="review__comments_head">
-          <h4 className="review__comments_title t-heading-4 bb b--muted-5 mb5 pb4">
+    <div className={styles.reviewsContainer}>
+        <div className={styles.reviewsContainerHead}>
+          <h4 className={`${styles.reviewsContainerTitle} t-heading-4 bb b--muted-5 mb5 pb4`}>
             Reviewed by {count}{' '}
             {count == 1 ? 'customer' : 'customers'}
           </h4>
-          <div className="flex mb7">
-            <div className="mr4">
+          <div className={`${styles.reviewsContainerDropdowns} flex mb7`}>
+            <div className={`${styles.reviewsContainerSortDropdown} mr4`}>
               <Dropdown
                 options={options}
                 onChange={handleSort}
@@ -69,7 +70,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({count, hand
                 {...props}
               />
             </div>
-            <div className="">
+            <div className={styles.reviewsContainerStarsDropdown}>
               <Dropdown
                 options={filters}
                 onChange={handleFilter}
@@ -78,7 +79,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({count, hand
               />
             </div>
           </div>
-          <div className="mv5">
+          <div className={`${styles.reviewsContainerWriteButton} mv5`}>
             <a
               href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
             >

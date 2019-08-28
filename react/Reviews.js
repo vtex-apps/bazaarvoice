@@ -8,63 +8,14 @@ import React, {
 import { ProductContext } from 'vtex.product-context'
 import Stars from './components/Stars'
 import Histogram from './components/Histogram'
+import NoReviews from './components/NoReviews'
 import ReviewsContainer from './components/ReviewsContainer'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import getConfig from './graphql/getConfig.gql'
 import { withApollo, graphql } from 'react-apollo'
 import styles from './styles.css'
 
-import { Pagination, Dropdown, Modal } from 'vtex.styleguide'
-
-const options = [
-  {
-    label: 'Most Recent',
-    value: 'SubmissionTime:desc',
-  },
-  {
-    label: 'Most Relevant',
-    value: 'Helpfulness:desc,SubmissionTime:desc',
-  },
-  {
-    label: 'Highest to Lowest Rating',
-    value: 'Rating:desc',
-  },
-  {
-    label: 'Lowest to Highest Rating',
-    value: 'Rating:asc',
-  },
-  {
-    label: 'Most Helpful',
-    value: 'Helpfulness:desc',
-  },
-]
-
-const filters = [
-  {
-    label: 'All',
-    value: '0',
-  },
-  {
-    label: '1 star',
-    value: '1',
-  },
-  {
-    label: '2 stars',
-    value: '2',
-  },
-  {
-    label: '3 stars',
-    value: '3',
-  },
-  {
-    label: '4 stars',
-    value: '4',
-  },
-  {
-    label: '5 stars',
-    value: '5',
-  },
-]
+import { Pagination, Modal } from 'vtex.styleguide'
 
 const initialState = {
   reviews: null,
@@ -302,7 +253,7 @@ const Reviews = props => {
   if (state.reviews === null) {
     return <div className="review mw8 center ph5">Loading reviews</div>
   }
-  return state.reviews.length ? (
+  return !state.reviews.length ? (
     <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
         Reviews
@@ -313,7 +264,7 @@ const Reviews = props => {
           ({average.toFixed(1)})
         </span>
       </div>
-      <Histogram percentage={state.percentage} />
+      <Histogram percentage={state.percentage} histogram={histogram} />
       <ReviewsContainer
         count={count}
         handleSort={handleSort}
@@ -340,26 +291,7 @@ const Reviews = props => {
       </Modal>
     </div>
   ) : (
-    <div className={`${styles.reviews} mw8 center c-on-base`}>
-      <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
-        Reviews
-      </h3>
-      <div className="review__comments">
-        <div className="review__comment bw2 b--muted-5 mb5 pb3">
-          <h5 className="review__comment--user lh-copy mw9 t-heading-5 mv5">
-            No reviews found!
-          </h5>
-        </div>
-        <div className="review__comments_head">
-          <a
-            href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
-          >
-            {' '}
-            Be the first to write a review!{' '}
-          </a>
-        </div>
-      </div>
-    </div>
+    <NoReviews productReference={productReference} linkText={linkText} />
   )
 }
 

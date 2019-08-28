@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import Stars from './Stars'
+import styles from '../styles.css'
 
 const getTimeAgo = (time: string) => {
   let before = new Date(time)
@@ -27,33 +28,32 @@ const getTimeAgo = (time: string) => {
 
 const Review: FunctionComponent<ReviewProps> = ({review}) => {
   return (
-    <div className="review__comment bw2 bb b--muted-5 mb5 pb4">
-      <div className="review__comment--rating">
+    <div className={`${styles.review} bw2 bb b--muted-5 mb5 pb4`}>
+      <div className={styles.reviewRating}>
         <Stars rating={review.Rating}/>
-        <span>{review.Rating}</span>
       </div>
-      <h5 className="review__comment--user lh-copy mw9 t-heading-5 mv5">
+      <h5 className={`${styles.reviewTitle} lh-copy mw9 t-heading-5 mv5`}>
         {review.Title}
       </h5>
       <ul className="pa0">
-        <li className="dib mr5">
+        <li className={`${styles.reviewSubmittedField} dib mr5`}>
           <strong>Submitted</strong> {getTimeAgo(review.SubmissionTime)}
         </li>
-        <li className="dib mr5">
+        <li className={`${styles.reviewByField} dib mr5`}>
           <strong>By</strong> {review.UserNickname}
         </li>
-        <li className="dib">
+        <li className={`${styles.reviewFromField} dib`}>
           <strong>From</strong> {review.UserLocation}
         </li>
       </ul>
-      <p className="t-body lh-copy mw9">{review.ReviewText}</p>
+      <p className={`${styles.reviewText} t-body lh-copy mw9`}>{review.ReviewText}</p>
       {review.Photos.length ? (
-        <div className="review__comment-images mt6 flex items-start">
+        <div className={`${styles.reviewImagesContainer} mt6 flex items-start`}>
           {review.Photos.map((item: any, i: number) => {
             return (
               <img
                 alt="Product"
-                className="w-20 db mb5"
+                className={`${styles.reviewImage} w-20 db mb5`}
                 key={i}
                 src={item.Sizes.thumbnail.Url}
               />
