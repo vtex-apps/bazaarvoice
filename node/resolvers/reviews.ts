@@ -6,6 +6,12 @@ declare var process: {
   }
 }
 
+const convertSecondaryRatings = (secondaryRatings: any, ratingOrder: Array<any>) => {
+  return ratingOrder.map( r => {
+    return secondaryRatings[r]
+  })
+}
+
 export const queries = {
   productReviews: async (_: any, args: any, ctx: Context) => {
     const { sort, offset, pageId, filter } = args
@@ -50,6 +56,16 @@ export const queries = {
         )
         return current_rating ? current_rating : { RatingValue: i, Count: 0 }
       })
+      
+      if (reviews.Results[0].SecondaryRatings) {
+        const ratingOrders = reviews.Results[0].SecondaryRatingsOrder
+        reviews.Results = reviews.Results.map( (result:any) => {
+          return {
+            ...result,
+            SecondaryRatings: convertSecondaryRatings(result.SecondaryRatings, ratingOrders)
+          }
+        })
+      }
     }
 
     return reviews
