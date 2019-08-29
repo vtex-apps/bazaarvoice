@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.4] - 2019-08-29
+
 ## [1.1.3] - 2019-08-28
 ### Fixed
 - Bug that showed the `noReviews` page when there were reviews
