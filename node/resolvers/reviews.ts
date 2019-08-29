@@ -41,7 +41,6 @@ export const queries = {
       ).map(k => {
         return reviews.Includes.Products[k]
       })
-
       reviews.Includes.Products[0].ReviewStatistics.RatingDistribution = [
         1,
         2,
@@ -56,9 +55,13 @@ export const queries = {
         )
         return current_rating ? current_rating : { RatingValue: i, Count: 0 }
       })
+
+      const ratingOrders = reviews.Results[0].SecondaryRatingsOrder
+      reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages = ratingOrders.map( (r:any) => {
+        return reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages[r]
+      })
       
       if (reviews.Results[0].SecondaryRatings) {
-        const ratingOrders = reviews.Results[0].SecondaryRatingsOrder
         reviews.Results = reviews.Results.map( (result:any) => {
           return {
             ...result,

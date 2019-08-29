@@ -151,11 +151,10 @@ const Reviews = props => {
         },
       })
       .then(response => {
-        console.log('response', response)
         let rollup = response.data.productReviews.TotalResults
           ? response.data.productReviews.Includes.Products[0].ReviewStatistics
           : null
-        let reviews = response.data.productReviews.Results // revisar se sempre vem 1 item nesse array
+        let reviews = response.data.productReviews.Results
         let paging = {
           pageSize: response.data.productReviews.Limit,
           totalResults: response.data.productReviews.TotalResults,

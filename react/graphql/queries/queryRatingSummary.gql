@@ -60,6 +60,14 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
             RatingValue
             Count
           }
+          SecondaryRatingsAverages {
+            AverageRating
+            Id
+            ValueRange
+            MinLabel
+            DisplayType
+            MaxLabel
+          }
         }
       }
     }

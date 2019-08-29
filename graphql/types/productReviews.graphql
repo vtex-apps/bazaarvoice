@@ -18,6 +18,16 @@ type ReviewStatistics {
   TotalReviewCount: Int
   AverageOverallRating: Float
   RatingDistribution: [RatingDistribution]
+  SecondaryRatingsAverages: [SecondaryRatingsAverage]
+}
+
+type SecondaryRatingsAverage {
+  AverageRating: Float
+  Id: String
+  ValueRange: Int
+  MinLabel: String
+  DisplayType: String
+  MaxLabel: String
 }
 
 type RatingDistribution {
