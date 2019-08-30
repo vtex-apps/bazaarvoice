@@ -16,13 +16,9 @@ const Star: FunctionComponent<StarProps> = ({fill, className, size}) => {
       />
     </svg>
   )
-
 }
 
-
-
 interface StarProps {
-  key: number
   fill: string
   className: string
   size: number

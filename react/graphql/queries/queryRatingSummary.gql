@@ -65,6 +65,7 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
             Id
             ValueRange
             MinLabel
+            Label
             DisplayType
             MaxLabel
           }

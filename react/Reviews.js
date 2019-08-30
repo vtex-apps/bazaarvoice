@@ -21,6 +21,7 @@ const initialState = {
   reviews: null,
   average: 0,
   histogram: [],
+  secondaryRatingsAverage: [],
   count: 0,
   percentage: [],
   selected: 'SubmissionTime:desc',
@@ -39,6 +40,7 @@ const reducer = (state, action) => {
         reviews: action.reviews,
         average: action.average,
         histogram: action.histogram,
+        secondaryRatingsAverage: action.secondaryRatingsAverage,
         percentage: action.percentage,
         count: action.count,
         paging: action.paging,
@@ -163,6 +165,8 @@ const Reviews = props => {
         const currentHistogram = rollup != null ? rollup.RatingDistribution : []
         const currentCount = rollup != null ? rollup.TotalReviewCount : 0
         const currentAverage = rollup != null ? rollup.AverageOverallRating : 0
+        const currentSecondaryRatingsAverages =
+          rollup != null ? rollup.SecondaryRatingsAverages : []
         let percentage = []
         currentHistogram.forEach(val => {
           percentage.push(((100 / currentCount) * val.Count).toFixed(2) + '%') // percentage calculation
@@ -174,6 +178,7 @@ const Reviews = props => {
           average: currentAverage,
           histogram: currentHistogram,
           count: currentCount,
+          secondaryRatingsAverage: currentSecondaryRatingsAverages,
           paging,
           percentage,
         })
@@ -255,16 +260,20 @@ const Reviews = props => {
   }
   return state.reviews.length ? (
     <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
-      <h3 className={`${styles.reviewsTitle} t-heading-3 bb b--muted-5 mb5`}>
+      <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
         Reviews
       </h3>
-      <div className="review__rating">
+      <div className="review__rating pb4">
         <Stars rating={average.toFixed(1)} />
         <span className="review__rating--average dib v-mid c-muted-1">
           ({average.toFixed(1)})
         </span>
       </div>
-      <Histogram percentage={state.percentage} histogram={histogram} />
+      <Histogram
+        percentage={state.percentage}
+        histogram={histogram}
+        secondaryRatingsAverage={state.secondaryRatingsAverage}
+      />
       <ReviewsContainer
         count={count}
         handleSort={handleSort}

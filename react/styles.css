@@ -59,6 +59,21 @@
 .histogramCount{
 }
 
+.secondaryHistogramLine{
+}
+
+.secondaryHistogramLabel{
+}
+
+.secondaryHistogramBar{
+}
+
+.secondaryHistogramBarValue{
+}
+
+.secondaryHistogramCount{
+}
+
 .review{
 }
 
@@ -108,4 +123,15 @@
 }
 
 .noReviewsContainer{
+}
+
+.writeReviewButton{
+}
+
+.activeStarColor{
+ color: #fc0;
+}
+
+.inactiveStarColor{
+  color: #eee;
 }

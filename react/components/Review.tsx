@@ -46,21 +46,40 @@ const Review: FunctionComponent<ReviewProps> = ({review}) => {
           <strong>From</strong> {review.UserLocation}
         </li>
       </ul>
-      <p className={`${styles.reviewText} t-body lh-copy mw9`}>{review.ReviewText}</p>
-      {review.Photos.length ? (
-        <div className={`${styles.reviewImagesContainer} mt6 flex items-start`}>
-          {review.Photos.map((item: any, i: number) => {
-            return (
-              <img
-                alt="Product"
-                className={`${styles.reviewImage} w-20 db mb5`}
-                key={i}
-                src={item.Sizes.thumbnail.Url}
-              />
-            )
-          })}
+      <div className="flex">
+        <div className="flex flex-grow-1 flex-column w-70">
+          <p className={`${styles.reviewText} t-body lh-copy mw9`}>{review.ReviewText}</p>
+            {review.Photos.length ? (
+              <div className={`${styles.reviewImagesContainer} mt6 flex items-start`}>
+                {review.Photos.map((item: any, i: number) => {
+                  return (
+                    <img
+                      alt="Product"
+                      className={`${styles.reviewImage} w-20 db mb5`}
+                      key={i}
+                      src={item.Sizes.thumbnail.Url}
+                    />
+                  )
+                })}
+              </div>
+            ) : null}
         </div>
-      ) : null}
+        {review.SecondaryRatings &&
+          <ul className="flex flex-grow-1 flex-column pl3 list">
+            {review.SecondaryRatings.map((rating: any, i:number) => {
+              console.log({rating})
+              return (
+                <li key={i} className={`${styles.secondaryHistogramLine} mv3 flex flex-column`}>
+                  <div className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}>
+                    {rating.Id}
+                  </div>
+                  <Stars rating={rating.Value}/>
+                </li>
+              )
+            })}
+          </ul>
+        }
+      </div>
     </div>
   )
 }

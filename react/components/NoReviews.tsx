@@ -15,6 +15,7 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({productReference, linkTex
         </div>
         <div className={styles.reviewsContainerWriteButton}>
           <a
+            className={`${styles.writeReviewButton} bg-action-primary c-on-action-primary t-action link pv3 ph5`}
             href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
           >
             {' '}

@@ -28,6 +28,7 @@ type SecondaryRatingsAverage {
   MinLabel: String
   DisplayType: String
   MaxLabel: String
+  Label: String
 }
 
 type RatingDistribution {

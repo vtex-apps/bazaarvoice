@@ -79,8 +79,9 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({count, hand
               />
             </div>
           </div>
-          <div className={`${styles.reviewsContainerWriteButton} mv5`}>
+          <div className={`${styles.reviewsContainerWriteButton} mt5 mb8`}>
             <a
+              className={`${styles.writeReviewButton} bg-action-primary c-on-action-primary t-action link pv3 ph5`}
               href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
             >
               {' '}

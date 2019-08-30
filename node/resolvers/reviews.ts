@@ -34,6 +34,7 @@ export const queries = {
     if (reviews.HasErrors) {
       throw new ApolloError(reviews.Errors[0].Message, reviews.Errors[0].Code)
     }
+    console.log(reviews.Results[0].SecondaryRatings)
 
     if (reviews.Includes.Products) {
       reviews.Includes.Products = Object.keys(
