@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 
 import Star from './Star'
+import HistogramBar from './HistogramBar'
 import styles from '../styles.css'
 
 const Histogram: FunctionComponent<HistogramProps> = ({percentage, histogram, secondaryRatingsAverage}) => {
@@ -15,12 +16,12 @@ const Histogram: FunctionComponent<HistogramProps> = ({percentage, histogram, se
                   {5 - i}
                   <Star key={i} fill={'#000'} className={`${styles.histogramStar} mr2 pl2`} size={10} />
                 </span>
-                <span className={`${styles.histogramBar} bg-white dib h1 w-50 w-70-s v-mid ba b--muted-4 br3`}>
-                  <div
-                    className={`${styles.histogramBarValue} h1 bg-emphasis br3`}
-                    style={{ width: percentage }}
-                  ></div>
-                </span>
+                <HistogramBar 
+                    barClassName={`${styles.histogramBar} w-50 w-70-s`} 
+                    barValueClassName={styles.histogramBarValue}
+                    percentage={percentage}
+                    shouldShowDivisions={false}
+                  />
                 <span className={`${styles.histogramCount} pl3`}>{histogram[4-i].Count}</span>
               </li>
             )
@@ -32,17 +33,17 @@ const Histogram: FunctionComponent<HistogramProps> = ({percentage, histogram, se
               const percentage = rating.AverageRating * 100 / rating.ValueRange
               return (
                 <li key={i} className={`${styles.secondaryHistogramLine} mv3`}>
-                <span className={`${styles.secondaryHistogramLabel} dib w-50-ns w-30-s v-mid tr-ns tl-s nowrap-ns wrap-s pr2`}>
-                  {rating.Label}
-                </span>
-                <span className={`${styles.secondaryHistogramBar} bg-white dib h1 w-30-ns w-50-s v-mid ba b--muted-4 br3`}>
-                  <div
-                    className={`${styles.secondaryHistogramBarValue} h1 bg-emphasis br3`}
-                    style={{ width: `${percentage}%` }}
-                  ></div>
-                </span>
-                <span className={`${styles.secondaryHistogramCount} pl3`}>{rating.AverageRating.toFixed(1)}</span>
-              </li>
+                  <span className={`${styles.secondaryHistogramLabel} dib w-50-ns w-100-s v-mid tr-ns tl-s nowrap-ns wrap-s pr3`}>
+                    {rating.Label}
+                  </span>
+                  <HistogramBar 
+                    barClassName={`${styles.secondaryHistogramBar} w-30-ns w-80-s`} 
+                    barValueClassName={styles.secondaryHistogramBarValue}
+                    percentage={`${percentage}%`}
+                    shouldShowDivisions={true}
+                  />
+                  <span className={`${styles.secondaryHistogramCount} pl3`}>{rating.AverageRating.toFixed(1)}</span>
+                </li>
               )
             })}
           </div>

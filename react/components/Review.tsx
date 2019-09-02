@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import Stars from './Stars'
+import HistogramBar from './HistogramBar'
 import styles from '../styles.css'
 
 const getTimeAgo = (time: string) => {
@@ -47,7 +48,7 @@ const Review: FunctionComponent<ReviewProps> = ({review}) => {
         </li>
       </ul>
       <div className="flex flex-column-s flex-row-ns">
-        <div className="flex flex-grow-1 flex-column w-70">
+        <div className="flex flex-grow-1 flex-column w-70-ns">
           <p className={`${styles.reviewText} t-body lh-copy mw9`}>{review.ReviewText}</p>
             {review.Photos.length ? (
               <div className={`${styles.reviewImagesContainer} mt6 flex items-start`}>
@@ -72,7 +73,13 @@ const Review: FunctionComponent<ReviewProps> = ({review}) => {
                   <div className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}>
                     {rating.Label}
                   </div>
-                  <Stars rating={rating.Value}/>
+                  <HistogramBar 
+                    barClassName={styles.reviewHistogramBar} 
+                    barValueClassName={styles.reviewHistogramBarValue}
+                    percentage={`${rating.Value * 20}%`}
+                    shouldShowDivisions={true}
+                  />
+                  {/* <Stars rating={rating.Value}/> */}
                 </li>
               )
             })}
