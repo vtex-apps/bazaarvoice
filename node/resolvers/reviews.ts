@@ -74,6 +74,7 @@ export const queries = {
       ).map(k => {
         return reviews.Includes.Products[k]
       })
+      
       reviews.Includes.Products[0].ReviewStatistics.RatingDistribution = [
         1,
         2,
