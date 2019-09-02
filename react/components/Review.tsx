@@ -28,14 +28,14 @@ const getTimeAgo = (time: string) => {
 
 const Review: FunctionComponent<ReviewProps> = ({review}) => {
   return (
-    <div className={`${styles.review} bw2 bb b--muted-5 mb5 pb4`}>
+    <div className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}>
       <div className={styles.reviewRating}>
         <Stars rating={review.Rating}/>
       </div>
       <h5 className={`${styles.reviewTitle} lh-copy mw9 t-heading-5 mv5`}>
         {review.Title}
       </h5>
-      <ul className="pa0">
+      <ul className="pa0 flex-s flex-column-s">
         <li className={`${styles.reviewSubmittedField} dib mr5`}>
           <strong>Submitted</strong> {getTimeAgo(review.SubmissionTime)}
         </li>
@@ -46,7 +46,7 @@ const Review: FunctionComponent<ReviewProps> = ({review}) => {
           <strong>From</strong> {review.UserLocation}
         </li>
       </ul>
-      <div className="flex">
+      <div className="flex flex-column-s flex-row-ns">
         <div className="flex flex-grow-1 flex-column w-70">
           <p className={`${styles.reviewText} t-body lh-copy mw9`}>{review.ReviewText}</p>
             {review.Photos.length ? (
@@ -67,11 +67,10 @@ const Review: FunctionComponent<ReviewProps> = ({review}) => {
         {review.SecondaryRatings &&
           <ul className="flex flex-grow-1 flex-column pl3 list">
             {review.SecondaryRatings.map((rating: any, i:number) => {
-              console.log({rating})
               return (
                 <li key={i} className={`${styles.secondaryHistogramLine} mv3 flex flex-column`}>
                   <div className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}>
-                    {rating.Id}
+                    {rating.Label}
                   </div>
                   <Stars rating={rating.Value}/>
                 </li>

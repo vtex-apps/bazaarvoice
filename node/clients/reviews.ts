@@ -17,7 +17,6 @@ export default class Reviews extends ExternalClient {
     const endpoint = `/data/reviews.json?apiversion=5.4&passkey=${appKey}&Filter=ProductId:eq:${fieldProductId}&Sort=${sort}&Limit=10&Offset=${offset}&Include=Products&Stats=Reviews&Filter=${
       filter ? 'Rating:eq:' + filter : 'IsRatingsOnly:eq:false'
     }`
-    console.log(endpoint)
     return this.http.get(endpoint, {
       metric: 'bazaarvoice-get-reviews',
     })

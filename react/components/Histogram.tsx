@@ -6,8 +6,8 @@ import styles from '../styles.css'
 const Histogram: FunctionComponent<HistogramProps> = ({percentage, histogram, secondaryRatingsAverage}) => {
   return (
     <div className={styles.histogramOuterContainer}>
-      <ul className={`${styles.histogramContainer} bg-muted-5 pa7 list flex br3 ba b--muted-4`}>
-        <div className="flex flex-grow-1 flex-column">
+      <ul className={`${styles.histogramContainer} bg-muted-5 pa7 list flex br3 ba b--muted-4 flex-column-s flex-row-l`}>
+        <div className="flex flex-grow-1 flex-column pb8-s">
           {percentage.map((percentage, i: number) => {
             return (
               <li key={i} className={`${styles.histogramLine} mv3`}>
@@ -15,9 +15,9 @@ const Histogram: FunctionComponent<HistogramProps> = ({percentage, histogram, se
                   {5 - i}
                   <Star key={i} fill={'#000'} className={`${styles.histogramStar} mr2 pl2`} size={10} />
                 </span>
-                <span className={`${styles.histogramBar} bg-white dib h1 w-50 v-mid`}>
+                <span className={`${styles.histogramBar} bg-white dib h1 w-50 w-70-s v-mid ba b--muted-4 br3`}>
                   <div
-                    className={`${styles.histogramBarValue} h1 bg-emphasis`}
+                    className={`${styles.histogramBarValue} h1 bg-emphasis br3`}
                     style={{ width: percentage }}
                   ></div>
                 </span>
@@ -32,12 +32,12 @@ const Histogram: FunctionComponent<HistogramProps> = ({percentage, histogram, se
               const percentage = rating.AverageRating * 100 / rating.ValueRange
               return (
                 <li key={i} className={`${styles.secondaryHistogramLine} mv3`}>
-                <span className={`${styles.secondaryHistogramLabel} dib w-50 v-mid tr nowrap pr2`}>
-                  {rating.Id}
+                <span className={`${styles.secondaryHistogramLabel} dib w-50-ns w-30-s v-mid tr-ns tl-s nowrap-ns wrap-s pr2`}>
+                  {rating.Label}
                 </span>
-                <span className={`${styles.secondaryHistogramBar} bg-white dib h1 w-30 v-mid`}>
+                <span className={`${styles.secondaryHistogramBar} bg-white dib h1 w-30-ns w-50-s v-mid ba b--muted-4 br3`}>
                   <div
-                    className={`${styles.secondaryHistogramBarValue} h1 bg-emphasis`}
+                    className={`${styles.secondaryHistogramBarValue} h1 bg-emphasis br3`}
                     style={{ width: `${percentage}%` }}
                   ></div>
                 </span>

@@ -6,9 +6,42 @@ declare var process: {
   }
 }
 
+/*This is a hack used to test the layout on motorolaus, but this should NEVER be used in
+practice because this is an extremely bad design choice that does not scale. The stores
+should configure bazaarvoice secondary ratings to have labels. */
+const parseSecondaryRatingsData = (secondaryRatingsData: any) => {
+  let label = secondaryRatingsData.Label
+  switch (secondaryRatingsData.Id) {
+    case 'Value': {
+      label = 'Value of Product'
+      break
+    }
+    case 'HowWouldYouRateEaseOfUse': {
+      label = 'Ease of Use'
+      break
+    }
+    case 'HowWouldYouRateThePerformance': {
+      label = 'How would you rate the performance?'
+      break
+    }
+    case 'HowWouldYouRateTheBattery': {
+      label = 'How would you rate the battery?'
+      break
+    }
+    case 'HowWouldYouRateTheCamera': {
+      label = 'How would you rate the camera?'
+      break
+    }
+  }
+  return {
+    ...secondaryRatingsData,
+    Label: label
+  }
+}
+
 const convertSecondaryRatings = (secondaryRatings: any, ratingOrder: Array<any>) => {
   return ratingOrder.map( r => {
-    return secondaryRatings[r]
+    return parseSecondaryRatingsData(secondaryRatings[r])
   })
 }
 
@@ -34,7 +67,6 @@ export const queries = {
     if (reviews.HasErrors) {
       throw new ApolloError(reviews.Errors[0].Message, reviews.Errors[0].Code)
     }
-    console.log(reviews.Results[0].SecondaryRatings)
 
     if (reviews.Includes.Products) {
       reviews.Includes.Products = Object.keys(
@@ -59,7 +91,7 @@ export const queries = {
 
       const ratingOrders = reviews.Results[0].SecondaryRatingsOrder
       reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages = ratingOrders.map( (r:any) => {
-        return reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages[r]
+        return parseSecondaryRatingsData(reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages[r])
       })
       
       if (reviews.Results[0].SecondaryRatings) {
