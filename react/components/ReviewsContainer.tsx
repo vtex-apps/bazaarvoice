@@ -1,5 +1,5 @@
 import React, { FunctionComponent, Fragment } from 'react'
-import {Dropdown} from 'vtex.styleguide'
+import { Dropdown } from 'vtex.styleguide'
 import Review from './Review'
 import styles from '../styles.css'
 
@@ -53,49 +53,60 @@ const filters = [
   },
 ]
 
-const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({count, handleSort, selected, props, handleFilter, filter, productReference, linkText, reviews}) => {
+const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
+  count,
+  handleSort,
+  selected,
+  props,
+  handleFilter,
+  filter,
+  productReference,
+  linkText,
+  reviews,
+}) => {
   return (
     <div className={styles.reviewsContainer}>
-        <div className={styles.reviewsContainerHead}>
-          <h4 className={`${styles.reviewsContainerTitle} t-heading-4 bb b--muted-5 mb5 pb4`}>
-            Reviewed by {count}{' '}
-            {count == 1 ? 'customer' : 'customers'}
-          </h4>
-          <div className={`${styles.reviewsContainerDropdowns} flex mb7`}>
-            <div className={`${styles.reviewsContainerSortDropdown} mr4`}>
-              <Dropdown
-                options={options}
-                onChange={handleSort}
-                value={selected}
-                {...props}
-              />
-            </div>
-            <div className={styles.reviewsContainerStarsDropdown}>
-              <Dropdown
-                options={filters}
-                onChange={handleFilter}
-                value={filter}
-                {...props}
-              />
-            </div>
+      <div className={styles.reviewsContainerHead}>
+        <h4
+          className={`${styles.reviewsContainerTitle} t-heading-4 bb b--muted-5 mb5 pb4`}
+        >
+          Reviewed by {count} {count == 1 ? 'customer' : 'customers'}
+        </h4>
+        <div className={`${styles.reviewsContainerDropdowns} flex mb7`}>
+          <div className={`${styles.reviewsContainerSortDropdown} mr4`}>
+            <Dropdown
+              options={options}
+              onChange={handleSort}
+              value={selected}
+              {...props}
+            />
           </div>
-          <div className={`${styles.reviewsContainerWriteButton} mt5 mb8`}>
-            <a
-              className={`${styles.writeReviewButton} bg-action-primary c-on-action-primary t-action link pv3 ph5`}
-              href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
-            >
-              {' '}
-              Write a review{' '}
-            </a>
+          <div className={styles.reviewsContainerStarsDropdown}>
+            <Dropdown
+              options={filters}
+              onChange={handleFilter}
+              value={filter}
+              {...props}
+            />
           </div>
         </div>
-
-        <Fragment>
-          {reviews.map((review: any, i: number) => {
-            return <Review review={review} key={i} />
-          })}
-        </Fragment>
+        <div className={`${styles.reviewsContainerWriteButton} mt5 mb8`}>
+          <a
+            className={`${styles.writeReviewButton} bg-action-primary c-on-action-primary t-action link pv3 ph5`}
+            href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
+          >
+            {' '}
+            Write a review{' '}
+          </a>
+        </div>
       </div>
+
+      <Fragment>
+        {reviews.map((review: any, i: number) => {
+          return <Review review={review} key={i} />
+        })}
+      </Fragment>
+    </div>
   )
 }
 
@@ -106,7 +117,7 @@ interface ReviewsContainerProps {
   props: any
   productReference: string
   linkText: string
-  reviews: Array<any>
+  reviews: any[]
   handleFilter: any
   filter: string
 }

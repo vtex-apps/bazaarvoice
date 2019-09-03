@@ -270,7 +270,7 @@ const Reviews = props => {
         </span>
       </div>
       <Histogram
-        percentage={state.percentage}
+        percentages={state.percentage}
         histogram={histogram}
         secondaryRatingsAverage={state.secondaryRatingsAverage}
       />

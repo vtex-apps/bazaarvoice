@@ -10,32 +10,23 @@ declare var process: {
 practice because this is an extremely bad design choice that does not scale. The stores
 should configure bazaarvoice secondary ratings to have labels. */
 const parseSecondaryRatingsData = (secondaryRatingsData: any) => {
-  let label = secondaryRatingsData.Label
-  switch (secondaryRatingsData.Id) {
-    case 'Value': {
-      label = 'Value of Product'
-      break
+  if (secondaryRatingsData.Label || secondaryRatingsData.Label != null) {
+    return secondaryRatingsData
+  } else {
+    let newLabel = ''
+    let currentChar
+    for (let i = 0; i < secondaryRatingsData.Id.length; i++) {
+      currentChar = secondaryRatingsData.Id.charAt(i)
+      if (currentChar != currentChar.toLowerCase() && i != 0) {
+        newLabel = newLabel + ' '
+      }
+      newLabel = newLabel + currentChar
     }
-    case 'HowWouldYouRateEaseOfUse': {
-      label = 'Ease of Use'
-      break
+
+    return {
+      ...secondaryRatingsData,
+      Label: newLabel
     }
-    case 'HowWouldYouRateThePerformance': {
-      label = 'How would you rate the performance?'
-      break
-    }
-    case 'HowWouldYouRateTheBattery': {
-      label = 'How would you rate the battery?'
-      break
-    }
-    case 'HowWouldYouRateTheCamera': {
-      label = 'How would you rate the camera?'
-      break
-    }
-  }
-  return {
-    ...secondaryRatingsData,
-    Label: label
   }
 }
 
@@ -74,7 +65,7 @@ export const queries = {
       ).map(k => {
         return reviews.Includes.Products[k]
       })
-      
+
       reviews.Includes.Products[0].ReviewStatistics.RatingDistribution = [
         1,
         2,
@@ -91,7 +82,7 @@ export const queries = {
       })
 
       const ratingOrders = reviews.Results[0].SecondaryRatingsOrder
-      reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages = ratingOrders.map( (r:any) => {
+      reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages = ratingOrders.map( (r:string) => {
         return parseSecondaryRatingsData(reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages[r])
       })
       

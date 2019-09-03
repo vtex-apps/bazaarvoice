@@ -27,11 +27,11 @@ const getTimeAgo = (time: string) => {
   }
 }
 
-const Review: FunctionComponent<ReviewProps> = ({review}) => {
+const Review: FunctionComponent<ReviewProps> = ({ review }) => {
   return (
     <div className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}>
       <div className={styles.reviewRating}>
-        <Stars rating={review.Rating}/>
+        <Stars rating={review.Rating} />
       </div>
       <h5 className={`${styles.reviewTitle} lh-copy mw9 t-heading-5 mv5`}>
         {review.Title}
@@ -49,48 +49,54 @@ const Review: FunctionComponent<ReviewProps> = ({review}) => {
       </ul>
       <div className="flex flex-column-s flex-row-ns">
         <div className="flex flex-grow-1 flex-column w-70-ns">
-          <p className={`${styles.reviewText} t-body lh-copy mw9`}>{review.ReviewText}</p>
-            {review.Photos.length ? (
-              <div className={`${styles.reviewImagesContainer} mt6 flex items-start`}>
-                {review.Photos.map((item: any, i: number) => {
-                  return (
-                    <img
-                      alt="Product"
-                      className={`${styles.reviewImage} w-20 db mb5`}
-                      key={i}
-                      src={item.Sizes.thumbnail.Url}
-                    />
-                  )
-                })}
-              </div>
-            ) : null}
+          <p className={`${styles.reviewText} t-body lh-copy mw9`}>
+            {review.ReviewText}
+          </p>
+          {review.Photos.length ? (
+            <div
+              className={`${styles.reviewImagesContainer} mt6 flex items-start`}
+            >
+              {review.Photos.map((item: any, i: number) => {
+                return (
+                  <img
+                    alt="Product"
+                    className={`${styles.reviewImage} w-20 db mb5`}
+                    key={i}
+                    src={item.Sizes.thumbnail.Url}
+                  />
+                )
+              })}
+            </div>
+          ) : null}
         </div>
-        {review.SecondaryRatings &&
+        {review.SecondaryRatings && (
           <ul className="flex flex-grow-1 flex-column pl3 list">
-            {review.SecondaryRatings.map((rating: any, i:number) => {
+            {review.SecondaryRatings.map((rating: any, i: number) => {
               return (
-                <li key={i} className={`${styles.secondaryHistogramLine} mv3 flex flex-column`}>
-                  <div className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}>
+                <li
+                  key={i}
+                  className={`${styles.secondaryHistogramLine} mv3 flex flex-column`}
+                >
+                  <div
+                    className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}
+                  >
                     {rating.Label}
                   </div>
-                  <HistogramBar 
-                    barClassName={styles.reviewHistogramBar} 
+                  <HistogramBar
+                    barClassName={styles.reviewHistogramBar}
                     barValueClassName={styles.reviewHistogramBarValue}
                     percentage={`${rating.Value * 20}%`}
-                    shouldShowDivisions={true}
+                    shouldShowDivisions
                   />
-                  {/* <Stars rating={rating.Value}/> */}
                 </li>
               )
             })}
           </ul>
-        }
+        )}
       </div>
     </div>
   )
 }
-
-
 
 interface ReviewProps {
   review: any

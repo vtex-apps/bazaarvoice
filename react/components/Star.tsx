@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 
-const Star: FunctionComponent<StarProps> = ({fill, className, size}) => {
+const Star: FunctionComponent<StarProps> = ({ fill, className, size }) => {
   return (
     <svg
       className={className}
