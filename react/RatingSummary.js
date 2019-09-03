@@ -62,7 +62,7 @@ const Reviews = props => {
         })
     }
 
-    getReviews('Newest', 0)
+    getReviews('SubmissionTime:desc', 0)
 
     return () => {
       ignore = true

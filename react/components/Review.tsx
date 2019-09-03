@@ -49,7 +49,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
       </ul>
       <div className="flex flex-column-s flex-row-ns">
         <div className="flex flex-grow-1 flex-column w-70-ns">
-          <p className={`${styles.reviewText} t-body lh-copy mw9`}>
+          <p className={`${styles.reviewText} t-body lh-copy mw9 pr5-ns`}>
             {review.ReviewText}
           </p>
           {review.Photos.length ? (
@@ -72,24 +72,28 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
         {review.SecondaryRatings && (
           <ul className="flex flex-grow-1 flex-column pl3 list">
             {review.SecondaryRatings.map((rating: any, i: number) => {
-              return (
-                <li
-                  key={i}
-                  className={`${styles.secondaryHistogramLine} mv3 flex flex-column`}
-                >
-                  <div
-                    className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}
+              if(rating != null) {
+                return (
+                  <li
+                    key={i}
+                    className={`${styles.secondaryHistogramLine} mv3 flex flex-column`}
                   >
-                    {rating.Label}
-                  </div>
-                  <HistogramBar
-                    barClassName={styles.reviewHistogramBar}
-                    barValueClassName={styles.reviewHistogramBarValue}
-                    percentage={`${rating.Value * 20}%`}
-                    shouldShowDivisions
-                  />
-                </li>
-              )
+                    <div
+                      className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}
+                    >
+                      {rating.Label }
+                    </div>
+                    <HistogramBar
+                      barClassName={styles.reviewHistogramBar}
+                      barValueClassName={styles.reviewHistogramBarValue}
+                      percentage={`${rating.Value * 20}%`}
+                      shouldShowDivisions
+                    />
+                  </li>
+                )
+              } else {
+                return <li key={i} />
+              }
             })}
           </ul>
         )}

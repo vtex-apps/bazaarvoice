@@ -10,7 +10,7 @@ declare var process: {
 practice because this is an extremely bad design choice that does not scale. The stores
 should configure bazaarvoice secondary ratings to have labels. */
 const parseSecondaryRatingsData = (secondaryRatingsData: any) => {
-  if (secondaryRatingsData.Label || secondaryRatingsData.Label != null) {
+  if (!secondaryRatingsData || secondaryRatingsData.Label || secondaryRatingsData.Label != null) {
     return secondaryRatingsData
   } else {
     let newLabel = ''
