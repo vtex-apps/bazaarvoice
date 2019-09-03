@@ -30,26 +30,18 @@ const getTimeAgo = (time: string) => {
 const Review: FunctionComponent<ReviewProps> = ({ review }) => {
   return (
     <div className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}>
-      <div className={styles.reviewRating}>
+      <div className={`${styles.reviewRating} flex items-center`}>
         <Stars rating={review.Rating} />
+        <span className="c-muted-1 t-small ml2">
+          {getTimeAgo(review.SubmissionTime)}
+        </span>
       </div>
-      <h5 className={`${styles.reviewTitle} lh-copy mw9 t-heading-5 mv5`}>
+      <h5 className={`${styles.reviewTitle} lh-copy mw7 t-heading-5 mv5`}>
         {review.Title}
       </h5>
-      <ul className="pa0 flex-s flex-column-s">
-        <li className={`${styles.reviewSubmittedField} dib mr5`}>
-          <strong>Submitted</strong> {getTimeAgo(review.SubmissionTime)}
-        </li>
-        <li className={`${styles.reviewByField} dib mr5`}>
-          <strong>By</strong> {review.UserNickname}
-        </li>
-        <li className={`${styles.reviewFromField} dib`}>
-          <strong>From</strong> {review.UserLocation}
-        </li>
-      </ul>
       <div className="flex flex-column-s flex-row-ns">
         <div className="flex flex-grow-1 flex-column w-70-ns">
-          <p className={`${styles.reviewText} t-body lh-copy mw9 pr5-ns`}>
+          <p className={`${styles.reviewText} t-body lh-copy mw7 pr5-ns`}>
             {review.ReviewText}
           </p>
           {review.Photos.length ? (
@@ -68,32 +60,35 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
               })}
             </div>
           ) : null}
+          <div className={`${styles.reviewByField} t-small c-muted-1`}>
+            {review.UserNickname} {review.UserLocation && `, from ${review.UserLocation}`}
+          </div>
         </div>
         {review.SecondaryRatings && (
-          <ul className="flex flex-grow-1 flex-column pl3 list">
+          <ul className="flex flex-grow-1 flex-column pl0 pl3-ns list">
             {review.SecondaryRatings.map((rating: any, i: number) => {
-              if(rating != null) {
-                return (
-                  <li
-                    key={i}
-                    className={`${styles.secondaryHistogramLine} mv3 flex flex-column`}
-                  >
-                    <div
-                      className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}
-                    >
-                      {rating.Label }
-                    </div>
-                    <HistogramBar
-                      barClassName={styles.reviewHistogramBar}
-                      barValueClassName={styles.reviewHistogramBarValue}
-                      percentage={`${rating.Value * 20}%`}
-                      shouldShowDivisions
-                    />
-                  </li>
-                )
-              } else {
+              if (rating == null) {
                 return <li key={i} />
               }
+
+              return (
+                <li
+                  key={i}
+                  className={`${styles.secondaryHistogramLine} mv3 flex flex-column`}
+                >
+                  <div
+                    className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}
+                  >
+                    {rating.Label }
+                  </div>
+                  <HistogramBar
+                    barClassName={styles.reviewHistogramBar}
+                    barValueClassName={styles.reviewHistogramBarValue}
+                    percentage={`${rating.Value * 20}%`}
+                    shouldShowDivisions
+                  />
+                </li>
+              )
             })}
           </ul>
         )}

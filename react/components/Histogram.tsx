@@ -14,7 +14,7 @@ const Histogram: FunctionComponent<HistogramProps> = ({
       <ul
         className={`${styles.histogramContainer} bg-muted-5 pa7 list flex br3 ba b--muted-4 flex-column-s flex-row-l`}
       >
-        <div className="flex flex-grow-1 flex-column pb8-s">
+        <div className="flex flex-grow-1 flex-column pb8 pb0-ns">
           {percentages.map((percentage, i: number) => {
             return (
               <li key={i} className={`${styles.histogramLine} mv3`}>
