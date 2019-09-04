@@ -1,57 +1,8 @@
 import React, { FunctionComponent, Fragment } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 import Review from './Review'
+import {options, filters} from './utils/dropdownOptions'
 import styles from '../styles.css'
-
-const options = [
-  {
-    label: 'Most Recent',
-    value: 'SubmissionTime:desc',
-  },
-  {
-    label: 'Most Relevant',
-    value: 'Helpfulness:desc,SubmissionTime:desc',
-  },
-  {
-    label: 'Highest to Lowest Rating',
-    value: 'Rating:desc',
-  },
-  {
-    label: 'Lowest to Highest Rating',
-    value: 'Rating:asc',
-  },
-  {
-    label: 'Most Helpful',
-    value: 'Helpfulness:desc',
-  },
-]
-
-const filters = [
-  {
-    label: 'All',
-    value: '0',
-  },
-  {
-    label: '1 star',
-    value: '1',
-  },
-  {
-    label: '2 stars',
-    value: '2',
-  },
-  {
-    label: '3 stars',
-    value: '3',
-  },
-  {
-    label: '4 stars',
-    value: '4',
-  },
-  {
-    label: '5 stars',
-    value: '5',
-  },
-]
 
 const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
   count,

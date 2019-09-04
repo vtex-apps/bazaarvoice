@@ -301,7 +301,15 @@ const Reviews = props => {
       </Modal>
     </div>
   ) : (
-    <NoReviews productReference={productReference} linkText={linkText} />
+    <NoReviews
+      productReference={productReference}
+      linkText={linkText}
+      handleSort={handleSort}
+      selected={selected}
+      props={props}
+      handleFilter={handleFilter}
+      filter={filter}
+    />
   )
 }
 
