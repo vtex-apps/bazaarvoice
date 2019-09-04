@@ -258,15 +258,16 @@ const Reviews = props => {
   if (state.reviews === null) {
     return <div className="review mw8 center ph5">Loading reviews</div>
   }
+  const fixedAverage = average.toFixed(1)
   return state.reviews.length ? (
     <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
         Reviews
       </h3>
       <div className="review__rating pb4">
-        <Stars rating={average.toFixed(1)} />
+        <Stars rating={fixedAverage} />
         <span className="review__rating--average dib v-mid c-muted-1">
-          ({average.toFixed(1)})
+          ({fixedAverage})
         </span>
       </div>
       <Histogram

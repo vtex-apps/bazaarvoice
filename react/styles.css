@@ -138,10 +138,16 @@
 .writeReviewButton{
 }
 
-.activeStarColor{
+.activeStar{
+}
+
+.activeStarContainer{
   color: #fc0;
 }
 
-.inactiveStarColor{
+.inactiveStar{
   color: #eee;
+}
+
+.inactiveStarContainer{
 }
