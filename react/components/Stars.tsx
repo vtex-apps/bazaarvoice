@@ -26,7 +26,6 @@ const Stars: FunctionComponent<StarsProps> = ({ rating }) => {
               className={`${styles.inactiveStarContainer} relative mr2`}
             >
               <Star
-                key={i}
                 fill="currentColor"
                 className={styles.inactiveStar}
                 size={20}
