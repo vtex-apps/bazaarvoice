@@ -6,7 +6,7 @@ declare var process: {
   }
 }
 
-/*This is a hack used to test the layout on motorolaus, but this should NEVER be used in
+/*This is a hack used to test the layout on some stores, but this should NEVER be used in
 practice because this is an extremely bad design choice that does not scale. The stores
 should configure bazaarvoice secondary ratings to have labels. */
 const parseSecondaryRatingsData = (secondaryRatingsData: any) => {
