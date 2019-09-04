@@ -80,9 +80,11 @@ const Reviews = props => {
           </div>
         ) : (
           <Fragment>
-            <div className={`${styles.ratingSummaryStars} nowrap dib`}>
-              <Stars rating={average} />
-            </div>
+            <a href="#bazaarvoice-reviews">
+              <div className={`${styles.ratingSummaryStars} nowrap dib`}>
+                <Stars rating={average} />
+              </div>
+            </a>
             <span className={`${styles.ratingSummaryTotal} c-muted-2 t-body`}>
               ({totalReviews})
             </span>

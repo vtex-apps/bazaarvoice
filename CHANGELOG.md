@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - No reviews page
 
+### Added
+- Clicking on RatingSummary stars now scrolls to reviews
+
 ## [1.2.1] - 2019-09-04
 ### Fixed
 - Stars weren't being filled correctly

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Dropdown } from 'vtex.styleguide'
-import {options, filters} from './utils/dropdownOptions'
+import { options, filters } from './utils/dropdownOptions'
 import styles from '../styles.css'
 
 const NoReviews: FunctionComponent<NoReviewsProps> = ({

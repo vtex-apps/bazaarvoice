@@ -260,7 +260,11 @@ const Reviews = props => {
   }
   const fixedAverage = average.toFixed(1)
   return state.reviews.length ? (
-    <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
+    <div
+      id="bazaarvoice-reviews"
+      ref={containerRef}
+      className={`${styles.reviews} mw8 center`}
+    >
       <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
         Reviews
       </h3>
