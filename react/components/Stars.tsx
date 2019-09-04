@@ -11,7 +11,7 @@ const Stars: FunctionComponent<StarsProps> = ({ rating }) => {
           return (
             <Star
               key={i}
-              fill={'#eee'}
+              fill="currentColor"
               className={i === 4 ? '' : 'mr2'}
               size={20}
             />

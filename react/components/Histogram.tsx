@@ -24,7 +24,7 @@ const Histogram: FunctionComponent<HistogramProps> = ({
                   {5 - i}
                   <Star
                     key={i}
-                    fill={'#000'}
+                    fill="currentColor"
                     className={`${styles.histogramStar} mr2 pl2`}
                     size={10}
                   />

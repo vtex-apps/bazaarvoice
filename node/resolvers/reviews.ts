@@ -12,22 +12,22 @@ should configure bazaarvoice secondary ratings to have labels. */
 const parseSecondaryRatingsData = (secondaryRatingsData: any) => {
   if (!secondaryRatingsData || secondaryRatingsData.Label || secondaryRatingsData.Label != null) {
     return secondaryRatingsData
-  } else {
-    let newLabel = ''
-    let currentChar
-    for (let i = 0; i < secondaryRatingsData.Id.length; i++) {
-      currentChar = secondaryRatingsData.Id.charAt(i)
-      if (currentChar != currentChar.toLowerCase() && i != 0) {
-        newLabel = newLabel + ' '
-      }
-      newLabel = newLabel + currentChar
+  } 
+  let newLabel = ''
+  let currentChar
+  for (let i = 0; i < secondaryRatingsData.Id.length; i++) {
+    currentChar = secondaryRatingsData.Id.charAt(i)
+    if (currentChar != currentChar.toLowerCase() && i != 0) {
+      newLabel = newLabel + ' '
     }
-
-    return {
-      ...secondaryRatingsData,
-      Label: newLabel
-    }
+    newLabel = newLabel + currentChar
   }
+
+  return {
+    ...secondaryRatingsData,
+    Label: newLabel
+  }
+  
 }
 
 const convertSecondaryRatings = (secondaryRatings: any, ratingOrder: Array<any>) => {
