@@ -29,6 +29,7 @@
 }
 
 .ratingStarsInactive {
+  color: #eee;
 }
 
 .ratingStarsActive {
@@ -57,6 +58,30 @@
 }
 
 .histogramCount{
+}
+
+.secondaryHistogramLine{
+}
+
+.secondaryHistogramLabel{
+}
+
+.secondaryHistogramBar{
+}
+
+.secondaryHistogramBarValue{
+}
+
+.secondaryHistogramCount{
+}
+
+.reviewHistogramBar{
+}
+
+.reviewHistogramBarValue{
+}
+
+.histogramDivisions{
 }
 
 .review{
@@ -108,4 +133,15 @@
 }
 
 .noReviewsContainer{
+}
+
+.writeReviewButton{
+}
+
+.activeStarColor{
+  color: #fc0;
+}
+
+.inactiveStarColor{
+  color: #eee;
 }

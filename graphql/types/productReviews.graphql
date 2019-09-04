@@ -18,6 +18,17 @@ type ReviewStatistics {
   TotalReviewCount: Int
   AverageOverallRating: Float
   RatingDistribution: [RatingDistribution]
+  SecondaryRatingsAverages: [SecondaryRatingsAverage]
+}
+
+type SecondaryRatingsAverage {
+  AverageRating: Float
+  Id: String
+  ValueRange: Int
+  MinLabel: String
+  DisplayType: String
+  MaxLabel: String
+  Label: String
 }
 
 type RatingDistribution {
@@ -40,7 +51,7 @@ type Results {
   SubmissionTime: String
   Title: String
   ReviewText: String
-  SecondaryRatings: SecondaryRatings
+  SecondaryRatings: [SecondaryRating]
   TagDimensions: TagDimensions
   Photos: [Photo]
 }
@@ -73,22 +84,7 @@ type Cons {
   Label: String
 }
 
-type SecondaryRatings {
-  Size: Size
-  Quality: Quality
-}
-
-type Size {
-  Value: Int
-  Id: String
-  ValueRange: Int
-  ValueLabel: String
-  MinLabel: String
-  Label: String
-  DisplayType: String
-  MaxLabel: String
-}
-type Quality {
+type SecondaryRating {
   Value: Int
   Id: String
   ValueRange: Int

@@ -47,14 +47,12 @@ const Reviews = props => {
             return
           }
 
-          let reviews = response.data.productReviews.Results
-
           let rollup =
             response.data.productReviews.Includes.Products &&
             response.data.productReviews.Includes.Products[0].ReviewStatistics
 
-          setAverage(rollup != null ? rollup.average_rating : 0)
-          setTotalReviews(reviews.length ? reviews.length : 0)
+          setAverage(rollup != null ? rollup.AverageOverallRating : 0)
+          setTotalReviews(rollup != null ? rollup.TotalReviewCount : 0)
           setLoading(false)
         })
         .catch(error => {
@@ -62,7 +60,7 @@ const Reviews = props => {
         })
     }
 
-    getReviews('Newest', 0)
+    getReviews('SubmissionTime:desc', 0)
 
     return () => {
       ignore = true
@@ -78,7 +76,7 @@ const Reviews = props => {
               styles['ratingSummaryStars--loading']
             } nowrap dib`}
           >
-            <Stars rating={0} />
+            <Stars rating={average} />
           </div>
         ) : (
           <Fragment>

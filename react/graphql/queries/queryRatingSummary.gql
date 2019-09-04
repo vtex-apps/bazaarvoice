@@ -19,26 +19,14 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
       Title
       ReviewText
       SecondaryRatings {
-        Size {
-          Value
-          Id
-          ValueRange
-          ValueLabel
-          MinLabel
-          Label
-          DisplayType
-          MaxLabel
-        }
-        Quality {
-          Value
-          Id
-          ValueRange
-          ValueLabel
-          MinLabel
-          Label
-          DisplayType
-          MaxLabel
-        }
+        Value
+        Id
+        ValueRange
+        ValueLabel
+        MinLabel
+        Label
+        DisplayType
+        MaxLabel
       }
       TagDimensions {
         Pros {
@@ -71,6 +59,15 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
           RatingDistribution {
             RatingValue
             Count
+          }
+          SecondaryRatingsAverages {
+            AverageRating
+            Id
+            ValueRange
+            MinLabel
+            Label
+            DisplayType
+            MaxLabel
           }
         }
       }

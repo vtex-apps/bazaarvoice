@@ -6,6 +6,36 @@ declare var process: {
   }
 }
 
+/*This is a hack used to test the layout on some stores, but this should NEVER be used in
+practice because this is an extremely bad design choice that does not scale. The stores
+should configure bazaarvoice secondary ratings to have labels. */
+const parseSecondaryRatingsData = (secondaryRatingsData: any) => {
+  if (!secondaryRatingsData || secondaryRatingsData.Label || secondaryRatingsData.Label != null) {
+    return secondaryRatingsData
+  } 
+  let newLabel = ''
+  let currentChar
+  for (let i = 0; i < secondaryRatingsData.Id.length; i++) {
+    currentChar = secondaryRatingsData.Id.charAt(i)
+    if (currentChar != currentChar.toLowerCase() && i != 0) {
+      newLabel = newLabel + ' '
+    }
+    newLabel = newLabel + currentChar
+  }
+
+  return {
+    ...secondaryRatingsData,
+    Label: newLabel
+  }
+  
+}
+
+const convertSecondaryRatings = (secondaryRatings: any, ratingOrder: Array<any>) => {
+  return ratingOrder.map( r => {
+    return parseSecondaryRatingsData(secondaryRatings[r])
+  })
+}
+
 export const queries = {
   productReviews: async (_: any, args: any, ctx: Context) => {
     const { sort, offset, pageId, filter } = args
@@ -50,6 +80,20 @@ export const queries = {
         )
         return current_rating ? current_rating : { RatingValue: i, Count: 0 }
       })
+
+      const ratingOrders = reviews.Results[0].SecondaryRatingsOrder
+      reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages = ratingOrders.map( (r:string) => {
+        return parseSecondaryRatingsData(reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages[r])
+      })
+      
+      if (reviews.Results[0].SecondaryRatings) {
+        reviews.Results = reviews.Results.map( (result:any) => {
+          return {
+            ...result,
+            SecondaryRatings: convertSecondaryRatings(result.SecondaryRatings, ratingOrders)
+          }
+        })
+      }
     }
 
     return reviews
