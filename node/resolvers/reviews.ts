@@ -38,7 +38,7 @@ const convertSecondaryRatings = (secondaryRatings: any, ratingOrder: Array<any>)
 
 export const queries = {
   productReviews: async (_: any, args: any, ctx: Context) => {
-    const { sort, offset, pageId, filter } = args
+    const { sort, offset, pageId, filter, quantity } = args
     const { clients: { apps, reviews: reviewsClient }} = ctx
 
     const appId = process.env.VTEX_APP_ID
@@ -49,8 +49,9 @@ export const queries = {
     const fieldProductId = product[uniqueId]
 
     let reviews: any
+    const newQuantity = quantity ? quantity : 10
     try {
-      reviews = await reviewsClient.getReviews({appKey, fieldProductId, sort, offset, filter})
+      reviews = await reviewsClient.getReviews({appKey, fieldProductId, sort, offset, filter, quantity: newQuantity})
     } catch (error) {
       throw new TypeError(error.response.data)
     }

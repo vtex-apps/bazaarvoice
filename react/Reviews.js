@@ -127,18 +127,28 @@ const reducer = (state, action) => {
   }
 }
 
-const Reviews = props => {
+const Reviews = ({
+  client,
+  quantityPerPage = 10,
+  quantityFirstPage = quantityPerPage,
+  ...props
+}) => {
   const { product } = useContext(ProductContext)
   const { linkText, productId, productReference } = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { filter, selected, offset, count, histogram, average } = state
 
+  console.log('props', props)
+
+  const reviewsQuantityToShow =
+    offset == 0 ? quantityFirstPage : quantityPerPage
+
   useEffect(() => {
     if (!linkText && !productId && !productReference) {
       return
     }
-    props.client
+    client
       .query({
         query: queryRatingSummary,
         variables: {
@@ -150,6 +160,7 @@ const Reviews = props => {
             productReference: productReference,
           }),
           filter: parseInt(filter) || 0,
+          quantity: reviewsQuantityToShow,
         },
       })
       .then(response => {
@@ -198,7 +209,7 @@ const Reviews = props => {
     linkText,
     productId,
     productReference,
-    props.client,
+    client,
   ])
 
   const handleSort = useCallback(
