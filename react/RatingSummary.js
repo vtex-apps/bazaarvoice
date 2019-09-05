@@ -88,7 +88,7 @@ const Reviews = props => {
             <span
               className={`${styles.ratingSummaryTotal} c-muted-2 t-body mr2`}
             >
-              <a href="#bazaarvoice-reviews" className="c-link">
+              <a href="#reviews" className="c-link">
                 <FormattedMessage
                   id="reviews"
                   values={{ total: totalReviews }}
