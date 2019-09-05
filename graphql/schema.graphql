@@ -22,4 +22,5 @@ type GetConfigResponse {
   clientName: String
   siteId: String
   uniqueId: String
+  defaultOrdinationType: String
 }

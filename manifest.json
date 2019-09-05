@@ -69,6 +69,26 @@
         "default": "linkText",
         "title": "API Unique Id",
         "description": "The Unique Id referencing to the product id to get the reviews"
+      },
+      "defaultOrdinationType": {
+        "type": "string",
+        "title": "Default Ordination Type",
+        "description": "The default ordination type of the reviews",
+        "default": "Helpfulness:desc,SubmissionTime:desc",
+        "enum": [
+          "SubmissionTime:desc",
+          "Helpfulness:desc,SubmissionTime:desc",
+          "Rating:desc",
+          "Rating:asc",
+          "Helpfulness:desc"
+        ],
+        "enumNames": [
+          "Most Recent",
+          "Most Relevant",
+          "Rating - Highest to Lowest",
+          "Rating - Lowest to Highest",
+          "Most Helpful"
+        ]
       }
     }
   },

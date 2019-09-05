@@ -24,7 +24,7 @@ const initialState = {
   secondaryRatingsAverage: [],
   count: 0,
   percentage: [],
-  selected: 'SubmissionTime:desc',
+  selected: 'Helpfulness:desc,SubmissionTime:desc',
   filter: '0',
   paging: {},
   offset: 0,
@@ -133,13 +133,12 @@ const Reviews = ({
   quantityFirstPage = quantityPerPage,
   ...props
 }) => {
+  initialState.selected = props.data.getConfig.defaultOrdinationType
   const { product } = useContext(ProductContext)
   const { linkText, productId, productReference } = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { filter, selected, offset, count, histogram, average } = state
-
-  console.log('props', props)
 
   const reviewsQuantityToShow =
     offset == 0 ? quantityFirstPage : quantityPerPage
