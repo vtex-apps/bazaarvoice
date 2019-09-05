@@ -194,7 +194,6 @@ const Reviews = props => {
     selected,
     offset,
     count,
-    histogram,
     average,
     linkText,
     productId,

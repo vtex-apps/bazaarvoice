@@ -12,6 +12,7 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({
   handleFilter,
   filter,
 }) => {
+  const isAllReviewsFilter = filter == '0'
   return (
     <div className={`${styles.reviews} mw8 center c-on-base`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
@@ -25,31 +26,34 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({
             No reviews found!
           </h5>
         </div>
-        <div className={`${styles.reviewsContainerDropdowns} flex mb7`}>
-          <div className={`${styles.reviewsContainerSortDropdown} mr4`}>
-            <Dropdown
-              options={options}
-              onChange={handleSort}
-              value={selected}
-              {...props}
-            />
+        {!isAllReviewsFilter && (
+          <div className={`${styles.reviewsContainerDropdowns} flex mb7`}>
+            <div className={`${styles.reviewsContainerSortDropdown} mr4`}>
+              <Dropdown
+                options={options}
+                onChange={handleSort}
+                value={selected}
+                {...props}
+              />
+            </div>
+            <div className={styles.reviewsContainerStarsDropdown}>
+              <Dropdown
+                options={filters}
+                onChange={handleFilter}
+                value={filter}
+                {...props}
+              />
+            </div>
           </div>
-          <div className={styles.reviewsContainerStarsDropdown}>
-            <Dropdown
-              options={filters}
-              onChange={handleFilter}
-              value={filter}
-              {...props}
-            />
-          </div>
-        </div>
+        )}
         <div className={`${styles.reviewsContainerWriteButton} mb5`}>
           <a
             className={`${styles.writeReviewButton} bg-action-primary c-on-action-primary t-action link pv3 ph5`}
             href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
           >
-            {' '}
-            Be the first to write a review!{' '}
+            {isAllReviewsFilter
+              ? 'Be the first to write a review!'
+              : 'Write a review'}
           </a>
         </div>
       </div>

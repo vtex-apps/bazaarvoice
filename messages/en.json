@@ -3,5 +3,5 @@
   "stars": "Stars rating for {name}",
   "rating-summary": "Rating summary for {name}",
   "review-form": "Review form",
-  "reviews": "Show {name} reviews here"
+  "reviews": "({total, plural, one {# review} other {# reviews}})"
 }

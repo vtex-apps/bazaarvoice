@@ -3,5 +3,5 @@
   "stars": "Estrellas para {name}",
   "rating-summary": "Resumen de las valoraciones para {name}",
   "review-form": "Formulario de evaluación",
-  "reviews": "Mostrar las evaluaciones de {name} aquí"
+  "reviews": "({total, plural, one {# evaluación} other {# evaluaciones}})"
 }
