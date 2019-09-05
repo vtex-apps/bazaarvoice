@@ -194,7 +194,6 @@ const Reviews = props => {
     selected,
     offset,
     count,
-    histogram,
     average,
     linkText,
     productId,
@@ -260,7 +259,11 @@ const Reviews = props => {
   }
   const fixedAverage = average.toFixed(1)
   return state.reviews.length ? (
-    <div ref={containerRef} className={`${styles.reviews} mw8 center`}>
+    <div
+      id="reviews"
+      ref={containerRef}
+      className={`${styles.reviews} mw8 center`}
+    >
       <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
         Reviews
       </h3>
@@ -301,7 +304,15 @@ const Reviews = props => {
       </Modal>
     </div>
   ) : (
-    <NoReviews productReference={productReference} linkText={linkText} />
+    <NoReviews
+      productReference={productReference}
+      linkText={linkText}
+      handleSort={handleSort}
+      selected={selected}
+      props={props}
+      handleFilter={handleFilter}
+      filter={filter}
+    />
   )
 }
 

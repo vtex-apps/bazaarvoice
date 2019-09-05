@@ -5,6 +5,7 @@ import withGetConfig from './components/withGetConfig'
 import { withApollo } from 'react-apollo'
 import { Link } from 'vtex.render-runtime'
 import Stars from './components/Stars'
+import { FormattedMessage } from 'react-intl'
 
 import styles from './styles.css'
 
@@ -83,8 +84,16 @@ const Reviews = props => {
             <div className={`${styles.ratingSummaryStars} nowrap dib`}>
               <Stars rating={average} />
             </div>
-            <span className={`${styles.ratingSummaryTotal} c-muted-2 t-body`}>
-              ({totalReviews})
+
+            <span
+              className={`${styles.ratingSummaryTotal} c-muted-2 t-body mr2`}
+            >
+              <a href="#reviews" className="c-link">
+                <FormattedMessage
+                  id="reviews"
+                  values={{ total: totalReviews }}
+                />
+              </a>
             </span>
             <Link
               className={`${styles.ratingSummaryWrite} ml2 c-link t-body`}

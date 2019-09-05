@@ -81,7 +81,7 @@ export const queries = {
         return current_rating ? current_rating : { RatingValue: i, Count: 0 }
       })
 
-      const ratingOrders = reviews.Results[0].SecondaryRatingsOrder
+      const ratingOrders = reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAveragesOrder
       reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages = ratingOrders.map( (r:string) => {
         return parseSecondaryRatingsData(reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages[r])
       })
