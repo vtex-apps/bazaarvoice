@@ -25,6 +25,7 @@ const initialState = {
   count: 0,
   percentage: [],
   selected: 'Helpfulness:desc,SubmissionTime:desc',
+  isFirstRender: true,
   filter: '0',
   paging: {},
   offset: 0,
@@ -45,6 +46,12 @@ const reducer = (state, action) => {
         count: action.count,
         paging: action.paging,
         hasError: false,
+      }
+    }
+    case 'SET_FIRST_RENDER': {
+      return {
+        ...state,
+        isFirstRender: false,
       }
     }
     case 'SET_SELECTED_SORT': {
@@ -133,7 +140,6 @@ const Reviews = ({
   quantityFirstPage = quantityPerPage,
   ...props
 }) => {
-  initialState.selected = props.data.getConfig.defaultOrdinationType
   const { product } = useContext(ProductContext)
   const { linkText, productId, productReference } = product || {}
 
@@ -144,7 +150,26 @@ const Reviews = ({
     offset == 0 ? quantityFirstPage : quantityPerPage
 
   useEffect(() => {
+    console.log('props', props)
     if (!linkText && !productId && !productReference) {
+      return
+    }
+    if (!props.data.loading && state.isFirstRender) {
+      dispatch({
+        type: 'SET_FIRST_RENDER',
+      })
+      if (
+        props.data.getConfig.defaultOrdinationType &&
+        props.data.getConfig.defaultOrdinationType != null &&
+        props.data.getConfig.defaultOrdinationType != ''
+      ) {
+        dispatch({
+          type: 'SET_SELECTED_SORT',
+          selectedSort: props.data.getConfig.defaultOrdinationType,
+        })
+      }
+    }
+    if (props.data.loading) {
       return
     }
     client
@@ -209,6 +234,7 @@ const Reviews = ({
     productId,
     productReference,
     client,
+    props.data.loading,
   ])
 
   const handleSort = useCallback(
