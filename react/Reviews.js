@@ -134,20 +134,25 @@ const reducer = (state, action) => {
   }
 }
 
-const useDefaultSort = (dispatch, props, state) => {
+const useDefaultSort = (
+  dispatch,
+  loading,
+  defaultOrdinationType,
+  loadedConfigData
+) => {
   useEffect(() => {
-    if (!props.data.loading && !state.loadedConfigData) {
+    if (!loading && !loadedConfigData) {
       dispatch({
         type: 'SET_LOADED_CONFIG_DATA',
       })
-      if (props.data.getConfig.defaultOrdinationType) {
+      if (defaultOrdinationType) {
         dispatch({
           type: 'SET_SELECTED_SORT',
-          selectedSort: props.data.getConfig.defaultOrdinationType,
+          selectedSort: defaultOrdinationType,
         })
       }
     }
-  })
+  }, [loading])
 }
 
 const Reviews = ({
@@ -165,7 +170,12 @@ const Reviews = ({
   const reviewsQuantityToShow =
     offset == 0 ? quantityFirstPage : quantityPerPage
 
-  useDefaultSort(dispatch, props, state)
+  useDefaultSort(
+    dispatch,
+    props.data.loading,
+    props.data.getConfig.defaultOrdinationType,
+    state.loadedConfigData
+  )
 
   useEffect(() => {
     if (!linkText && !productId && !productReference) {
@@ -233,7 +243,6 @@ const Reviews = ({
     productId,
     productReference,
     client,
-    props.data.loading,
   ])
 
   const handleSort = useCallback(

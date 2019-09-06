@@ -6,6 +6,8 @@ declare var process: {
   }
 }
 
+const DEFAULT_REVIEWS_QUANTITY = 10
+
 /*This is a hack used to test the layout on some stores, but this should NEVER be used in
 practice because this is an extremely bad design choice that does not scale. The stores
 should configure bazaarvoice secondary ratings to have labels. */
@@ -49,7 +51,7 @@ export const queries = {
     const fieldProductId = product[uniqueId]
 
     let reviews: any
-    const newQuantity = quantity ? quantity : 10
+    const newQuantity = quantity || DEFAULT_REVIEWS_QUANTITY
     try {
       reviews = await reviewsClient.getReviews({appKey, fieldProductId, sort, offset, filter, quantity: newQuantity})
     } catch (error) {
