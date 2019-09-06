@@ -25,7 +25,7 @@ const initialState = {
   count: 0,
   percentage: [],
   selected: 'Helpfulness:desc,SubmissionTime:desc',
-  isFirstRender: true,
+  loadedConfigData: false,
   filter: '0',
   paging: {},
   offset: 0,
@@ -48,10 +48,10 @@ const reducer = (state, action) => {
         hasError: false,
       }
     }
-    case 'SET_FIRST_RENDER': {
+    case 'SET_LOADED_CONFIG_DATA': {
       return {
         ...state,
-        isFirstRender: false,
+        loadedConfigData: true,
       }
     }
     case 'SET_SELECTED_SORT': {
@@ -150,13 +150,15 @@ const Reviews = ({
     offset == 0 ? quantityFirstPage : quantityPerPage
 
   useEffect(() => {
-    console.log('props', props)
     if (!linkText && !productId && !productReference) {
       return
     }
-    if (!props.data.loading && state.isFirstRender) {
+    if (props.data.loading) {
+      return
+    }
+    if (!props.data.loading && !state.loadedConfigData) {
       dispatch({
-        type: 'SET_FIRST_RENDER',
+        type: 'SET_LOADED_CONFIG_DATA',
       })
       if (
         props.data.getConfig.defaultOrdinationType &&
@@ -168,9 +170,6 @@ const Reviews = ({
           selectedSort: props.data.getConfig.defaultOrdinationType,
         })
       }
-    }
-    if (props.data.loading) {
-      return
     }
     client
       .query({
