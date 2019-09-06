@@ -134,6 +134,22 @@ const reducer = (state, action) => {
   }
 }
 
+const useDefaultSort = (dispatch, props, state) => {
+  useEffect(() => {
+    if (!props.data.loading && !state.loadedConfigData) {
+      dispatch({
+        type: 'SET_LOADED_CONFIG_DATA',
+      })
+      if (props.data.getConfig.defaultOrdinationType) {
+        dispatch({
+          type: 'SET_SELECTED_SORT',
+          selectedSort: props.data.getConfig.defaultOrdinationType,
+        })
+      }
+    }
+  })
+}
+
 const Reviews = ({
   client,
   quantityPerPage = 10,
@@ -149,27 +165,11 @@ const Reviews = ({
   const reviewsQuantityToShow =
     offset == 0 ? quantityFirstPage : quantityPerPage
 
+  useDefaultSort(dispatch, props, state)
+
   useEffect(() => {
     if (!linkText && !productId && !productReference) {
       return
-    }
-    if (props.data.loading) {
-      return
-    }
-    if (!props.data.loading && !state.loadedConfigData) {
-      dispatch({
-        type: 'SET_LOADED_CONFIG_DATA',
-      })
-      if (
-        props.data.getConfig.defaultOrdinationType &&
-        props.data.getConfig.defaultOrdinationType != null &&
-        props.data.getConfig.defaultOrdinationType != ''
-      ) {
-        dispatch({
-          type: 'SET_SELECTED_SORT',
-          selectedSort: props.data.getConfig.defaultOrdinationType,
-        })
-      }
     }
     client
       .query({
