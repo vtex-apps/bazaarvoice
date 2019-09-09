@@ -4,5 +4,6 @@ query getConfig {
     clientName
     siteId
     uniqueId
+    defaultOrdinationType
   }
 }

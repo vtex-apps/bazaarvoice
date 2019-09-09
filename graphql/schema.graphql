@@ -4,7 +4,7 @@
 # The resolvers for this query are implemented in here: node/graphql/index.ts
 
 type Query {
-  productReviews(sort: String!, filter: Int, offset: Int, pageId: String): Review @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
+  productReviews(sort: String!, filter: Int, offset: Int, pageId: String, quantity: Int): Review @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
   getConfig: GetConfigResponse @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
 }
 
@@ -22,4 +22,5 @@ type GetConfigResponse {
   clientName: String
   siteId: String
   uniqueId: String
+  defaultOrdinationType: String
 }

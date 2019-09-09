@@ -6,6 +6,8 @@ declare var process: {
   }
 }
 
+const DEFAULT_REVIEWS_QUANTITY = 10
+
 /*This is a hack used to test the layout on some stores, but this should NEVER be used in
 practice because this is an extremely bad design choice that does not scale. The stores
 should configure bazaarvoice secondary ratings to have labels. */
@@ -38,7 +40,7 @@ const convertSecondaryRatings = (secondaryRatings: any, ratingOrder: Array<any>)
 
 export const queries = {
   productReviews: async (_: any, args: any, ctx: Context) => {
-    const { sort, offset, pageId, filter } = args
+    const { sort, offset, pageId, filter, quantity } = args
     const { clients: { apps, reviews: reviewsClient }} = ctx
 
     const appId = process.env.VTEX_APP_ID
@@ -49,8 +51,9 @@ export const queries = {
     const fieldProductId = product[uniqueId]
 
     let reviews: any
+    const newQuantity = quantity || DEFAULT_REVIEWS_QUANTITY
     try {
-      reviews = await reviewsClient.getReviews({appKey, fieldProductId, sort, offset, filter})
+      reviews = await reviewsClient.getReviews({appKey, fieldProductId, sort, offset, filter, quantity: newQuantity})
     } catch (error) {
       throw new TypeError(error.response.data)
     }

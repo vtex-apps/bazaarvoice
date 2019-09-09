@@ -24,7 +24,8 @@ const initialState = {
   secondaryRatingsAverage: [],
   count: 0,
   percentage: [],
-  selected: 'SubmissionTime:desc',
+  selected: 'Helpfulness:desc,SubmissionTime:desc',
+  loadedConfigData: false,
   filter: '0',
   paging: {},
   offset: 0,
@@ -45,6 +46,12 @@ const reducer = (state, action) => {
         count: action.count,
         paging: action.paging,
         hasError: false,
+      }
+    }
+    case 'SET_LOADED_CONFIG_DATA': {
+      return {
+        ...state,
+        loadedConfigData: true,
       }
     }
     case 'SET_SELECTED_SORT': {
@@ -127,18 +134,54 @@ const reducer = (state, action) => {
   }
 }
 
-const Reviews = props => {
+const useDefaultSort = (
+  dispatch,
+  loading,
+  defaultOrdinationType,
+  loadedConfigData
+) => {
+  useEffect(() => {
+    if (!loading && !loadedConfigData) {
+      dispatch({
+        type: 'SET_LOADED_CONFIG_DATA',
+      })
+      if (defaultOrdinationType) {
+        dispatch({
+          type: 'SET_SELECTED_SORT',
+          selectedSort: defaultOrdinationType,
+        })
+      }
+    }
+  }, [loading])
+}
+
+const Reviews = ({
+  client,
+  quantityPerPage = 10,
+  quantityFirstPage = quantityPerPage,
+  ...props
+}) => {
   const { product } = useContext(ProductContext)
   const { linkText, productId, productReference } = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { filter, selected, offset, count, histogram, average } = state
 
+  const reviewsQuantityToShow =
+    offset == 0 ? quantityFirstPage : quantityPerPage
+
+  useDefaultSort(
+    dispatch,
+    props.data.loading,
+    props.data.getConfig.defaultOrdinationType,
+    state.loadedConfigData
+  )
+
   useEffect(() => {
     if (!linkText && !productId && !productReference) {
       return
     }
-    props.client
+    client
       .query({
         query: queryRatingSummary,
         variables: {
@@ -150,6 +193,7 @@ const Reviews = props => {
             productReference: productReference,
           }),
           filter: parseInt(filter) || 0,
+          quantity: reviewsQuantityToShow,
         },
       })
       .then(response => {
@@ -198,7 +242,7 @@ const Reviews = props => {
     linkText,
     productId,
     productReference,
-    props.client,
+    client,
   ])
 
   const handleSort = useCallback(

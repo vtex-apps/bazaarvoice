@@ -8,11 +8,11 @@ export const options = [
     value: 'Helpfulness:desc,SubmissionTime:desc',
   },
   {
-    label: 'Highest to Lowest Rating',
+    label: 'Rating - Highest to Lowest',
     value: 'Rating:desc',
   },
   {
-    label: 'Lowest to Highest Rating',
+    label: 'Rating - Lowest to Highest',
     value: 'Rating:asc',
   },
   {

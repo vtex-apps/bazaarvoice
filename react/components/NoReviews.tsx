@@ -23,7 +23,11 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({
           <h5
             className={`${styles.reviewsContainerTitle} lh-copy mw9 t-heading-5 mv5`}
           >
-            No reviews found!
+            {isAllReviewsFilter
+              ? 'There are no reviews for this product yet'
+              : `There are no reviews with ${filter} ${
+                  filter == '1' ? 'star' : 'stars'
+                }`}
           </h5>
         </div>
         {!isAllReviewsFilter && (
