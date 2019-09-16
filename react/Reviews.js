@@ -372,7 +372,7 @@ Reviews.schema = {
     },
     quantityFirstPage: {
       type: 'number',
-      title: 'Quantity of Reviews on First Page',
+      title: 'Quantity of Reviews on the First Page',
     },
   },
 }

@@ -30,35 +30,22 @@ See our [LTS policy](https://github.com/vtex-apps/awesome-io#lts-policy) for mor
 ## Usage
 
 To use the bazaarvoice components add the [product reviews](https://github.com/vtex-apps/product-review-interfaces/tree/master/example
-) blocks into your theme as you would with any other block. 
-
-If you want to customize them, you can do that through the CMS or through the store theme. See an example of how to configure it on the theme:
-
-```json
-"product-reviews.bazaarvoice": {
-  "props": {
-    "quantityPerPage": 20,
-    "quantityFirstPage": 5
-  }
-}
-```
+) blocks into your theme as you would with any other block.
 
 #### Configuration
 
-Through the `apps` section, you can change the behaviour of some bazaarvoice components. However, you can also do it through CMS. The props of the `product-reviews.bazaarvoice` are as it follows:
+You can set some options of the Reviews component in the CMS:
 
 | Prop name      | Type     | Description                                          | Default value |
 | -------------- | -------- | ---------------------------------------------------- | ------------- |
-| `quantityPerPage`         | `number` | the number of reviews that a review page will have                                            | `10`           |
-| `quantityFirstPage`         | `number` | the number of reviews that the first review page will have                                            | Same as `quantityPerPage`          |
-
-The other blocks don't have props.
+| `Quantity of reviews per page`         | `number` | the number of reviews that a review page will have                                            | `10`           |
+| `Quantity of reviews on the first page`         | `number` | the number of reviews that the first review page will have                                            | Same as the value above          |
 
 ### Styles API
 
 This app provides some CSS classes as an API for style customization.
 
-To use this CSS API, you must add the `styles` builder and create an app styling CSS file.
+To use this CSS API, you must add the `styles` builder and create an app styling CSS file and add `vtex.bazaarvoice` to your theme `peerDependencies`.
 
 1. Add the `styles` builder to your `manifest.json`:
 
@@ -68,7 +55,15 @@ To use this CSS API, you must add the `styles` builder and create an app styling
   }
 ```
 
-2. Create a file called `vtex.bazaarvoice.css` inside the `styles/css` folder. Add your custom styles:
+2. Add `vtex.bazaarvoice` to `peerDependencies` in your `manifest.json`:
+
+```json
+  "peerDependencies": {
+    "vtex.bazaarvoice": "1.x"
+  }
+```
+
+3. Create a file called `vtex.bazaarvoice.css` inside the `styles/css` folder. Add your custom styles:
 
 ```css
 .container {
