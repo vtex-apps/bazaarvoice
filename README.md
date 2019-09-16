@@ -20,8 +20,7 @@ See our [LTS policy](https://github.com/vtex-apps/awesome-io#lts-policy) for mor
 ## Table of Contents
 
 - [Usage](#usage)
-  - [Blocks API](#blocks-api)
-    - [Configuration](#configuration)
+  - [Configuration](#configuration)
   - [Styles API](#styles-api)
     - [CSS namespaces](#css-namespaces)
 - [Troubleshooting](#troubleshooting)
@@ -30,24 +29,10 @@ See our [LTS policy](https://github.com/vtex-apps/awesome-io#lts-policy) for mor
 
 ## Usage
 
-This app uses our store builder with the blocks architecture. To know more about Store Builder [click here.](https://help.vtex.com/en/tutorial/understanding-storebuilder-and-stylesbuilder#structuring-and-configuring-our-store-with-object-object)
-Since this app is an integration app, you should also add it to your store through the `apps` section on the admin menu.
+To use the bazaarvoice components add the [product reviews](https://github.com/vtex-apps/product-review-interfaces/tree/master/example
+) blocks into your theme as you would with any other block. 
 
-To configure or customize this app you need to do it through the `apps` section of the admin menu and you need to import it in your dependencies in `manifest.json`.
-
-```json
-  dependencies: {
-    "vtex.bazaarvoice": "1.x"
-  }
-```
-
-Then, add the bazaarvoice blocks into your theme as you would with any other block. The bazaarvoice blocks are as it follows:
-- `product-review-form.bazaarvoice` can be used on the [store.product](https://github.com/vtex-apps/store/blob/master/store/interfaces.json#L35)
-- `product-reviews.bazaarvoice` can be used on the [store.product](https://github.com/vtex-apps/store/blob/master/store/interfaces.json#L35)
-- `product-rating-summary.bazaarvoice` can be used on the [store.product](https://github.com/vtex-apps/store/blob/master/store/interfaces.json#L35)
-- `product-rating-inline.bazaarvoice` can be used on the [product-summary](https://github.com/vtex-apps/product-summary/blob/master/store/interfaces.json) and can be used on the [store.product](https://github.com/vtex-apps/store/blob/master/store/interfaces.json#L35)
-
-Now, you can change the behavior of the bazaarvoice blocks that are in the store. See an example of how to configure:
+If you want to customize them, you can do that through the CMS or through the store theme. See an example of how to configure it on the theme:
 
 ```json
 "product-reviews.bazaarvoice": {
@@ -58,30 +43,9 @@ Now, you can change the behavior of the bazaarvoice blocks that are in the store
 }
 ```
 
-### Blocks API
-
-When implementing this app as a block, various inner blocks may be available. The following interface lists the available blocks within the bazaarvoice blocks and describes if they are required or optional.
-
-```json
-"product-review-form.bazaarvoice": {
-  "component": "ReviewForm"
-},
-"product-reviews.bazaarvoice": {
-  "component": "Reviews"
-},
-"product-rating-summary.bazaarvoice": {
-  "component": "RatingSummary"
-},
-"product-rating-inline.bazaarvoice": {
-  "component": "RatingInline"
-}
-```
-
-These blocks have no required or allowed block. So, any bazaarvoice block implementation do not need any block inside of menu.
-
 #### Configuration
 
-Through the `apps` section, you can change the behaviour of some bazaarvoice components. However, you also can make in your theme app, as Store theme does. The props of the `product-reviews.bazaarvoice` are as it follows:
+Through the `apps` section, you can change the behaviour of some bazaarvoice components. However, you can also do it through CMS. The props of the `product-reviews.bazaarvoice` are as it follows:
 
 | Prop name      | Type     | Description                                          | Default value |
 | -------------- | -------- | ---------------------------------------------------- | ------------- |
@@ -89,7 +53,6 @@ Through the `apps` section, you can change the behaviour of some bazaarvoice com
 | `quantityFirstPage`         | `number` | the number of reviews that the first review page will have                                            | Same as `quantityPerPage`          |
 
 The other blocks don't have props.
-
 
 ### Styles API
 
@@ -105,7 +68,7 @@ To use this CSS API, you must add the `styles` builder and create an app styling
   }
 ```
 
-2. Create a file called `vtex.menu.css` inside the `styles/css` folder. Add your custom styles:
+2. Create a file called `vtex.bazaarvoice.css` inside the `styles/css` folder. Add your custom styles:
 
 ```css
 .container {
@@ -172,11 +135,11 @@ Below, we describe the namespaces that are defined in the bazaarvoice.
 
 ## Troubleshooting
 
-You can check if others are passing through similar issues [here](https://github.com/vtex-apps/bazaarvoice/issues). Also feel free to [open issues](https://github.com/vtex-apps/bazaarvoice/issues/new) or contribute with pull requests.
+You can check if others are experiencing similar issues [here](https://github.com/vtex-apps/bazaarvoice/issues). Also, feel free to [open issues](https://github.com/vtex-apps/bazaarvoice/issues/new) or contribute with a pull request.
 
 ## Contributing
 
-Check it out [how to contribute](https://github.com/vtex-apps/awesome-io#contributing) with this project. 
+Take a look at these guidelines: [how to contribute](https://github.com/vtex-apps/awesome-io#contributing).
 
 ## Tests
 
@@ -186,14 +149,3 @@ To execute our tests go to `react/` folder and run `yarn test`
 
 [![Build Status](https://travis-ci.org/vtex-apps/menu.svg?branch=master)](https://travis-ci.org/vtex-apps/menu)
 
-## Contributors
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-<table><tr><td align="center"><a href="http://giovanapereira.com.br/"><img src="https://avatars3.githubusercontent.com/u/26018620?v=4" width="100px;" alt="Giovana Pereira"/><br /><sub><b>Giovana Pereira</b></sub></a><br /><a href="https://github.com/vtex-apps/menu/commits?author=giovanapereira" title="Code">💻</a></td></tr></table>
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
