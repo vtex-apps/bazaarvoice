@@ -23,10 +23,10 @@ const HistogramBar: FunctionComponent<HistogramBarProps> = ({
 }) => {
   return (
     <span
-      className={`${styles.secondaryHistogramBar} ${barClassName} bg-base dib h1 relative v-mid ba b--muted-4`}
+      className={` ${barClassName} bg-base dib h1 relative v-mid ba b--muted-4`}
     >
       <div
-        className={`${styles.secondaryHistogramBarValue} ${barValueClassName} h1 bg-emphasis`}
+        className={` ${barValueClassName} h1 bg-emphasis`}
         style={{ width: percentage }}
       ></div>
       {shouldShowDivisions && (

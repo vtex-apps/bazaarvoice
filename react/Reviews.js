@@ -13,6 +13,7 @@ import ReviewsContainer from './components/ReviewsContainer'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import getConfig from './graphql/getConfig.gql'
 import { withApollo, graphql } from 'react-apollo'
+import PropTypes from 'prop-types'
 import styles from './styles.css'
 
 import { Pagination, Modal } from 'vtex.styleguide'
@@ -134,21 +135,16 @@ const reducer = (state, action) => {
   }
 }
 
-const useDefaultSort = (
-  dispatch,
-  loading,
-  defaultOrdinationType,
-  loadedConfigData
-) => {
+const useDefaultSort = (dispatch, loading, getConfig, loadedConfigData) => {
   useEffect(() => {
     if (!loading && !loadedConfigData) {
       dispatch({
         type: 'SET_LOADED_CONFIG_DATA',
       })
-      if (defaultOrdinationType) {
+      if (getConfig.defaultOrdinationType) {
         dispatch({
           type: 'SET_SELECTED_SORT',
-          selectedSort: defaultOrdinationType,
+          selectedSort: getConfig.defaultOrdinationType,
         })
       }
     }
@@ -173,7 +169,7 @@ const Reviews = ({
   useDefaultSort(
     dispatch,
     props.data.loading,
-    props.data.getConfig.defaultOrdinationType,
+    props.data.getConfig,
     state.loadedConfigData
   )
 
@@ -365,5 +361,20 @@ const withGetConfig = graphql(getConfig, {
     ssr: false,
   }),
 })
+
+Reviews.schema = {
+  title: 'Reviews',
+  type: 'object',
+  properties: {
+    quantityPerPage: {
+      type: 'number',
+      title: 'Quantity of Reviews per Page',
+    },
+    quantityFirstPage: {
+      type: 'number',
+      title: 'Quantity of Reviews on the First Page',
+    },
+  },
+}
 
 export default withApollo(withGetConfig(Reviews))
