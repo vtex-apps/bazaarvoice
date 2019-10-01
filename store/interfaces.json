@@ -10,5 +10,8 @@
   },
   "product-rating-inline.bazaarvoice": {
     "component": "RatingInline"
+  },
+  "pixel.bazaarvoice": {
+    "component": "BazaarvoicePixel"
   }
 }

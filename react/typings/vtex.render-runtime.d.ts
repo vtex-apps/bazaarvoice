@@ -9,4 +9,5 @@ declare module 'vtex.render-runtime' {
   }
 
   export const Link
+  export const canUseDOM = boolean
 }
