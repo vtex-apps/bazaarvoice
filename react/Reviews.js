@@ -13,7 +13,7 @@ import ReviewsContainer from './components/ReviewsContainer'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import getConfig from './graphql/getConfig.gql'
 import { withApollo, graphql } from 'react-apollo'
-import PropTypes from 'prop-types'
+import { trackPageViewData } from './components/utils/trackers'
 import styles from './styles.css'
 
 import { Pagination, Modal } from 'vtex.styleguide'
@@ -222,6 +222,9 @@ const Reviews = ({
           paging,
           percentage,
         })
+        if (state.loadedConfigData) {
+          trackPageViewData(productId, 'Product', state.count)
+        }
       })
       .catch(error => {
         console.error('Bazzarvoice', error)

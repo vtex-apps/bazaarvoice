@@ -1,7 +1,9 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useContext } from 'react'
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
 import styles from '../styles.css'
+import { useTrackImpression, useTrackInView, useTrackViewedCGC } from './utils/trackers'
+import { ProductContext } from 'vtex.product-context'
 
 const getTimeAgo = (time: string) => {
   let before = new Date(time)
@@ -27,9 +29,15 @@ const getTimeAgo = (time: string) => {
   }
 }
 
+const elementId = (reviewId: string) => `bazaarvoice-review-${reviewId}`
+
 const Review: FunctionComponent<ReviewProps> = ({ review }) => {
+  const { product } = useContext(ProductContext)
+  useTrackImpression(product.productId, review.Id)
+  useTrackInView(product.productId, elementId(review.Id))
+  useTrackViewedCGC(product.productId, elementId(review.Id))
   return (
-    <div className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}>
+    <div id={elementId(review.Id)} className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}>
       <div className={`${styles.reviewRating} flex items-center`}>
         <Stars rating={review.Rating} />
         <span className="c-muted-1 t-small ml2">
