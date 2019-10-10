@@ -13,7 +13,7 @@ import ReviewsContainer from './components/ReviewsContainer'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import getConfig from './graphql/getConfig.gql'
 import { withApollo, graphql } from 'react-apollo'
-import { trackPageViewData } from './components/utils/trackers'
+import { trackPageViewData } from './modules/trackers'
 import styles from './styles.css'
 
 import { Pagination, Modal } from 'vtex.styleguide'

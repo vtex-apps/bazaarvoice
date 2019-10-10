@@ -45,8 +45,8 @@ interface InViewData {
   bvProduct: string
 }
 
-//Right now this is the same of TrackInViewData but 
-//these two can receive different optional values.
+// Right now this is the same of TrackInViewData but 
+// these two can receive different optional values.
 interface TrackViewedGCGData {
   containerId: string
 }

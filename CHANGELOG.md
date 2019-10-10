@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- support to bazaarvoice passive analytic events tracking operations
+- support to Bazaarvoice tracking events
 
 ## [1.4.0] - 2019-10-02
 ### Added

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react'
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
 import styles from '../styles.css'
-import { useTrackImpression, useTrackInView, useTrackViewedCGC } from './utils/trackers'
+import { useTrackImpression, useTrackInView, useTrackViewedCGC } from '../modules/trackers'
 import { ProductContext } from 'vtex.product-context'
 
 const getTimeAgo = (time: string) => {
