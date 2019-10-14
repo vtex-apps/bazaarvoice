@@ -77,7 +77,7 @@ const reducer = (state, action) => {
     case 'SET_PREVIOUS_PAGE': {
       return {
         ...state,
-        offset: state.offset + state.paging.pageSize,
+        offset: Math.max(0, state.offset - state.paging.pageSize),
       }
     }
     case 'VOTE_REVIEW': {
