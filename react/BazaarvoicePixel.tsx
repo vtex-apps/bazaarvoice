@@ -11,6 +11,8 @@ export function handleEvents(e: PixelMessage) {
         currency: data.currency,
         country: data.visitorAddressCountry,
         state: data.visitorAddressState,
+        email: data.visitorContactInfo[0],
+        nickname: data.visitorContactInfo[1],
         items: data.transactionProducts.map(product => {
           return {
             sku: product.sku,
