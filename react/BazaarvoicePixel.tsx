@@ -9,6 +9,8 @@ export function handleEvents(e: PixelMessage) {
         orderId: data.orderGroup,
         total: data.transactionTotal,
         currency: data.currency,
+        tax: data.transactionTax,
+        shipping: data.transactionShipping,
         country: data.visitorAddressCountry,
         state: data.visitorAddressState,
         email: data.visitorContactInfo[0],
