@@ -7,7 +7,7 @@ export function handleEvents(e: PixelMessage) {
       const data = e.data
       const transactionData = {
         orderId: data.orderGroup,
-        total: data.transactionTotal,
+        total: data.transactionSubtotal,
         currency: data.currency,
         tax: data.transactionTax,
         shipping: data.transactionShipping,
