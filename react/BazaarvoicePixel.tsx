@@ -19,7 +19,7 @@ export function handleEvents(e: PixelMessage) {
           return {
             sku: product.sku,
             quantity: product.quantity,
-            name: encodeURI(product.name),
+            name: product.name,
             price: product.price,
             category: product.category
           }
