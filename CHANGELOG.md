@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- `total` field of the `Transaction` event.
+
+### Added
+- `discount` and `productId` to the `Transaction` event.
 
 ## [1.5.6] - 2019-11-18
 ### Fixed
