@@ -1,13 +1,20 @@
 interface Window extends Window {
   BV: BazaarvoiceClient
+  __bazaarvoice: { uniqueId: 'productId' | 'linkText' | 'productReference' }
 }
 
 interface BazaarvoiceClient {
   pixel: {
     trackTransaction: (transactionData: TransactionData) => void
     trackImpression: (impressionData: ImpressionData) => void
-    trackInView: (inViewData: InViewData, trackInViewData: TrackInViewData) => void
-    trackViewedCGC: (inViewData: InViewData, trackViewedGCGData: TrackViewedGCGData) => void
+    trackInView: (
+      inViewData: InViewData,
+      trackInViewData: TrackInViewData
+    ) => void
+    trackViewedCGC: (
+      inViewData: InViewData,
+      trackViewedGCGData: TrackViewedGCGData
+    ) => void
     trackPageView: (pageViewData: PageViewData) => void
   }
 }
@@ -45,7 +52,7 @@ interface InViewData {
   bvProduct: string
 }
 
-// Right now this is the same of TrackInViewData but 
+// Right now this is the same of TrackInViewData but
 // these two can receive different optional values.
 interface TrackViewedGCGData {
   containerId: string
