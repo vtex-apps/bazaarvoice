@@ -1,7 +1,7 @@
 import React, { FunctionComponent, Fragment } from 'react'
 import { Dropdown } from 'vtex.styleguide'
 import Review from './Review'
-import {options, filters} from './utils/dropdownOptions'
+import { options, filters } from './utils/dropdownOptions'
 import styles from '../styles.css'
 
 const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
