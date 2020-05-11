@@ -11,7 +11,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
   props,
   handleFilter,
   filter,
-  productReference,
+  productIdentifier,
   linkText,
   reviews,
 }) => {
@@ -44,7 +44,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
         <div className={`${styles.reviewsContainerWriteButton} mt5 mb8`}>
           <a
             className={`${styles.writeReviewButton} bg-action-primary c-on-action-primary t-action link pv3 ph5`}
-            href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
+            href={`/new-review?product_id=${productIdentifier}&return_page=/${linkText}/p`}
           >
             {' '}
             Write a review{' '}
@@ -66,7 +66,7 @@ interface ReviewsContainerProps {
   handleSort: any
   selected: string
   props: any
-  productReference: string
+  productIdentifier: string
   linkText: string
   reviews: any[]
   handleFilter: any

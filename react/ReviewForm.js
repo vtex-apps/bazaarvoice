@@ -30,7 +30,7 @@ const ReviewForm = props => {
   }, [props.data, query.product_id, query.return_page])
 
   useEffect(() => {
-    if (!window.$BV) {
+    if (!window.$BV || !productId) {
       return
     }
 

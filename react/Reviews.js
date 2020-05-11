@@ -166,6 +166,9 @@ const Reviews = ({
   const reviewsQuantityToShow =
     offset == 0 ? quantityFirstPage : quantityPerPage
 
+  const productIdentifier =
+    product && window.__bazaarvoice && product[window.__bazaarvoice.uniqueId]
+
   useDefaultSort(
     dispatch,
     props.data.loading,
@@ -328,7 +331,7 @@ const Reviews = ({
         props={props}
         handleFilter={handleFilter}
         filter={filter}
-        productReference={productReference}
+        productIdentifier={productIdentifier}
         linkText={linkText}
         reviews={state.reviews}
       />
