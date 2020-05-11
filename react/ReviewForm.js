@@ -4,14 +4,9 @@ import getConfig from './graphql/getConfig.gql'
 import { graphql } from 'react-apollo'
 
 const ReviewForm = props => {
-  const {
-    culture: { locale },
-    query,
-    navigate,
-  } = useRuntime()
+  const { query, navigate } = useRuntime()
   const [loaded, setLoaded] = useState(false)
   const [productId, setProductId] = useState(null)
-  const [, setReturnPage] = useState(null)
 
   useEffect(() => {
     if (!props.data.loading) {
@@ -19,7 +14,6 @@ const ReviewForm = props => {
       script.type = 'text/javascript'
       script.onload = function() {
         setProductId(query.product_id)
-        setReturnPage(query.return_page)
         setLoaded(true)
       }
 
@@ -30,21 +24,21 @@ const ReviewForm = props => {
   }, [props.data, query.product_id, query.return_page])
 
   useEffect(() => {
-    if (!window.$BV) {
+    if (!window.$BV || !productId) {
       return
     }
 
     window.$BV.configure('global', {
       events: {
-        submissionClose: function(data) {
-          // eslint-disable-next-line no-console
-          console.log('close')
-          // navigate({ to: returnPage })
+        submissionClose: function() {
+          if (query.return_page) {
+            navigate({ to: query.return_page })
+          }
         },
-        submissionSubmitted: function(data) {
-          // eslint-disable-next-line no-console
-          console.log('submitted')
-          // setInterval(() => navigate({ to: returnPage }), 1000)
+        submissionSubmitted: function() {
+          if (query.return_page) {
+            setInterval(() => navigate({ to: query.return_page }), 1000)
+          }
         },
       },
     })
@@ -52,7 +46,7 @@ const ReviewForm = props => {
     window.$BV.ui('rr', 'submit_review', {
       productId: productId,
     })
-  }, [loaded, productId])
+  }, [loaded, navigate, query.return_page, productId])
 
   return null
 }
