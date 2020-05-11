@@ -59,7 +59,6 @@ export const queries = {
 
     const fieldProductId = product[uniqueId]
 
-    console.log({ uniqueId })
 
     let reviews: any
     const newQuantity = quantity || DEFAULT_REVIEWS_QUANTITY
