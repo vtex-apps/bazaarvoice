@@ -1,5 +1,6 @@
 import { canUseDOM } from 'vtex.render-runtime'
 import { PixelMessage } from './typings/events'
+import { getProductId } from './modules/productId'
 
 export function handleEvents(e: PixelMessage) {
   switch (e.data.eventName) {
@@ -18,20 +19,17 @@ export function handleEvents(e: PixelMessage) {
         discount: Math.abs(data.transactionDiscounts),
         items: data.transactionProducts.map(product => {
           return {
-            productId: product.id,
+            productId: getProductId(product),
             sku: product.sku,
             discount: product.originalPrice - product.price,
             quantity: product.quantity,
             name: product.name,
             price: product.price,
-            category: product.category
+            category: product.category,
           }
-        })
+        }),
       }
       window.BV.pixel.trackTransaction(transactionData)
-    }
-    default: {
-      return
     }
   }
 }
