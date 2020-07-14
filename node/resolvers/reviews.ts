@@ -1,4 +1,12 @@
 import { ApolloError } from 'apollo-server'
+import {
+  BazaarVoiceReviews,
+  SecondaryRating,
+  BazaarVoiceReviewsGraphQL,
+  ProductGraphQL,
+  SecondaryRatingsAverage,
+  SecondaryRatingsAverageGraphQL,
+} from '../typings/reviews'
 
 declare var process: {
   env: {
@@ -11,13 +19,16 @@ const DEFAULT_REVIEWS_QUANTITY = 10
 /*This is a hack used to test the layout on some stores, but this should NEVER be used in
 practice because this is an extremely bad design choice that does not scale. The stores
 should configure bazaarvoice secondary ratings to have labels. */
-const parseSecondaryRatingsData = (secondaryRatingsData: any) => {
+type Ratings = SecondaryRatingsAverageGraphQL | SecondaryRating
+const parseSecondaryRatingsData = (
+  secondaryRatingsData: SecondaryRatingsAverage | SecondaryRating
+): Ratings => {
   if (
     !secondaryRatingsData ||
-    secondaryRatingsData.Label ||
-    secondaryRatingsData.Label != null
+    (secondaryRatingsData as Ratings).Label ||
+    (secondaryRatingsData as Ratings).Label != null
   ) {
-    return secondaryRatingsData
+    return secondaryRatingsData as Ratings
   }
 
   let newLabel = ''
@@ -37,8 +48,8 @@ const parseSecondaryRatingsData = (secondaryRatingsData: any) => {
 }
 
 const convertSecondaryRatings = (
-  secondaryRatings: any,
-  ratingOrder: Array<any>
+  secondaryRatings: Record<string, SecondaryRating>,
+  ratingOrder: string[]
 ) => {
   return ratingOrder.map(r => {
     return parseSecondaryRatingsData(secondaryRatings[r])
@@ -46,7 +57,11 @@ const convertSecondaryRatings = (
 }
 
 export const queries = {
-  productReviews: async (_: any, args: any, ctx: Context) => {
+  productReviews: async (
+    _: any,
+    args: any,
+    ctx: Context
+  ): Promise<BazaarVoiceReviewsGraphQL> => {
     const { sort, offset, pageId, filter, quantity } = args
     const {
       clients: { apps, reviews: reviewsClient },
@@ -59,8 +74,7 @@ export const queries = {
 
     const fieldProductId = product[uniqueId]
 
-
-    let reviews: any
+    let reviews: BazaarVoiceReviews
     const newQuantity = quantity || DEFAULT_REVIEWS_QUANTITY
     try {
       reviews = await reviewsClient.getReviews({
@@ -75,58 +89,61 @@ export const queries = {
       throw new TypeError(error.response.data)
     }
 
-    if (reviews.HasErrors) {
+    if (reviews.HasErrors && reviews.Errors) {
       throw new ApolloError(reviews.Errors[0].Message, reviews.Errors[0].Code)
     }
 
+    let products: ProductGraphQL[] = []
+
     if (reviews.Includes.Products) {
-      reviews.Includes.Products = Object.keys(reviews.Includes.Products).map(
-        k => {
-          return reviews.Includes.Products[k]
-        }
-      )
+      products = Object.keys(reviews.Includes.Products).map(productName => {
+        const currentProduct = reviews.Includes.Products[productName]
+        const ratingOrders =
+          currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
 
-      reviews.Includes.Products[0].ReviewStatistics.RatingDistribution = [
-        1,
-        2,
-        3,
-        4,
-        5,
-      ].map(i => {
-        let current_rating = reviews.Includes.Products[0].ReviewStatistics.RatingDistribution.find(
-          (rating: any) => {
-            return rating.RatingValue === i
-          }
-        )
-        return current_rating ? current_rating : { RatingValue: i, Count: 0 }
+        const product: ProductGraphQL = {
+          ...currentProduct,
+          ReviewStatistics: {
+            ...currentProduct.ReviewStatistics,
+            RatingDistribution: [1, 2, 3, 4, 5].map(i => {
+              const currentRating = currentProduct.ReviewStatistics.RatingDistribution.find(
+                rating => rating.RatingValue === i
+              )
+
+              return currentRating
+                ? currentRating
+                : { RatingValue: i, Count: 0 }
+            }),
+            SecondaryRatingsAverages: ratingOrders.map(rating => {
+              return parseSecondaryRatingsData(
+                currentProduct.ReviewStatistics.SecondaryRatingsAverages[rating]
+              ) as SecondaryRatingsAverageGraphQL
+            }),
+          },
+        }
+
+        return product
       })
-
-      const ratingOrders =
-        reviews.Includes.Products[0].ReviewStatistics
-          .SecondaryRatingsAveragesOrder
-      reviews.Includes.Products[0].ReviewStatistics.SecondaryRatingsAverages = ratingOrders.map(
-        (r: string) => {
-          return parseSecondaryRatingsData(
-            reviews.Includes.Products[0].ReviewStatistics
-              .SecondaryRatingsAverages[r]
-          )
-        }
-      )
-
-      if (reviews.Results[0].SecondaryRatings) {
-        reviews.Results = reviews.Results.map((result: any) => {
-          return {
-            ...result,
-            SecondaryRatings: convertSecondaryRatings(
-              result.SecondaryRatings,
-              ratingOrders
-            ),
-          }
-        })
-      }
     }
 
-    return reviews
+    return {
+      ...reviews,
+      Includes: {
+        ...reviews.Includes,
+        Products: products,
+      },
+      Results: reviews.Results.map(result => {
+        const secondaryRatings = convertSecondaryRatings(
+          result.SecondaryRatings as Record<string, SecondaryRating>,
+          result.SecondaryRatingsOrder
+        ) as SecondaryRating[]
+
+        return {
+          ...result,
+          SecondaryRatings: secondaryRatings,
+        }
+      }),
+    }
   },
   getConfig: async (_: any, __: any, ctx: Context) => {
     const {
