@@ -1,27 +1,28 @@
 import { useEffect, useState } from 'react'
 import { useRuntime } from 'vtex.render-runtime'
-import getConfig from './graphql/getConfig.gql'
-import { graphql } from 'react-apollo'
 
-const ReviewForm = props => {
+const ReviewForm = ({ appSettings }: { appSettings: Settings }) => {
   const { query, navigate } = useRuntime()
   const [loaded, setLoaded] = useState(false)
-  const [productId, setProductId] = useState(null)
+  const [productId, setProductId] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!props.data.loading) {
-      var script = document.createElement('script')
-      script.type = 'text/javascript'
-      script.onload = function() {
-        setProductId(query.product_id)
-        setLoaded(true)
-      }
-
-      script.src = `https://display.ugc.bazaarvoice.com/static/${props.data.getConfig.clientName}/${props.data.getConfig.siteId}/en_US/bvapi.js`
-
-      document.body.appendChild(script)
+    var script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.onload = function() {
+      setProductId(query.product_id)
+      setLoaded(true)
     }
-  }, [props.data, query.product_id, query.return_page])
+
+    script.src = `https://display.ugc.bazaarvoice.com/static/${appSettings.clientName}/${appSettings.siteId}/en_US/bvapi.js`
+
+    document.body.appendChild(script)
+  }, [
+    appSettings.clientName,
+    appSettings.siteId,
+    query.product_id,
+    query.return_page,
+  ])
 
   useEffect(() => {
     if (!window.$BV || !productId) {
@@ -51,10 +52,4 @@ const ReviewForm = props => {
   return null
 }
 
-const withGetConfig = graphql(getConfig, {
-  options: () => ({
-    ssr: false,
-  }),
-})
-
-export default withGetConfig(ReviewForm)
+export default ReviewForm
