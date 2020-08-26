@@ -1,15 +1,17 @@
 import React, { FunctionComponent } from 'react'
-import Star from './Star'
 
+import Star from './Star'
 import styles from '../styles.css'
 
 const getStarPercentage = (rating: number, i: number) => {
   if (rating >= i + 1) {
     return '100%'
   }
+
   if (i < rating && rating < i + 1) {
     return `${(rating - i) * 100}%`
   }
+
   return '0%'
 }
 

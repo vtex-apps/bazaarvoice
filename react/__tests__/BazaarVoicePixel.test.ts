@@ -97,8 +97,8 @@ test('Order Placed event with uniqueId as productId', () => {
 
   handleEvents(message)
 
-  const calledWith = (window.BV.pixel.trackTransaction as jest.Mock).mock
-    .calls[0][0]
+  const [[calledWith]] = (window.BV.pixel
+    .trackTransaction as jest.Mock).mock.calls
 
   expect(calledWith.items[0].productId).toBe(productId)
 })
@@ -111,8 +111,8 @@ test('Order Placed event with uniqueId as linkText', () => {
 
   handleEvents(message)
 
-  const calledWith = (window.BV.pixel.trackTransaction as jest.Mock).mock
-    .calls[0][0]
+  const [[calledWith]] = (window.BV.pixel
+    .trackTransaction as jest.Mock).mock.calls
 
   expect(calledWith.items[0].productId).toBe(productSlug)
 })
@@ -127,8 +127,8 @@ test('Order Placed event with uniqueId as productReference ', () => {
 
   handleEvents(message)
 
-  const calledWith = (window.BV.pixel.trackTransaction as jest.Mock).mock
-    .calls[0][0]
+  const [[calledWith]] = (window.BV.pixel
+    .trackTransaction as jest.Mock).mock.calls
 
   expect(calledWith.items[0].productId).toBe(productReference)
 })

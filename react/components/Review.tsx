@@ -1,44 +1,60 @@
 import React, { FunctionComponent, useContext } from 'react'
+import { ProductContext } from 'vtex.product-context'
+
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
 import styles from '../styles.css'
-import { useTrackImpression, useTrackInView, useTrackViewedCGC } from '../modules/trackers'
-import { ProductContext } from 'vtex.product-context'
+import {
+  useTrackImpression,
+  useTrackInView,
+  useTrackViewedCGC,
+} from '../modules/trackers'
 import ReviewStructuredData from './ReviewStructuredData'
 
 const getTimeAgo = (time: string) => {
-  let before = new Date(time)
-  let now = new Date()
-  let diff = new Date(now.valueOf() - before.valueOf())
+  const before = new Date(time)
+  const now = new Date()
+  const diff = new Date(now.valueOf() - before.valueOf())
 
-  let minutes = diff.getUTCMinutes()
-  let hours = diff.getUTCHours()
-  let days = diff.getUTCDate() - 1
-  let months = diff.getUTCMonth()
-  let years = diff.getUTCFullYear() - 1970
+  const minutes = diff.getUTCMinutes()
+  const hours = diff.getUTCHours()
+  const days = diff.getUTCDate() - 1
+  const months = diff.getUTCMonth()
+  const years = diff.getUTCFullYear() - 1970
 
-  if (years != 0) {
+  if (years !== 0) {
     return `${years} ${years > 1 ? 'years' : 'year'} ago`
-  } else if (months != 0) {
-    return `${months} ${months > 1 ? 'months' : 'month'} ago`
-  } else if (days != 0) {
-    return `${days} ${days > 1 ? 'days' : 'day'} ago`
-  } else if (hours != 0) {
-    return `${hours} ${hours > 1 ? 'hours' : 'hour'} ago`
-  } else {
-    return `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ago`
   }
+
+  if (months !== 0) {
+    return `${months} ${months > 1 ? 'months' : 'month'} ago`
+  }
+
+  if (days !== 0) {
+    return `${days} ${days > 1 ? 'days' : 'day'} ago`
+  }
+
+  if (hours !== 0) {
+    return `${hours} ${hours > 1 ? 'hours' : 'hour'} ago`
+  }
+
+  return `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ago`
 }
 
 const elementId = (reviewId: string) => `bazaarvoice-review-${reviewId}`
 
 const Review: FunctionComponent<ReviewProps> = ({ review }) => {
   const { product } = useContext(ProductContext)
+
   useTrackImpression(product.productId, review.Id)
   useTrackInView(product.productId, elementId(review.Id))
   useTrackViewedCGC(product.productId, elementId(review.Id))
+
   return (
-    <div id={elementId(review.Id)} className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}>
+    <div
+      id={elementId(review.Id)}
+      className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}
+    >
       <ReviewStructuredData productName={product.productName} review={review} />
       <div className={`${styles.reviewRating} flex items-center`}>
         <Stars rating={review.Rating} />
@@ -71,7 +87,8 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
             </div>
           ) : null}
           <div className={`${styles.reviewByField} t-small c-muted-1`}>
-            {review.UserNickname} {review.UserLocation && `, from ${review.UserLocation}`}
+            {review.UserNickname}{' '}
+            {review.UserLocation && `, from ${review.UserLocation}`}
           </div>
         </div>
         {review.SecondaryRatings && (

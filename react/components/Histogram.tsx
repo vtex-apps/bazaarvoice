@@ -47,6 +47,7 @@ const Histogram: FunctionComponent<HistogramProps> = ({
             {secondaryRatingsAverage.map((rating, i: number) => {
               const percentage =
                 (rating.AverageRating * 100) / rating.ValueRange
+
               return (
                 <li key={i} className={`${styles.secondaryHistogramLine} mv3`}>
                   <span

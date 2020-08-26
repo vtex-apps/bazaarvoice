@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { useProductSummary } from 'vtex.product-summary-context/ProductSummaryContext'
-import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import { useQuery } from 'react-apollo'
+
+import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import Stars from './components/Stars'
 
 const RatingInline: FC = () => {
@@ -13,9 +14,9 @@ const RatingInline: FC = () => {
       sort: 'SubmissionTime:desc',
       offset: 0,
       pageId: JSON.stringify({
-        linkText: product && product.linkText,
-        productId: product && product.productId,
-        productReference: product && product.productReference,
+        linkText: product?.linkText,
+        productId: product?.productId,
+        productReference: product?.productReference,
       }),
     },
   })
@@ -28,7 +29,7 @@ const RatingInline: FC = () => {
 
   return (
     <div className="review__rating mw8 center ph5">
-      <Stars rating={average ? average : 0} />
+      <Stars rating={average || 0} />
     </div>
   )
 }

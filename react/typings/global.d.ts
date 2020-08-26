@@ -18,8 +18,8 @@ interface Settings {
 }
 
 interface BazaarvoiceSDK {
-  configure: (event: string, config: object) => void
-  ui: (name: string, param: string, config: object) => void
+  configure: (event: string, config: Record<string, unknown>) => void
+  ui: (name: string, param: string, config: Record<string, unknown>) => void
 }
 
 interface BazaarvoiceClient {

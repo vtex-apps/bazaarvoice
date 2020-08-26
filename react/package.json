@@ -22,11 +22,6 @@
     "@types/react-intl": "^2.3.17",
     "@vtex/test-tools": "^0.2.0",
     "apollo-client": "^2.5.1",
-    "eslint": "^5.16.0",
-    "eslint-config-vtex": "^10.1.0",
-    "eslint-config-vtex-react": "^4.1.0",
-    "prettier": "^1.18.2",
-    "tslint-eslint-rules": "^5.4.0",
     "typescript": "3.8.3"
   },
   "version": "1.6.0"

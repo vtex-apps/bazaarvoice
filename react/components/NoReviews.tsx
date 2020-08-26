@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Dropdown } from 'vtex.styleguide'
+
 import { options, filters } from './utils/dropdownOptions'
 import styles from '../styles.css'
 
@@ -12,7 +13,8 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({
   handleFilter,
   filter,
 }) => {
-  const isAllReviewsFilter = filter == '0'
+  const isAllReviewsFilter = filter === '0'
+
   return (
     <div className={`${styles.reviews} mw8 center c-on-base`}>
       <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
@@ -26,7 +28,7 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({
             {isAllReviewsFilter
               ? 'There are no reviews for this product yet'
               : `There are no reviews with ${filter} ${
-                  filter == '1' ? 'star' : 'stars'
+                  filter === '1' ? 'star' : 'stars'
                 }`}
           </h5>
         </div>
