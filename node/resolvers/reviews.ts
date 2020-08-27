@@ -1,4 +1,5 @@
 import { ApolloError } from 'apollo-server'
+
 import {
   BazaarVoiceReviews,
   SecondaryRating,
@@ -8,7 +9,7 @@ import {
   SecondaryRatingsAverageGraphQL,
 } from '../typings/reviews'
 
-declare var process: {
+declare let process: {
   env: {
     VTEX_APP_ID: string
   }
@@ -16,7 +17,7 @@ declare var process: {
 
 const DEFAULT_REVIEWS_QUANTITY = 10
 
-/*This is a hack used to test the layout on some stores, but this should NEVER be used in
+/* This is a hack used to test the layout on some stores, but this should NEVER be used in
 practice because this is an extremely bad design choice that does not scale. The stores
 should configure bazaarvoice secondary ratings to have labels. */
 type Ratings = SecondaryRatingsAverageGraphQL | SecondaryRating
@@ -33,12 +34,14 @@ const parseSecondaryRatingsData = (
 
   let newLabel = ''
   let currentChar
+
   for (let i = 0; i < secondaryRatingsData.Id.length; i++) {
     currentChar = secondaryRatingsData.Id.charAt(i)
-    if (currentChar != currentChar.toLowerCase() && i != 0) {
-      newLabel = newLabel + ' '
+    if (currentChar !== currentChar.toLowerCase() && i !== 0) {
+      newLabel += ' '
     }
-    newLabel = newLabel + currentChar
+
+    newLabel += currentChar
   }
 
   return {
@@ -58,8 +61,8 @@ const convertSecondaryRatings = (
 
 export const queries = {
   productReviews: async (
-    _: any,
-    args: any,
+    _: unknow,
+    args: unknow,
     ctx: Context
   ): Promise<BazaarVoiceReviewsGraphQL> => {
     const { sort, offset, pageId, filter, quantity } = args
@@ -76,6 +79,7 @@ export const queries = {
 
     let reviews: BazaarVoiceReviews
     const newQuantity = quantity || DEFAULT_REVIEWS_QUANTITY
+
     try {
       reviews = await reviewsClient.getReviews({
         appKey,
@@ -101,7 +105,7 @@ export const queries = {
         const ratingOrders =
           currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
 
-        const product: ProductGraphQL = {
+        const productGql: ProductGraphQL = {
           ...currentProduct,
           ReviewStatistics: {
             ...currentProduct.ReviewStatistics,
@@ -110,9 +114,7 @@ export const queries = {
                 rating => rating.RatingValue === i
               )
 
-              return currentRating
-                ? currentRating
-                : { RatingValue: i, Count: 0 }
+              return currentRating ?? { RatingValue: i, Count: 0 }
             }),
             SecondaryRatingsAverages: ratingOrders.map(rating => {
               return parseSecondaryRatingsData(
@@ -122,7 +124,7 @@ export const queries = {
           },
         }
 
-        return product
+        return productGql
       })
     }
 
@@ -145,12 +147,14 @@ export const queries = {
       }),
     }
   },
-  getConfig: async (_: any, __: any, ctx: Context) => {
+  getConfig: async (_: unknown, __: unknown, ctx: Context) => {
     const {
       clients: { apps },
     } = ctx
+
     const appId = process.env.VTEX_APP_ID
     const settings = await apps.getAppSettings(appId)
+
     return settings
   },
 }

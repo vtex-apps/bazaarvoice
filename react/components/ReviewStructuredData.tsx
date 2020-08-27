@@ -34,7 +34,7 @@ const ReviewStructuredData: FC<Props> = ({ productName, review }) => {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewStructuredData) }}
-    ></script>
+    />
   )
 }
 

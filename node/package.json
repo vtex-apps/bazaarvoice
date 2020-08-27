@@ -9,9 +9,6 @@
   },
   "devDependencies": {
     "@vtex/api": "^3.41.0",
-    "eslint": "^5.16.0",
-    "eslint-config-vtex": "^10.1.0",
-    "prettier": "^1.18.2",
     "typescript": "3.8.3"
   },
   "author": "",

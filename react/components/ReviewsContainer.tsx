@@ -1,5 +1,6 @@
 import React, { FunctionComponent, Fragment } from 'react'
 import { Dropdown } from 'vtex.styleguide'
+
 import Review from './Review'
 import { options, filters } from './utils/dropdownOptions'
 import styles from '../styles.css'
@@ -21,7 +22,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
         <h4
           className={`${styles.reviewsContainerTitle} t-heading-4 bb b--muted-5 mb5 pb4`}
         >
-          Reviewed by {count} {count == 1 ? 'customer' : 'customers'}
+          Reviewed by {count} {count === 1 ? 'customer' : 'customers'}
         </h4>
         <div className={`${styles.reviewsContainerDropdowns} flex mb7`}>
           <div className={`${styles.reviewsContainerSortDropdown} mr4`}>

@@ -36,22 +36,22 @@ interface Product {
   ManufacturerPartNumbers?: string[]
   UPCs?: string[]
   AttributesOrder?: string[]
-  Attributes?: object
+  Attributes?: Record<string, unknown>
   ImageUrl?: string
   Name?: string
   Id?: string
   CategoryId?: string
   BrandExternalId?: string
-  Brand?: object
+  Brand?: Record<string, unknown>
   Active?: boolean
   ProductPageUrl?: string
   Disabled?: boolean
-  ReviewIds?: []
-  ModelNumbers?: []
-  EANs?: []
-  QuestionIds?: []
-  ISBNs?: []
-  StoryIds?: []
+  ReviewIds?: unknow[]
+  ModelNumbers?: unknow[]
+  EANs?: unknow[]
+  QuestionIds?: unknow[]
+  ISBNs?: unknow[]
+  StoryIds?: unknow[]
   TotalReviewCount?: number
 }
 
@@ -74,11 +74,11 @@ interface ReviewStatistics {
   RatingsOnlyReviewCount?: number
   FirstSubmissionTime?: string
   LastSubmissionTime?: string
-  ContextDataDistribution?: object
-  ContextDataDistributionOrder?: []
+  ContextDataDistribution?: Record<string, unknown>
+  ContextDataDistributionOrder?: unknow[]
   OverallRatingRange?: number
-  TagDistributionOrder?: []
-  TagDistribution?: {}
+  TagDistributionOrder?: unknow[]
+  TagDistribution?: Record<string, unknow>
 }
 
 interface ReviewStatisticsGraphQL extends ReviewStatistics {
@@ -106,7 +106,7 @@ interface Result {
   Title: string
   ReviewText: string
   SecondaryRatings: Record<string, SecondaryRating> | SecondaryRating[]
-  TagDimensions: object | TagDimensions
+  TagDimensions: Record<string, unknown> | TagDimensions
   Photos: Photo[]
 
   CID?: string
@@ -133,24 +133,23 @@ interface Result {
   ReviewText?: string
   Title?: string
   UserNickname?: string
-  Videos?: []
-  ProductRecommendationIds?: []
+  Videos?: unknow[]
+  ProductRecommendationIds?: unknow[]
   Pros?: null
-  InappropriateFeedbackList?: []
-  ContextDataValuesOrder?: []
-  ContextDataValues?: {}
-  AdditionalFieldsOrder?: []
-  Badges?: {}
-  ClientResponses?: []
+  InappropriateFeedbackList?: unknow[]
+  ContextDataValuesOrder?: unknow[]
+  ContextDataValues?: Record<string, unknow>
+  AdditionalFieldsOrder?: unknow[]
+  Badges?: Record<string, unknow>
+  ClientResponses?: unknow[]
   RatingRange?: number
-  TagDimensionsOrder?: []
+  TagDimensionsOrder?: unknow[]
   IsSyndicated?: boolean
-  BadgesOrder?: []
-  CommentIds?: []
-  AdditionalFields?: {}
+  BadgesOrder?: unknow[]
+  CommentIds?: unknow[]
+  AdditionalFields?: Record<string, unknow>
   Cons?: null
 }
-
 
 interface SecondaryRatingsAverage {
   Id: string
