@@ -1,6 +1,25 @@
 interface Window extends Window {
   BV: BazaarvoiceClient
+  $BV: BazaarvoiceSDK
   __bazaarvoice: { uniqueId: 'productId' | 'linkText' | 'productReference' }
+  __RUNTIME__: {
+    settings: {
+      'vtex.bazaarvoice': Settings
+    }
+  }
+}
+
+interface Settings {
+  appKey: string
+  clientName: string
+  siteId: string
+  uniqueId: string
+  defaultOrdinationType: string
+}
+
+interface BazaarvoiceSDK {
+  configure: (event: string, config: object) => void
+  ui: (name: string, param: string, config: object) => void
 }
 
 interface BazaarvoiceClient {

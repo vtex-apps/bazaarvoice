@@ -11,10 +11,10 @@ import Histogram from './components/Histogram'
 import NoReviews from './components/NoReviews'
 import ReviewsContainer from './components/ReviewsContainer'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
-import getConfig from './graphql/getConfig.gql'
-import { withApollo, graphql } from 'react-apollo'
+import { withApollo } from 'react-apollo'
 import { trackPageViewData } from './modules/trackers'
 import styles from './styles.css'
+import AggregateStructuredData from './components/AggregateStructuredData'
 
 import { Pagination, Modal } from 'vtex.styleguide'
 
@@ -135,26 +135,27 @@ const reducer = (state, action) => {
   }
 }
 
-const useDefaultSort = (dispatch, loading, getConfig, loadedConfigData) => {
+const useDefaultSort = (dispatch, appSettings, loadedConfigData) => {
   useEffect(() => {
-    if (!loading && !loadedConfigData) {
+    if (!appSettings && !loadedConfigData) {
       dispatch({
         type: 'SET_LOADED_CONFIG_DATA',
       })
-      if (getConfig.defaultOrdinationType) {
+      if (appSettings.defaultOrdinationType) {
         dispatch({
           type: 'SET_SELECTED_SORT',
-          selectedSort: getConfig.defaultOrdinationType,
+          selectedSort: appSettings.defaultOrdinationType,
         })
       }
     }
-  }, [loading])
+  }, [appSettings, dispatch, loadedConfigData])
 }
 
 const Reviews = ({
   client,
   quantityPerPage = 10,
   quantityFirstPage = quantityPerPage,
+  appSettings,
   ...props
 }) => {
   const { product } = useContext(ProductContext)
@@ -166,15 +167,9 @@ const Reviews = ({
   const reviewsQuantityToShow =
     offset == 0 ? quantityFirstPage : quantityPerPage
 
-  const productIdentifier =
-    product && window.__bazaarvoice && product[window.__bazaarvoice.uniqueId]
+  const productIdentifier = appSettings.uniqueId
 
-  useDefaultSort(
-    dispatch,
-    props.data.loading,
-    props.data.getConfig,
-    state.loadedConfigData
-  )
+  useDefaultSort(dispatch, appSettings, state.loadedConfigData)
 
   useEffect(() => {
     if (!linkText && !productId && !productReference) {
@@ -319,6 +314,11 @@ const Reviews = ({
           ({fixedAverage})
         </span>
       </div>
+      <AggregateStructuredData
+        productName={product && product.productName}
+        average={average}
+        total={state.count}
+      />
       <Histogram
         percentages={state.percentage}
         histogram={histogram}
@@ -362,12 +362,6 @@ const Reviews = ({
   )
 }
 
-const withGetConfig = graphql(getConfig, {
-  options: () => ({
-    ssr: false,
-  }),
-})
-
 Reviews.schema = {
   title: 'Reviews',
   type: 'object',
@@ -383,4 +377,4 @@ Reviews.schema = {
   },
 }
 
-export default withApollo(withGetConfig(Reviews))
+export default withApollo(Reviews)

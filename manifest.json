@@ -47,21 +47,25 @@
     "properties": {
       "appKey": {
         "type": "string",
+        "access": "public",
         "title": "App Key",
         "description": "Your App Key"
       },
       "clientName": {
         "type": "string",
+        "access": "public",
         "title": "Client Name",
         "description": "Enter your Client Name"
       },
       "siteId": {
         "type": "string",
+        "access": "public",
         "title": "Site Id",
         "description": "Enter your Site Id"
       },
       "uniqueId": {
         "type": "string",
+        "access": "public",
         "enum": [
           "productId",
           "linkText",
@@ -73,6 +77,7 @@
       },
       "defaultOrdinationType": {
         "type": "string",
+        "access": "public",
         "title": "Default Ordination Type",
         "description": "The default ordination type of the reviews",
         "default": "Helpfulness:desc,SubmissionTime:desc",

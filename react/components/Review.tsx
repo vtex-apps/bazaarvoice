@@ -4,6 +4,7 @@ import HistogramBar from './HistogramBar'
 import styles from '../styles.css'
 import { useTrackImpression, useTrackInView, useTrackViewedCGC } from '../modules/trackers'
 import { ProductContext } from 'vtex.product-context'
+import ReviewStructuredData from './ReviewStructuredData'
 
 const getTimeAgo = (time: string) => {
   let before = new Date(time)
@@ -38,6 +39,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
   useTrackViewedCGC(product.productId, elementId(review.Id))
   return (
     <div id={elementId(review.Id)} className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}>
+      <ReviewStructuredData productName={product.productName} review={review} />
       <div className={`${styles.reviewRating} flex items-center`}>
         <Stars rating={review.Rating} />
         <span className="c-muted-1 t-small ml2">
@@ -87,7 +89,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
                   <div
                     className={`${styles.secondaryHistogramLabel} dib v-mid nowrap pr2`}
                   >
-                    {rating.Label }
+                    {rating.Label}
                   </div>
                   <HistogramBar
                     barClassName={styles.reviewHistogramBar}
