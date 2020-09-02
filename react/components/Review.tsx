@@ -51,9 +51,6 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
       </h5>
       <div className="flex flex-column-s flex-row-ns">
         <div className="flex flex-grow-1 flex-column w-70-ns">
-          <p className={`${styles.reviewText} t-body lh-copy mw7 pr5-ns`}>
-            {review.ReviewText}
-          </p>
           {review.Photos.length ? (
             <div
               className={`${styles.reviewImagesContainer} mt6 flex items-start`}
@@ -72,7 +69,27 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
           ) : null}
           <div className={`${styles.reviewByField} t-small c-muted-1`}>
             {review.UserNickname} {review.UserLocation && `, from ${review.UserLocation}`}
-          </div>
+                  </div>
+                  <p className={`${styles.reviewText} t-body lh-copy mw7 pr5-ns`}>
+                      {review.ReviewText}
+                  </p>
+                  {review.ClientResponses.length ? (
+                      <div className={`${styles.clientResponseText} t-body lh-copy mw7 pr5-ns`}>
+                          {review.ClientResponses.map((item: any) => {
+                              return (
+                                  <div>
+                                      {item.Department}<br />
+                                      {item.Response}<br />
+                                      {item.ResponseType}<br />
+                                      {item.ResponseSource}<br />
+                                      {item.Name}<br />
+                                      {item.Date}<br />
+                                  </div>
+                              )
+                          })}
+                      </div>
+                  ) : null
+                  }
         </div>
         {review.SecondaryRatings && (
           <ul className="flex flex-grow-1 flex-column pl0 pl3-ns list">

@@ -93,7 +93,7 @@ export const queries = {
       throw new ApolloError(reviews.Errors[0].Message, reviews.Errors[0].Code)
     }
 
-    let products: ProductGraphQL[] = []
+        let products: ProductGraphQL[] = []
 
     if (reviews.Includes.Products) {
       products = Object.keys(reviews.Includes.Products).map(productName => {
@@ -130,7 +130,7 @@ export const queries = {
       ...reviews,
       Includes: {
         ...reviews.Includes,
-        Products: products,
+          Products: products,
       },
       Results: reviews.Results.map(result => {
         const secondaryRatings = convertSecondaryRatings(
