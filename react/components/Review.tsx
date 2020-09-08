@@ -32,7 +32,7 @@ const getTimeAgo = (time: string) => {
 
 const elementId = (reviewId: string) => `bazaarvoice-review-${reviewId}`
 
-const Review: FunctionComponent<ReviewProps> = ({ review }) => {
+const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
   const { product } = useContext(ProductContext)
   useTrackImpression(product.productId, review.Id)
   useTrackInView(product.productId, elementId(review.Id))
@@ -73,7 +73,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
                   <p className={`${styles.reviewText} t-body lh-copy mw7 pr5-ns`}>
                       {review.ReviewText}
                   </p>
-                  {review.ClientResponses.length ? (
+                  {appSettings.showClientResponses && review.ClientResponses.length ? (
                       <div className={`${styles.clientResponseText} t-body lh-copy mw7 pr5-ns`}>
                           {review.ClientResponses.map((item: any) => {
                               return (
@@ -125,7 +125,8 @@ const Review: FunctionComponent<ReviewProps> = ({ review }) => {
 }
 
 interface ReviewProps {
-  review: any
+    review: any
+    appSettings: any
 }
 
 export default Review

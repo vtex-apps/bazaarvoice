@@ -23,4 +23,5 @@ type GetConfigResponse {
   siteId: String
   uniqueId: String
   defaultOrdinationType: String
+  showClientResponses: Boolean
 }

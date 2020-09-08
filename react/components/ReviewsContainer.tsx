@@ -14,6 +14,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
   productIdentifier,
   linkText,
   reviews,
+  appSettings,
 }) => {
   return (
     <div className={styles.reviewsContainer}>
@@ -71,6 +72,7 @@ interface ReviewsContainerProps {
   reviews: any[]
   handleFilter: any
   filter: string
+  appSettings: any
 }
 
 export default ReviewsContainer

@@ -334,6 +334,7 @@ const Reviews = ({
         productIdentifier={product[productIdentifier]}
         linkText={linkText}
         reviews={state.reviews}
+        appSettings={appSettings}
       />
       <div className="review__paging">
         <Pagination
