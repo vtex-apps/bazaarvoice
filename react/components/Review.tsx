@@ -74,16 +74,15 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
                       {review.ReviewText}
                   </p>
                   {appSettings.showClientResponses && review.ClientResponses.length ? (
-                      <div className={`${styles.clientResponseText} t-body lh-copy mw7 pr5-ns`}>
+                      <div className={`${styles.clientResponseContainer} mw7 pr5-ns pl7`}>
                           {review.ClientResponses.map((item: any) => {
                               return (
-                                  <div>
-                                      {item.Department}<br />
-                                      {item.Response}<br />
-                                      {item.ResponseType}<br />
-                                      {item.ResponseSource}<br />
-                                      {item.Name}<br />
-                                      {item.Date}<br />
+                                  <div className={`${styles.clientResponse} t-body lh-copy`}>
+                                      <div className={`${styles.clientResponseDepartment} t-body b c-muted-1`}>{item.Department}</div>
+                                      <div className={`${styles.clientResponseMessage} t-body lh-copy`}>{item.Response}</div>
+                                      <div className={`${styles.clientResponseType} t-body c-muted-1`}>{item.ResponseType}</div>
+                                      <div className={`${styles.clientResponseName} t-body c-muted-1`}>{item.Name} - {item.ResponseSource}</div>
+                                      <div className={`${styles.clientResponseDate} t-small c-muted-1`}>{item.Date}</div>
                                   </div>
                               )
                           })}
