@@ -81,7 +81,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
                                       <div className={`${styles.clientResponseDepartment} t-body b c-muted-1`}>{item.Department}</div>
                                       <div className={`${styles.clientResponseMessage} t-body lh-copy`}>{item.Response}</div>
                                       <div className={`${styles.clientResponseType} t-body c-muted-1`}>{item.ResponseType}</div>
-                                      <div className={`${styles.clientResponseName} t-body c-muted-1`}>{item.Name} - {item.ResponseSource}</div>
+                                      <div className={`${styles.clientResponseName} t-body c-muted-1`}>{item.Name} - <span className={`${styles.clientResponseSource} t-body c-muted-1`}>{item.ResponseSource}</span></div>
                                       <div className={`${styles.clientResponseDate} t-small c-muted-1`}>{item.Date}</div>
                                   </div>
                               )
