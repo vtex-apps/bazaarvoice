@@ -167,7 +167,7 @@ const Reviews = ({
   const reviewsQuantityToShow =
     offset == 0 ? quantityFirstPage : quantityPerPage
 
-  const productIdentifier = appSettings.uniqueId
+  const productIdentifier = product[appSettings.uniqueId]
 
   useDefaultSort(dispatch, appSettings, state.loadedConfigData)
 
@@ -351,7 +351,7 @@ const Reviews = ({
     </div>
   ) : (
     <NoReviews
-      productReference={productReference}
+      productIdentifier={productIdentifier}
       linkText={linkText}
       handleSort={handleSort}
       selected={selected}

@@ -4,7 +4,7 @@ import { options, filters } from './utils/dropdownOptions'
 import styles from '../styles.css'
 
 const NoReviews: FunctionComponent<NoReviewsProps> = ({
-  productReference,
+  productIdentifier,
   linkText,
   handleSort,
   selected,
@@ -53,7 +53,7 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({
         <div className={`${styles.reviewsContainerWriteButton} mb5`}>
           <a
             className={`${styles.writeReviewButton} bg-action-primary c-on-action-primary t-action link pv3 ph5`}
-            href={`/new-review?product_id=${productReference}&return_page=/${linkText}/p`}
+            href={`/new-review?product_id=${productIdentifier}&return_page=/${linkText}/p`}
           >
             {isAllReviewsFilter
               ? 'Be the first to write a review!'
@@ -66,7 +66,7 @@ const NoReviews: FunctionComponent<NoReviewsProps> = ({
 }
 
 interface NoReviewsProps {
-  productReference: string
+  productIdentifier: string
   linkText: string
   handleSort: any
   selected: string
