@@ -3,7 +3,7 @@
   "name": "bazaarvoice",
   "title": "Bazaarvoice",
   "description": "Leverage authentic opinions, photos, and videos to sell your products.",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "builders": {
     "react": "3.x",
     "graphql": "1.x",
