@@ -124,12 +124,9 @@
 }
 
 .clientResponseSource {
-	font-size: 0;
 }
 
-.clientResponseSource:after {
-	content: "Motorola Support";
-	font-size: 1rem;
+.clientResponseSource {
 }
 
 .clientResponseDate {
