@@ -99,7 +99,7 @@
       "showClientResponses": {
         "type": "boolean",
         "access": "public",
-        "title": "Show Client Responses",
+        "title": "Show responses",
         "description": "Display responses to reviews.",
         "default": false
       }
