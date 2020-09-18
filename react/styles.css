@@ -36,79 +36,79 @@
 }
 
 .histogramStarContainer {
-  min-width: 30px
+  min-width: 30px;
 }
 
-.histogramOuterContainer{
+.histogramOuterContainer {
 }
 
-.histogramContainer{
+.histogramContainer {
 }
 
-.histogramLine{
+.histogramLine {
 }
 
-.histogramStar{
+.histogramStar {
 }
 
-.histogramBar{
+.histogramBar {
 }
 
-.histogramBarValue{
+.histogramBarValue {
 }
 
-.histogramCount{
+.histogramCount {
 }
 
-.secondaryHistogramLine{
+.secondaryHistogramLine {
 }
 
-.secondaryHistogramLabel{
+.secondaryHistogramLabel {
 }
 
-.secondaryHistogramBar{
+.secondaryHistogramBar {
 }
 
-.secondaryHistogramBarValue{
+.secondaryHistogramBarValue {
 }
 
-.secondaryHistogramCount{
+.secondaryHistogramCount {
 }
 
-.reviewHistogramBar{
+.reviewHistogramBar {
 }
 
-.reviewHistogramBarValue{
+.reviewHistogramBarValue {
 }
 
-.histogramDivisions{
+.histogramDivisions {
 }
 
-.review{
+.review {
 }
 
-.reviewRating{
+.reviewRating {
 }
 
-.reviewTitle{
+.reviewTitle {
 }
 
-.reviewSubmittedField{
+.reviewSubmittedField {
 }
 
-.reviewByField{
+.reviewByField {
 }
 
-.reviewFromField{
+.reviewFromField {
 }
 
-.reviewText{
+.reviewText {
 }
 
 .clientResponseContainer {
 }
 
-.clientResponse{
+.clientResponse {
 }
 
 .clientResponseDepartment {
@@ -138,46 +138,46 @@
 .reviewImagesContainer {
 }
 
-.reviewImage{
+.reviewImage {
 }
 
-.reviewsContainer{
+.reviewsContainer {
 }
 
-.reviewsContainerHead{
+.reviewsContainerHead {
 }
 
-.reviewsContainerTitle{
+.reviewsContainerTitle {
 }
 
-.reviewsContainerDropdowns{
+.reviewsContainerDropdowns {
 }
 
-.reviewsContainerSortDropdown{
+.reviewsContainerSortDropdown {
 }
 
-.reviewsContainerStarsDropdown{
+.reviewsContainerStarsDropdown {
 }
 
-.reviewsContainerWriteButton{
+.reviewsContainerWriteButton {
 }
 
-.noReviewsContainer{
+.noReviewsContainer {
 }
 
-.writeReviewButton{
+.writeReviewButton {
 }
 
-.activeStar{
+.activeStar {
 }
 
-.activeStarContainer{
+.activeStarContainer {
   color: #fc0;
 }
 
-.inactiveStar{
+.inactiveStar {
   color: #eee;
 }
 
-.inactiveStarContainer{
+.inactiveStarContainer {
 }

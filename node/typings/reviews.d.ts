@@ -21,50 +21,50 @@ interface Error {
 
 interface Include {
   Products: Record<string, Product>
-    ProductsOrder: string[]
-    Comments: Record<string, Comment>
+  ProductsOrder: string[]
+  Comments: Record<string, Comment>
 }
 
 interface BadgeObject {
-    ContentType: string
-    Id: string
-    BadgeType: string
+  ContentType: string
+  Id: string
+  BadgeType: string
 }
 
 interface Comment {
-    Id: string
-    CID: string
-    SourceClient: string
-    LastModeratedTime: string
-    LastModificationTime: string
-    ReviewId: string
-    AuthorId: string
-    ContentLocale: string
-    IsFeatured: boolean
-    TotalInappropriateFeedbackCount: number
-    TotalFeedbackCount: number
-    TotalNegativeFeedbackCount: number
-    TotalPositiveFeedbackCount: number
-    ModerationStatus: string
-    SubmissionId: string
-    SubmissionTime: string
-    CommentText: string
-    UserNickname: string
-    BadgesOrder: string[]
-    Photos: any[],
-    Badges: Record<string, BadgeObject>
-    Videos: any[],
-    InappropriateFeedbackList: any[]
-    UserLocation: string
-    StoryId?: any,
-    IsSyndicated: boolean
-    ProductRecommendationIds: any[]
-    CampaignId?: any,
-    Title?: string
+  Id: string
+  CID: string
+  SourceClient: string
+  LastModeratedTime: string
+  LastModificationTime: string
+  ReviewId: string
+  AuthorId: string
+  ContentLocale: string
+  IsFeatured: boolean
+  TotalInappropriateFeedbackCount: number
+  TotalFeedbackCount: number
+  TotalNegativeFeedbackCount: number
+  TotalPositiveFeedbackCount: number
+  ModerationStatus: string
+  SubmissionId: string
+  SubmissionTime: string
+  CommentText: string
+  UserNickname: string
+  BadgesOrder: string[]
+  Photos: any[]
+  Badges: Record<string, BadgeObject>
+  Videos: any[]
+  InappropriateFeedbackList: any[]
+  UserLocation: string
+  StoryId?: any
+  IsSyndicated: boolean
+  ProductRecommendationIds: any[]
+  CampaignId?: any
+  Title?: string
 }
 
 interface IncludeGraphQL {
-    Products: ProductGraphQL[]
+  Products: ProductGraphQL[]
 }
 
 interface Product {
@@ -191,12 +191,12 @@ interface Result {
 }
 
 interface ClientResponse {
-    Department: string
-    Response: string
-    ResponseType: string
-    ResponseSource: string
-    Name: string
-    Date: string
+  Department: string
+  Response: string
+  ResponseType: string
+  ResponseSource: string
+  Name: string
+  Date: string
 }
 
 interface SecondaryRatingsAverage {

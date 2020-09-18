@@ -54,8 +54,8 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
       </div>
 
       <Fragment>
-              {reviews.map((review: any, i: number) => {
-                  return <Review review={review} key={i} appSettings={appSettings} />
+        {reviews.map((review: any, i: number) => {
+          return <Review review={review} key={i} appSettings={appSettings} />
         })}
       </Fragment>
     </div>
