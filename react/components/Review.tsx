@@ -2,7 +2,11 @@ import React, { FunctionComponent, useContext } from 'react'
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
 import styles from '../styles.css'
-import { useTrackImpression, useTrackInView, useTrackViewedCGC } from '../modules/trackers'
+import {
+  useTrackImpression,
+  useTrackInView,
+  useTrackViewedCGC,
+} from '../modules/trackers'
 import { ProductContext } from 'vtex.product-context'
 import ReviewStructuredData from './ReviewStructuredData'
 
@@ -30,15 +34,19 @@ const getTimeAgo = (time: string) => {
   }
 }
 
-const elementId = (reviewId: string) => `bazaarvoice-review-${reviewId}`
-
 const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
   const { product } = useContext(ProductContext)
+
+  const elementId = `bazaarvoice-review-${review.Id}`
   useTrackImpression(product.productId, review.Id)
-  useTrackInView(product.productId, elementId(review.Id))
-  useTrackViewedCGC(product.productId, elementId(review.Id))
+  useTrackInView(product.productId, elementId)
+  useTrackViewedCGC(product.productId, elementId)
+
   return (
-    <div id={elementId(review.Id)} className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}>
+    <div
+      id={elementId}
+      className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}
+    >
       <ReviewStructuredData productName={product.productName} review={review} />
       <div className={`${styles.reviewRating} flex items-center`}>
         <Stars rating={review.Rating} />
