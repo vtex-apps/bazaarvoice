@@ -38,7 +38,7 @@ const ReviewForm = ({ appSettings }: { appSettings: Settings }) => {
         },
         submissionSubmitted: function() {
           if (query.return_page) {
-            setInterval(() => navigate({ to: query.return_page }), 1000)
+            setTimeout(() => navigate({ to: query.return_page }), 1000)
           }
         },
       },
