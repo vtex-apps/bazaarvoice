@@ -331,9 +331,10 @@ const Reviews = ({
         props={props}
         handleFilter={handleFilter}
         filter={filter}
-        productIdentifier={productIdentifier}
+        productIdentifier={product[productIdentifier]}
         linkText={linkText}
         reviews={state.reviews}
+        appSettings={appSettings}
       />
       <div className="review__paging">
         <Pagination

@@ -36,118 +36,145 @@
 }
 
 .histogramStarContainer {
-  min-width: 30px
+  min-width: 30px;
 }
 
-.histogramOuterContainer{
+.histogramOuterContainer {
 }
 
-.histogramContainer{
+.histogramContainer {
 }
 
-.histogramLine{
+.histogramLine {
 }
 
-.histogramStar{
+.histogramStar {
 }
 
-.histogramBar{
+.histogramBar {
 }
 
-.histogramBarValue{
+.histogramBarValue {
 }
 
-.histogramCount{
+.histogramCount {
 }
 
-.secondaryHistogramLine{
+.secondaryHistogramLine {
 }
 
-.secondaryHistogramLabel{
+.secondaryHistogramLabel {
 }
 
-.secondaryHistogramBar{
+.secondaryHistogramBar {
 }
 
-.secondaryHistogramBarValue{
+.secondaryHistogramBarValue {
 }
 
-.secondaryHistogramCount{
+.secondaryHistogramCount {
 }
 
-.reviewHistogramBar{
+.reviewHistogramBar {
 }
 
-.reviewHistogramBarValue{
+.reviewHistogramBarValue {
 }
 
-.histogramDivisions{
+.histogramDivisions {
 }
 
-.review{
+.review {
 }
 
-.reviewRating{
+.reviewRating {
 }
 
-.reviewTitle{
+.reviewTitle {
 }
 
-.reviewSubmittedField{
+.reviewSubmittedField {
 }
 
-.reviewByField{
+.reviewByField {
 }
 
-.reviewFromField{
+.reviewFromField {
 }
 
-.reviewText{
+.reviewText {
 }
 
-.reviewImagesContainer{
+.clientResponseContainer {
 }
 
-.reviewImage{
+.clientResponse {
 }
 
-.reviewsContainer{
+.clientResponseDepartment {
 }
 
-.reviewsContainerHead{
+.clientResponseMessage {
 }
 
-.reviewsContainerTitle{
+.clientResponseType {
 }
 
-.reviewsContainerDropdowns{
+.clientResponseName {
 }
 
-.reviewsContainerSortDropdown{
+.clientResponseSource {
 }
 
-.reviewsContainerStarsDropdown{
+.clientResponseSource {
 }
 
-.reviewsContainerWriteButton{
+.clientResponseDate {
 }
 
-.noReviewsContainer{
+.reviewImagesContainer {
 }
 
-.writeReviewButton{
+.reviewImage {
 }
 
-.activeStar{
+.reviewsContainer {
 }
 
-.activeStarContainer{
+.reviewsContainerHead {
+}
+
+.reviewsContainerTitle {
+}
+
+.reviewsContainerDropdowns {
+}
+
+.reviewsContainerSortDropdown {
+}
+
+.reviewsContainerStarsDropdown {
+}
+
+.reviewsContainerWriteButton {
+}
+
+.noReviewsContainer {
+}
+
+.writeReviewButton {
+}
+
+.activeStar {
+}
+
+.activeStarContainer {
   color: #fc0;
 }
 
-.inactiveStar{
+.inactiveStar {
   color: #eee;
 }
 
-.inactiveStarContainer{
+.inactiveStarContainer {
 }

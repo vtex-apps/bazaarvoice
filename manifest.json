@@ -95,6 +95,13 @@
           "Rating - Lowest to Highest",
           "Most Helpful"
         ]
+      },
+      "showClientResponses": {
+        "type": "boolean",
+        "access": "public",
+        "title": "Show responses",
+        "description": "Display responses to reviews.",
+        "default": false
       }
     }
   },

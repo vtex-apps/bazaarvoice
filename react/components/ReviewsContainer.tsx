@@ -14,6 +14,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
   productIdentifier,
   linkText,
   reviews,
+  appSettings,
 }) => {
   return (
     <div className={styles.reviewsContainer}>
@@ -54,7 +55,7 @@ const ReviewsContainer: FunctionComponent<ReviewsContainerProps> = ({
 
       <Fragment>
         {reviews.map((review: any, i: number) => {
-          return <Review review={review} key={i} />
+          return <Review review={review} key={i} appSettings={appSettings} />
         })}
       </Fragment>
     </div>
@@ -71,6 +72,7 @@ interface ReviewsContainerProps {
   reviews: any[]
   handleFilter: any
   filter: string
+  appSettings: any
 }
 
 export default ReviewsContainer

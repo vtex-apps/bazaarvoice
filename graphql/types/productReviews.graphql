@@ -8,6 +8,36 @@ type Review {
 
 type Include {
   Products: [Products]
+  Comments: [Comment]
+}
+
+type Comment {
+  Id: String
+  CID: String
+  ReviewId: String
+  AuthorId: String
+  ContentLocale: String
+  IsFeatured: Boolean
+  TotalInappropriateFeedbackCount: Int
+  TotalFeedbackCount: Int
+  TotalNegativeFeedbackCount: Int
+  TotalPositiveFeedbackCount: Int
+  ModerationStatus: String
+  SubmissionId: String
+  SubmissionTime: String
+  CommentText: String
+  UserNickname: String
+  BadgesOrder: [String]
+  Badges: [BadgeObject]
+  UserLocation: String
+  IsSyndicated: Boolean
+  Title: String
+}
+
+type BadgeObject {
+  ContentType: String
+  Id: String
+  BadgeType: String
 }
 
 type Products {
@@ -54,6 +84,16 @@ type Results {
   SecondaryRatings: [SecondaryRating]
   TagDimensions: TagDimensions
   Photos: [Photo]
+  ClientResponses: [ClientResponse]
+}
+
+type ClientResponse {
+  Department: String
+  Response: String
+  ResponseType: String
+  ResponseSource: String
+  Name: String
+  Date: String
 }
 
 type Photo {

@@ -50,6 +50,14 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
           }
         }
       }
+      ClientResponses {
+        Department
+        Response
+        ResponseType
+        ResponseSource
+        Name
+        Date
+      }
     }
     Includes {
       Products {
