@@ -1,4 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
+import { ProductContext } from 'vtex.product-context'
+
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
 import styles from '../styles.css'
@@ -7,37 +10,127 @@ import {
   useTrackInView,
   useTrackViewedCGC,
 } from '../modules/trackers'
-import { ProductContext } from 'vtex.product-context'
 import ReviewStructuredData from './ReviewStructuredData'
 
-const getTimeAgo = (time: string) => {
-  let before = new Date(time)
-  let now = new Date()
-  let diff = new Date(now.valueOf() - before.valueOf())
+const messages = defineMessages({
+  timeAgo: {
+    id: 'store/bazaar-voice.timeAgo',
+    defaultMessage: 'ago',
+  },
+  timeAgoYear: {
+    id: 'store/bazaar-voice.timeAgo.year',
+    defaultMessage: 'year',
+  },
+  timeAgoYears: {
+    id: 'store/bazaar-voice.timeAgo.years',
+    defaultMessage: 'years',
+  },
+  timeAgoMonth: {
+    id: 'store/bazaar-voice.timeAgo.month',
+    defaultMessage: 'month',
+  },
+  timeAgoMonths: {
+    id: 'store/bazaar-voice.timeAgo.months',
+    defaultMessage: 'months',
+  },
+  timeAgoWeek: {
+    id: 'store/bazaar-voice.timeAgo.week',
+    defaultMessage: 'week',
+  },
+  timeAgoWeeks: {
+    id: 'store/bazaar-voice.timeAgo.weeks',
+    defaultMessage: 'weeks',
+  },
+  timeAgoDay: {
+    id: 'store/bazaar-voice.timeAgo.day',
+    defaultMessage: 'day',
+  },
+  timeAgoDays: {
+    id: 'store/bazaar-voice.timeAgo.days',
+    defaultMessage: 'days',
+  },
+  timeAgoHour: {
+    id: 'store/bazaar-voice.timeAgo.hour',
+    defaultMessage: 'hour',
+  },
+  timeAgoHours: {
+    id: 'store/bazaar-voice.timeAgo.hours',
+    defaultMessage: 'hours',
+  },
+  timeAgoMinute: {
+    id: 'store/bazaar-voice.timeAgo.minute',
+    defaultMessage: 'minute',
+  },
+  timeAgoMinutes: {
+    id: 'store/bazaar-voice.timeAgo.minutes',
+    defaultMessage: 'minutes',
+  },
+  timeAgoJustNow: {
+    id: 'store/bazaar-voice.timeAgo.justNow',
+    defaultMessage: 'just now',
+  },
+})
 
-  let minutes = diff.getUTCMinutes()
-  let hours = diff.getUTCHours()
-  let days = diff.getUTCDate() - 1
-  let months = diff.getUTCMonth()
-  let years = diff.getUTCFullYear() - 1970
+const getTimeAgo = (intl: any, time: string) => {
+  const before = new Date(time)
+  const now = new Date()
+  const diff = new Date(now.valueOf() - before.valueOf())
 
-  if (years != 0) {
-    return `${years} ${years > 1 ? 'years' : 'year'} ago`
-  } else if (months != 0) {
-    return `${months} ${months > 1 ? 'months' : 'month'} ago`
-  } else if (days != 0) {
-    return `${days} ${days > 1 ? 'days' : 'day'} ago`
-  } else if (hours != 0) {
-    return `${hours} ${hours > 1 ? 'hours' : 'hour'} ago`
-  } else {
-    return `${minutes} ${minutes > 1 ? 'minutes' : 'minute'} ago`
+  const minutes = diff.getUTCMinutes()
+  const hours = diff.getUTCHours()
+  const days = diff.getUTCDate() - 1
+  const months = diff.getUTCMonth()
+  const years = diff.getUTCFullYear() - 1970
+
+  if (years > 0) {
+    return `${years} ${
+      years > 1
+        ? intl.formatMessage(messages.timeAgoYears)
+        : intl.formatMessage(messages.timeAgoYear)
+    } ${intl.formatMessage(messages.timeAgo)}`
   }
+
+  if (months > 0) {
+    return `${months} ${
+      months > 1
+        ? intl.formatMessage(messages.timeAgoMonths)
+        : intl.formatMessage(messages.timeAgoMonth)
+    } ${intl.formatMessage(messages.timeAgo)}`
+  }
+
+  if (days > 0) {
+    return `${days} ${
+      days > 1
+        ? intl.formatMessage(messages.timeAgoDays)
+        : intl.formatMessage(messages.timeAgoDay)
+    } ${intl.formatMessage(messages.timeAgo)}`
+  }
+
+  if (hours > 0) {
+    return `${hours} ${
+      hours > 1
+        ? intl.formatMessage(messages.timeAgoHours)
+        : intl.formatMessage(messages.timeAgoHour)
+    } ${intl.formatMessage(messages.timeAgo)}`
+  }
+
+  if (minutes > 0) {
+    return `${minutes} ${
+      minutes > 1
+        ? intl.formatMessage(messages.timeAgoMinutes)
+        : intl.formatMessage(messages.timeAgoMinute)
+    } ${intl.formatMessage(messages.timeAgo)}`
+  }
+
+  return intl.formatMessage(messages.timeAgoJustNow)
 }
 
 const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
   const { product } = useContext(ProductContext)
+  const intl = useIntl()
 
   const elementId = `bazaarvoice-review-${review.Id}`
+
   useTrackImpression(product.productId, review.Id)
   useTrackInView(product.productId, elementId)
   useTrackViewedCGC(product.productId, elementId)
@@ -51,7 +144,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
       <div className={`${styles.reviewRating} flex items-center`}>
         <Stars rating={review.Rating} />
         <span className="c-muted-1 t-small ml2">
-          {getTimeAgo(review.SubmissionTime)}
+          {getTimeAgo(intl, review.SubmissionTime)}
         </span>
       </div>
       <h5 className={`${styles.reviewTitle} lh-copy mw7 t-heading-5 mv5`}>
@@ -88,7 +181,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
 
           {appSettings.showClientResponses && review.ClientResponses.length ? (
             <div className={`${styles.clientResponseContainer} mw7 pr5-ns pl7`}>
-              {review.ClientResponses.map(item => {
+              {review.ClientResponses.map((item) => {
                 return (
                   <div
                     key={item.Date}
@@ -117,14 +210,13 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
                     <div
                       className={`${styles.clientResponseDate} t-small c-muted-1`}
                     >
-                      {getTimeAgo(item.Date)}
+                      {getTimeAgo(intl, item.Date)}
                     </div>
                   </div>
                 )
               })}
             </div>
           ) : null}
-
         </div>
 
         {review.SecondaryRatings && (

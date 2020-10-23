@@ -5,18 +5,19 @@ import React, {
   useReducer,
   useRef,
 } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { ProductContext } from 'vtex.product-context'
+import { withApollo } from 'react-apollo'
+import { Pagination, Modal } from 'vtex.styleguide'
+
 import Stars from './components/Stars'
 import Histogram from './components/Histogram'
 import NoReviews from './components/NoReviews'
 import ReviewsContainer from './components/ReviewsContainer'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
-import { withApollo } from 'react-apollo'
 import { trackPageViewData } from './modules/trackers'
 import styles from './styles.css'
 import AggregateStructuredData from './components/AggregateStructuredData'
-
-import { Pagination, Modal } from 'vtex.styleguide'
 
 const initialState = {
   reviews: null,
@@ -49,18 +50,21 @@ const reducer = (state, action) => {
         hasError: false,
       }
     }
+
     case 'SET_LOADED_CONFIG_DATA': {
       return {
         ...state,
         loadedConfigData: true,
       }
     }
+
     case 'SET_SELECTED_SORT': {
       return {
         ...state,
         selected: action.selectedSort,
       }
     }
+
     case 'SET_FILTER': {
       return {
         ...state,
@@ -68,18 +72,21 @@ const reducer = (state, action) => {
         offset: 0,
       }
     }
+
     case 'SET_NEXT_PAGE': {
       return {
         ...state,
         offset: state.offset + state.paging.pageSize,
       }
     }
+
     case 'SET_PREVIOUS_PAGE': {
       return {
         ...state,
         offset: Math.max(0, state.offset - state.paging.pageSize),
       }
     }
+
     case 'VOTE_REVIEW': {
       return {
         ...state,
@@ -89,6 +96,7 @@ const reducer = (state, action) => {
               unhelpful: 'not_helpful_votes',
               helpful: 'helpful_votes',
             }
+
             const metricsType = types[action.voteType]
 
             return {
@@ -105,6 +113,7 @@ const reducer = (state, action) => {
         }),
       }
     }
+
     case 'TOGGLE_REVIEW_DETAILS': {
       return {
         ...state,
@@ -120,17 +129,23 @@ const reducer = (state, action) => {
         }),
       }
     }
+
     case 'QUERY_ERROR': {
       return {
         ...state,
         hasError: true,
       }
     }
+
     case 'TOGGLE_MODAL': {
       return {
         ...state,
         isModalOpen: !state.isModalOpen,
       }
+    }
+
+    default: {
+      break
     }
   }
 }
@@ -165,7 +180,7 @@ const Reviews = ({
   const { filter, selected, offset, count, histogram, average } = state
 
   const reviewsQuantityToShow =
-    offset == 0 ? quantityFirstPage : quantityPerPage
+    offset === 0 ? quantityFirstPage : quantityPerPage
 
   const productIdentifier = product[appSettings.uniqueId]
 
@@ -175,27 +190,29 @@ const Reviews = ({
     if (!linkText && !productId && !productReference) {
       return
     }
+
     client
       .query({
         query: queryRatingSummary,
         variables: {
           sort: selected,
-          offset: offset,
+          offset,
           pageId: JSON.stringify({
-            linkText: linkText,
-            productId: productId,
-            productReference: productReference,
+            linkText,
+            productId,
+            productReference,
           }),
-          filter: parseInt(filter) || 0,
+          filter: parseInt(filter, 10) || 0,
           quantity: reviewsQuantityToShow,
         },
       })
-      .then(response => {
-        let rollup = response.data.productReviews.TotalResults
+      .then((response) => {
+        const rollup = response.data.productReviews.TotalResults
           ? response.data.productReviews.Includes.Products[0].ReviewStatistics
           : null
-        let reviews = response.data.productReviews.Results
-        let paging = {
+
+        const reviews = response.data.productReviews.Results
+        const paging = {
           pageSize: response.data.productReviews.Limit,
           totalResults: response.data.productReviews.TotalResults,
         }
@@ -205,14 +222,16 @@ const Reviews = ({
         const currentAverage = rollup != null ? rollup.AverageOverallRating : 0
         const currentSecondaryRatingsAverages =
           rollup != null ? rollup.SecondaryRatingsAverages : []
-        let percentage = []
-        currentHistogram.forEach(val => {
-          percentage.push(((100 / currentCount) * val.Count).toFixed(2) + '%') // percentage calculation
+
+        const percentage = []
+
+        currentHistogram.forEach((val) => {
+          percentage.push(`${((100 / currentCount) * val.Count).toFixed(2)}%`) // percentage calculation
         })
         percentage.reverse() // layout starts from 5, hence the .reverse()
         dispatch({
           type: 'SET_REVIEWS',
-          reviews: reviews,
+          reviews,
           average: currentAverage,
           histogram: currentHistogram,
           count: currentCount,
@@ -224,7 +243,7 @@ const Reviews = ({
           trackPageViewData(productId, 'Product', state.count)
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Bazzarvoice', error)
         dispatch({
           type: 'QUERY_ERROR',
@@ -240,6 +259,9 @@ const Reviews = ({
     productId,
     productReference,
     client,
+    reviewsQuantityToShow,
+    state.loadedConfigData,
+    state.count,
   ])
 
   const handleSort = useCallback(
@@ -268,6 +290,7 @@ const Reviews = ({
     if (!containerRef.current) {
       return
     }
+
     containerRef.current.scrollIntoView()
   }
 
@@ -292,13 +315,15 @@ const Reviews = ({
   }, [dispatch])
 
   if (state.hasError) {
-    return <div></div>
+    return <div />
   }
 
   if (state.reviews === null) {
     return <div className="review mw8 center ph5">Loading reviews</div>
   }
+
   const fixedAverage = average.toFixed(1)
+
   return state.reviews.length ? (
     <div
       id="reviews"
@@ -306,7 +331,7 @@ const Reviews = ({
       className={`${styles.reviews} mw8 center`}
     >
       <h3 className={`${styles.reviewsTitle} t-heading-3 b--muted-5 mb5`}>
-        Reviews
+        <FormattedMessage id="store/bazaar-voice.reviews" />
       </h3>
       <div className="review__rating pb4">
         <Stars rating={fixedAverage} />
@@ -331,7 +356,7 @@ const Reviews = ({
         props={props}
         handleFilter={handleFilter}
         filter={filter}
-        productIdentifier={product[productIdentifier]}
+        productIdentifier={productIdentifier}
         linkText={linkText}
         reviews={state.reviews}
         appSettings={appSettings}
@@ -347,7 +372,7 @@ const Reviews = ({
         />
       </div>
       <Modal centered isOpen={state.isModalOpen} onClose={handleModalToggle}>
-        <img src={state.selectedImage} />
+        <img src={state.selectedImage} alt="" />
       </Modal>
     </div>
   ) : (

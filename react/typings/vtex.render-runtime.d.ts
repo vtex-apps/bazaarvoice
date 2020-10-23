@@ -3,7 +3,7 @@ declare module 'vtex.render-runtime' {
     culture: {
       locale: string
     }
-    navigate: (params?: object) => void
+    navigate: (params?: Record<string, unknown>) => void
     query: {
       [key: string]: string
     }

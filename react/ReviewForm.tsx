@@ -7,19 +7,26 @@ const ReviewForm = ({ appSettings }: { appSettings: Settings }) => {
   const [productId, setProductId] = useState<string | null>(null)
 
   useEffect(() => {
-    var script = document.createElement('script')
+    const script = document.createElement('script')
+
     script.type = 'text/javascript'
-    script.onload = function() {
+    // eslint-disable-next-line func-names
+    script.onload = function () {
       setProductId(query.product_id)
       setLoaded(true)
     }
 
-    script.src = `https://display.ugc.bazaarvoice.com/static/${appSettings.clientName}/${appSettings.siteId}/en_US/bvapi.js`
+    script.src = `https://display.ugc.bazaarvoice.com/static/${
+      appSettings.clientName
+    }/${appSettings.siteId}/${
+      appSettings.locale ? appSettings.locale : 'en_US'
+    }/bvapi.js`
 
     document.body.appendChild(script)
   }, [
     appSettings.clientName,
     appSettings.siteId,
+    appSettings.locale,
     query.product_id,
     query.return_page,
   ])
@@ -31,12 +38,12 @@ const ReviewForm = ({ appSettings }: { appSettings: Settings }) => {
 
     window.$BV.configure('global', {
       events: {
-        submissionClose: function() {
+        submissionClose() {
           if (query.return_page) {
             navigate({ to: query.return_page })
           }
         },
-        submissionSubmitted: function() {
+        submissionSubmitted() {
           if (query.return_page) {
             setTimeout(() => navigate({ to: query.return_page }), 1000)
           }
@@ -45,7 +52,7 @@ const ReviewForm = ({ appSettings }: { appSettings: Settings }) => {
     })
 
     window.$BV.ui('rr', 'submit_review', {
-      productId: productId,
+      productId,
     })
   }, [loaded, navigate, query.return_page, productId])
 

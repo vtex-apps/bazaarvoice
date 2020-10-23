@@ -35,16 +35,21 @@
   ],
   "mustUpdateAt": "2020-01-22",
   "categories": [],
-  "registries": [
-    "smartcheckout"
-  ],
+  "registries": ["smartcheckout"],
   "scripts": {
     "postreleasy": "vtex publish --verbose"
   },
   "settingsSchema": {
     "title": "Baazarvoice Reviews",
     "type": "object",
+    "bindingBounded": false,
     "properties": {
+      "locale": {
+        "type": "string",
+        "access": "public",
+        "title": "Locale",
+        "description": "Locale to use when loading Bazaar Voice scripts. Defaults to 'en_US' if left blank"
+      },
       "appKey": {
         "type": "string",
         "access": "public",
@@ -66,11 +71,7 @@
       "uniqueId": {
         "type": "string",
         "access": "public",
-        "enum": [
-          "productId",
-          "linkText",
-          "productReference"
-        ],
+        "enum": ["productId", "linkText", "productReference"],
         "default": "linkText",
         "title": "API Unique Id",
         "description": "The Unique Id referencing to the product id to get the reviews"

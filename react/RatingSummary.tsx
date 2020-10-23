@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react'
 import useProduct from 'vtex.product-context/useProduct'
-import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import { useQuery } from 'react-apollo'
 import { Link } from 'vtex.render-runtime'
-import Stars from './components/Stars'
 import { FormattedMessage } from 'react-intl'
+
+import Stars from './components/Stars'
+import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import styles from './styles.css'
 import AggregateStructuredData from './components/AggregateStructuredData'
 
@@ -18,9 +19,9 @@ const RatingSummary = ({ appSettings }: { appSettings: Settings }) => {
       offset: 0,
       filter: 0,
       pageId: JSON.stringify({
-        linkText: product && product.linkText,
-        productId: product && product.productId,
-        productReference: product && product.productReference,
+        linkText: product?.linkText,
+        productId: product?.productId,
+        productReference: product?.productReference,
       }),
     },
   })
@@ -37,7 +38,7 @@ const RatingSummary = ({ appSettings }: { appSettings: Settings }) => {
           .TotalReviewCount
       : null
 
-  const uniqueId = appSettings.uniqueId
+  const { uniqueId } = appSettings
 
   return (
     <div className={styles.ratingSummary}>
@@ -51,7 +52,7 @@ const RatingSummary = ({ appSettings }: { appSettings: Settings }) => {
         ) : (
           <Fragment>
             <AggregateStructuredData
-              productName={product && product.productName}
+              productName={product?.productName}
               average={average}
               total={totalReviews}
             />
@@ -73,7 +74,7 @@ const RatingSummary = ({ appSettings }: { appSettings: Settings }) => {
               className={`${styles.ratingSummaryWrite} ml2 c-link t-body`}
               href={`/new-review?product_id=${product[uniqueId]}&return_page=/${product.linkText}/p`}
             >
-              Write a review
+              <FormattedMessage id="store/bazaar-voice.write-a-review" />
             </Link>
           </Fragment>
         )}

@@ -1,15 +1,17 @@
 import React, { FunctionComponent } from 'react'
-import Star from './Star'
 
+import Star from './Star'
 import styles from '../styles.css'
 
 const getStarPercentage = (rating: number, i: number) => {
   if (rating >= i + 1) {
     return '100%'
   }
+
   if (i < rating && rating < i + 1) {
     return `${(rating - i) * 100}%`
   }
+
   return '0%'
 }
 
@@ -19,7 +21,7 @@ const Stars: FunctionComponent<StarsProps> = ({ rating }) => {
   return (
     <div className={`${styles.ratingStars} dib relative v-mid mr2`}>
       <div className={`${styles.ratingStarsInactive} nowrap flex`}>
-        {fiveStars.map(i => {
+        {fiveStars.map((i) => {
           return (
             <div
               key={i}

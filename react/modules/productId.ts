@@ -10,5 +10,6 @@ const idMap = {
 export function getProductId(product: ProductOrder) {
   const settings = getSettings()
   const id = settings.uniqueId
+
   return product[idMap[id]]
 }
