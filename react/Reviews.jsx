@@ -319,7 +319,11 @@ const Reviews = ({
   }
 
   if (state.reviews === null) {
-    return <div className="review mw8 center ph5">Loading reviews</div>
+    return (
+      <div className="review mw8 center ph5">
+        <FormattedMessage id="store/bazaar-voice.loading-reviews" />
+      </div>
+    )
   }
 
   const fixedAverage = average.toFixed(1)
