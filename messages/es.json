@@ -8,7 +8,7 @@
   "store/bazaar-voice.loading-reviews": "Cargando Reseñas",
   "store/bazaar-voice.write-a-review": "Escribe una reseña",
   "store/bazaar-voice.write-a-review-first": "Se el primero en escribir una reseña!",
-  "store/bazaar-voice.reviewed-by": "Reseñado por {count, plural, un {# customer} otros {# customers}}",
+  "store/bazaar-voice.reviewed-by": "Reseñado por {count, plural, one {# cliente} others {# clientes}}",
   "store/bazaar-voice.sort-by.most-recent": "Más Reciente",
   "store/bazaar-voice.sort-by.most-relevant": "Más Relevante",
   "store/bazaar-voice.sort-by.rating-desc": "Reseñas - Mayor a Menor",
