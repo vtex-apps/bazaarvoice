@@ -75,13 +75,13 @@ interface Product {
   ManufacturerPartNumbers?: string[]
   UPCs?: string[]
   AttributesOrder?: string[]
-  Attributes?: object
+  Attributes?: Record<string, unknown>
   ImageUrl?: string
   Name?: string
   Id?: string
   CategoryId?: string
   BrandExternalId?: string
-  Brand?: object
+  Brand?: Record<string, unknown>
   Active?: boolean
   ProductPageUrl?: string
   Disabled?: boolean
