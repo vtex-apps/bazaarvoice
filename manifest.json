@@ -57,6 +57,11 @@
         "title": "Client Name",
         "description": "Enter your Client Name"
       },
+      "language": {
+        "type": "string",
+        "title": "Language",
+        "description": "Enter your language"
+      },
       "siteId": {
         "type": "string",
         "access": "public",
