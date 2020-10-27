@@ -3,7 +3,7 @@
   "stars": "Estrellas para {name}",
   "rating-summary": "Resumen de las valoraciones para {name}",
   "review-form": "Formulario de evaluación",
-  "reviews": "({total, plural, one {# evaluación} other {# evaluaciones}})",
+  "reviews": "({total, plural, one {# evaluación} others {# evaluaciones}})",
   "store/bazaar-voice.reviews": "Reseñas",
   "store/bazaar-voice.loading-reviews": "Cargando Reseñas",
   "store/bazaar-voice.write-a-review": "Escribe una reseña",
