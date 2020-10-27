@@ -113,7 +113,7 @@ interface ReviewStatistics {
   RatingsOnlyReviewCount?: number
   FirstSubmissionTime?: string
   LastSubmissionTime?: string
-  ContextDataDistribution?: object
+  ContextDataDistribution?: Record<string, unknown>
   ContextDataDistributionOrder?: []
   OverallRatingRange?: number
   TagDistributionOrder?: []
@@ -145,7 +145,7 @@ interface Result {
   Title: string
   ReviewText: string
   SecondaryRatings: Record<string, SecondaryRating> | SecondaryRating[]
-  TagDimensions: object | TagDimensions
+  TagDimensions: Record<string, unknown> | TagDimensions
   Photos: Photo[]
 
   CID?: string
