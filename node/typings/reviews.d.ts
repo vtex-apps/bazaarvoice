@@ -117,7 +117,7 @@ interface ReviewStatistics {
   ContextDataDistributionOrder?: []
   OverallRatingRange?: number
   TagDistributionOrder?: []
-  TagDistribution?: {}
+  TagDistribution?: Record<string, unknown>
 }
 
 interface ReviewStatisticsGraphQL extends ReviewStatistics {
@@ -177,16 +177,16 @@ interface Result {
   Pros?: null
   InappropriateFeedbackList?: []
   ContextDataValuesOrder?: []
-  ContextDataValues?: {}
+  ContextDataValues?: Record<string, unknown>
   AdditionalFieldsOrder?: []
-  Badges?: {}
+  Badges?: Record<string, unknown>
   ClientResponses?: ClientResponse[]
   RatingRange?: number
   TagDimensionsOrder?: []
   IsSyndicated?: boolean
   BadgesOrder?: []
   CommentIds?: []
-  AdditionalFields?: {}
+  AdditionalFields?: Record<string, unknown>
   Cons?: null
 }
 
