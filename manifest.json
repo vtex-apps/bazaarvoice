@@ -28,6 +28,13 @@
     {
       "name": "outbound-access",
       "attrs": {
+        "host": "stg.api.bazaarvoice.com",
+        "path": "/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
         "host": "myvtex.com",
         "path": "/_v/graphql/private/v1"
       }
@@ -42,7 +49,7 @@
   "settingsSchema": {
     "title": "Baazarvoice Reviews",
     "type": "object",
-    "bindingBounded": false,
+    "bindingBounded": true,
     "properties": {
       "locale": {
         "type": "string",
