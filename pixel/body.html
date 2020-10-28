@@ -1,6 +1,38 @@
 <script>
-  window.__bazaarvoice = { "uniqueId": "{{settings.uniqueId}}" };
+  ;(function() {
+    window.__bazaarvoice = { "uniqueId": "{{settings.uniqueId}}" };
+    var clientName = '{{settings.clientName}}'
+    var siteId = '{{settings.siteId}}'
+    var locale = '{{settings.locale}}'
+    if (!clientName) {
+      console.error(
+        'Warning: No Bazaar Voice Client Name is defined. Please configure it in the apps admin.'
+      )
+      return
+    }
+    if (!siteId) {
+      console.error(
+        'Warning: No Bazaar Voice Site ID is defined. Please configure it in the apps admin.'
+      )
+      return
+    }
+    if (!locale) {
+      locale = 'en_US'
+    }
+    ;(function e() {
+      var e = document.createElement('script')
+      ;(e.type = 'text/javascript'),
+        (e.async = true),
+        (e.src =
+          'https://apps.bazaarvoice.com/deployments/' +
+          clientName +
+          '/' +
+          siteId +
+          '/production/' +
+          locale +
+          '/bv.js')
+      var t = document.getElementsByTagName('script')[0]
+      t.parentNode.insertBefore(e, t)
+    })()
+  })()
 </script>
-<script
-  async src="https://apps.bazaarvoice.com/deployments/{{settings.clientName}}/{{settings.siteId}}/production/en_US/bv.js"
-></script>

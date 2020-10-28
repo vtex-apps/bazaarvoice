@@ -75,13 +75,13 @@ interface Product {
   ManufacturerPartNumbers?: string[]
   UPCs?: string[]
   AttributesOrder?: string[]
-  Attributes?: object
+  Attributes?: Record<string, unknown>
   ImageUrl?: string
   Name?: string
   Id?: string
   CategoryId?: string
   BrandExternalId?: string
-  Brand?: object
+  Brand?: Record<string, unknown>
   Active?: boolean
   ProductPageUrl?: string
   Disabled?: boolean
@@ -113,11 +113,11 @@ interface ReviewStatistics {
   RatingsOnlyReviewCount?: number
   FirstSubmissionTime?: string
   LastSubmissionTime?: string
-  ContextDataDistribution?: object
+  ContextDataDistribution?: Record<string, unknown>
   ContextDataDistributionOrder?: []
   OverallRatingRange?: number
   TagDistributionOrder?: []
-  TagDistribution?: {}
+  TagDistribution?: Record<string, unknown>
 }
 
 interface ReviewStatisticsGraphQL extends ReviewStatistics {
@@ -145,7 +145,7 @@ interface Result {
   Title: string
   ReviewText: string
   SecondaryRatings: Record<string, SecondaryRating> | SecondaryRating[]
-  TagDimensions: object | TagDimensions
+  TagDimensions: Record<string, unknown> | TagDimensions
   Photos: Photo[]
 
   CID?: string
@@ -177,16 +177,16 @@ interface Result {
   Pros?: null
   InappropriateFeedbackList?: []
   ContextDataValuesOrder?: []
-  ContextDataValues?: {}
+  ContextDataValues?: Record<string, unknown>
   AdditionalFieldsOrder?: []
-  Badges?: {}
+  Badges?: Record<string, unknown>
   ClientResponses?: ClientResponse[]
   RatingRange?: number
   TagDimensionsOrder?: []
   IsSyndicated?: boolean
   BadgesOrder?: []
   CommentIds?: []
-  AdditionalFields?: {}
+  AdditionalFields?: Record<string, unknown>
   Cons?: null
 }
 

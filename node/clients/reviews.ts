@@ -1,4 +1,5 @@
 import { ExternalClient, InstanceOptions, IOContext } from '@vtex/api'
+
 import { BazaarVoiceReviews } from '../typings/reviews'
 
 interface GetReviewArgs {
@@ -11,7 +12,7 @@ interface GetReviewArgs {
 }
 
 export default class Reviews extends ExternalClient {
-  public constructor(context: IOContext, options?: InstanceOptions) {
+  constructor(context: IOContext, options?: InstanceOptions) {
     super('http://api.bazaarvoice.com', context, options)
   }
 
@@ -24,7 +25,7 @@ export default class Reviews extends ExternalClient {
     quantity,
   }: GetReviewArgs): Promise<BazaarVoiceReviews> {
     const endpoint = `/data/reviews.json?apiversion=5.4&passkey=${appKey}&Filter=ProductId:eq:${fieldProductId}&Sort=${sort}&Limit=${quantity}&Offset=${offset}&Include=Products,Comments&Stats=Reviews&Filter=${
-      filter ? 'Rating:eq:' + filter : 'IsRatingsOnly:eq:false'
+      filter ? `Rating:eq:${filter}` : 'IsRatingsOnly:eq:false'
     }`
 
     return this.http.get(endpoint, {

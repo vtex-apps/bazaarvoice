@@ -1,14 +1,14 @@
 import { ClientsConfig, LRUCache, Service, ServiceContext } from '@vtex/api'
 
 import { Clients } from './clients'
-
 import { queries as productReviews } from './resolvers/reviews'
 
 const TIMEOUT_MS = 800
 
 // Create a LRU memory cache for the Reviews client.
 // The @vtex/api HttpClient respects Cache-Control headers and uses the provided cache.
-const memoryCache = new LRUCache<string, any>({max: 5000})
+const memoryCache = new LRUCache<string, any>({ max: 5000 })
+
 metrics.trackCache('reviews', memoryCache)
 
 // This is the configuration for clients available in `ctx.clients`.

@@ -1,8 +1,10 @@
 import React, { FunctionComponent } from 'react'
+
 import styles from '../styles.css'
 
 const createDivisions = () => {
-  let divs = []
+  const divs = []
+
   for (let i = 0; i < 4; i++) {
     divs.push(
       <div
@@ -11,7 +13,9 @@ const createDivisions = () => {
       />
     )
   }
+
   divs.push(<div key={4} className="w-100" />)
+
   return divs
 }
 
@@ -28,7 +32,7 @@ const HistogramBar: FunctionComponent<HistogramBarProps> = ({
       <div
         className={` ${barValueClassName} h1 bg-emphasis`}
         style={{ width: percentage }}
-      ></div>
+      />
       {shouldShowDivisions && (
         <div className="absolute flex justify-between top-0 bottom-0 right-0 left-0">
           {createDivisions()}
