@@ -1,5 +1,4 @@
-import { ApolloError } from 'apollo-server'
-
+import { GraphQLError } from '../graphql/GraphQLError'
 import {
   BazaarVoiceReviews,
   SecondaryRating,
@@ -59,6 +58,30 @@ const convertSecondaryRatings = (
   })
 }
 
+const getBindingSettings = (appSettings: any, currentBindingId?: string) => {
+  if (!appSettings || !currentBindingId) {
+    return appSettings
+  }
+
+  const { bindingBounded, settings = [] } = appSettings
+
+  if (!bindingBounded) {
+    return appSettings
+  }
+
+  const found = settings.find(
+    ({ bindingId }: any) => bindingId === currentBindingId
+  )
+
+  if (!found) {
+    return {}
+  }
+
+  const { bindingId, ...bindingSettings } = found
+
+  return bindingSettings
+}
+
 export const queries = {
   productReviews: async (
     _: any,
@@ -68,84 +91,96 @@ export const queries = {
     const { sort, offset, pageId, filter, quantity } = args
     const {
       clients: { apps, reviews: reviewsClient },
+      vtex: { binding },
     } = ctx
 
     const appId = process.env.VTEX_APP_ID
-    const { appKey, uniqueId } = await apps.getAppSettings(appId)
 
-    const product = JSON.parse(pageId)
+    return apps.getAppSettings(appId).then(async (appSettings: any) => {
+      const bindingId = binding?.id
+      const settings = getBindingSettings(appSettings, bindingId)
+      const { appKey, uniqueId, locale } = settings
 
-    const fieldProductId = product[uniqueId]
+      const product = JSON.parse(pageId)
 
-    let reviews: BazaarVoiceReviews
-    const newQuantity = quantity || DEFAULT_REVIEWS_QUANTITY
+      const fieldProductId = product[uniqueId]
 
-    try {
-      reviews = await reviewsClient.getReviews({
-        appKey,
-        fieldProductId,
-        sort,
-        offset,
-        filter,
-        quantity: newQuantity,
-      })
-    } catch (error) {
-      throw new TypeError(error.response.data)
-    }
+      let reviews: BazaarVoiceReviews
+      const newQuantity = quantity || DEFAULT_REVIEWS_QUANTITY
 
-    if (reviews.HasErrors && reviews.Errors) {
-      throw new ApolloError(reviews.Errors[0].Message, reviews.Errors[0].Code)
-    }
+      try {
+        reviews = await reviewsClient.getReviews({
+          appKey,
+          fieldProductId,
+          sort,
+          offset,
+          filter,
+          quantity: newQuantity,
+          contentLocale: locale,
+        })
+      } catch (error) {
+        throw new TypeError(error.response.data)
+      }
 
-    let products: ProductGraphQL[] = []
+      if (reviews.HasErrors && reviews.Errors) {
+        throw new GraphQLError(
+          reviews.Errors[0].Message,
+          parseInt(reviews.Errors[0].Code, 10)
+        )
+      }
 
-    if (reviews.Includes.Products) {
-      products = Object.keys(reviews.Includes.Products).map((productName) => {
-        const currentProduct = reviews.Includes.Products[productName]
-        const ratingOrders =
-          currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
+      let products: ProductGraphQL[] = []
 
-        const productExtended: ProductGraphQL = {
-          ...currentProduct,
-          ReviewStatistics: {
-            ...currentProduct.ReviewStatistics,
-            RatingDistribution: [1, 2, 3, 4, 5].map((i) => {
-              const currentRating = currentProduct.ReviewStatistics.RatingDistribution.find(
-                (rating) => rating.RatingValue === i
-              )
+      if (reviews.Includes.Products) {
+        products = Object.keys(reviews.Includes.Products).map((productName) => {
+          const currentProduct = reviews.Includes.Products[productName]
+          const ratingOrders =
+            currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
 
-              return currentRating ?? { RatingValue: i, Count: 0 }
-            }),
-            SecondaryRatingsAverages: ratingOrders.map((rating) => {
-              return parseSecondaryRatingsData(
-                currentProduct.ReviewStatistics.SecondaryRatingsAverages[rating]
-              ) as SecondaryRatingsAverageGraphQL
-            }),
-          },
-        }
+          const productExtended: ProductGraphQL = {
+            ...currentProduct,
+            ReviewStatistics: {
+              ...currentProduct.ReviewStatistics,
+              RatingDistribution: [1, 2, 3, 4, 5].map((i) => {
+                const currentRating = currentProduct.ReviewStatistics.RatingDistribution.find(
+                  (rating) => rating.RatingValue === i
+                )
 
-        return productExtended
-      })
-    }
+                return currentRating ?? { RatingValue: i, Count: 0 }
+              }),
+              SecondaryRatingsAverages: ratingOrders.map((rating) => {
+                return parseSecondaryRatingsData(
+                  currentProduct.ReviewStatistics.SecondaryRatingsAverages[
+                    rating
+                  ]
+                ) as SecondaryRatingsAverageGraphQL
+              }),
+            },
+          }
 
-    return {
-      ...reviews,
-      Includes: {
-        ...reviews.Includes,
-        Products: products,
-      },
-      Results: reviews.Results.map((result) => {
-        const secondaryRatings = convertSecondaryRatings(
-          result.SecondaryRatings as Record<string, SecondaryRating>,
-          result.SecondaryRatingsOrder
-        ) as SecondaryRating[]
+          return productExtended
+        })
+      }
 
-        return {
-          ...result,
-          SecondaryRatings: secondaryRatings,
-        }
-      }),
-    }
+      return {
+        ...reviews,
+        Includes: {
+          ...reviews.Includes,
+          Products: products,
+        },
+        Results: reviews.Results.map((result) => {
+          const secondaryRatings = convertSecondaryRatings(
+            result.SecondaryRatings as Record<string, SecondaryRating>,
+            result.SecondaryRatingsOrder
+          ) as SecondaryRating[]
+
+          return {
+            ...result,
+            SecondaryRatings: secondaryRatings,
+          }
+        }),
+      }
+    })
   },
   getConfig: async (_: any, __: any, ctx: Context) => {
     const {
