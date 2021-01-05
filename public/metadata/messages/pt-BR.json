@@ -1,12 +1,12 @@
 {
   "name": "Bazaarvoice",
   "headline": "Integrar Bazaarvoice em sua loja VTEX IO.",
-  "overview": "Integração com Bazaarvoice para trazar avaliações e comentários de produtos além de outros recursos para sua loja no VTEX IO.",
+  "overview": "Integração com Bazaarvoice para trazer e fazer avaliações e comentários de produtos além de outros recursos para sua loja no VTEX IO.",
   "features": [
     "Mostrar avaliações de produto na PDP e prateleiras",
     "Permitir aos usuários a ler e filtrar avaliações na PDP",
-    "Permitir usuários à enviar sua própria avaliação do produto",
-    "Possibilidade aos usuários fazarem perguntas e respostas sobre os produtos"
+    "Permitir usuários à enviarem sua própria avaliação do produto",
+    "Possibilidade aos usuários fazerem perguntas e respostas sobre os produtos"
   ],
   "websiteURL": "https://vtex.com/",
   "support": {
