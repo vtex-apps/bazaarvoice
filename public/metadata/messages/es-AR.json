@@ -1,0 +1,15 @@
+{
+  "name": "Bazaarvoice",
+  "headline": "Integración con Bazaarvoice en su tienda VTEX IO.",
+  "overview": "Integración con Bazaarvoice para llevar calificaciones y reseñas de productos y otras características a su tienda VTEX IO.",
+  "features": [
+    "Mostrar calificaciones de productos en el PDP y los estantes de productos",
+    "Permitir a los compradores leer y filtrar reseñas en el PDP",
+    "Permitir que los compradores envíen sus propias valoraciones y reseñas de productos",
+    "Permitir que los compradores hagan y respondan preguntas sobre productos"
+  ],
+  "websiteURL": "https://vtex.com/",
+  "support": {
+      "url": "https://help-tickets.vtex.com/en/support?app=vtex.bazaarvoice"
+    }
+}
