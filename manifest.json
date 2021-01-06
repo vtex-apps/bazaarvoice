@@ -130,7 +130,7 @@
   },
   "billingOptions": {
     "support": {
-      "url": "https://support.vtex.com/hc/requests"
+      "url": "https://help-tickets.vtex.com/en/support?app=vtex.bazaarvoice"
     },
     "type": "free",
     "availableCountries": [
