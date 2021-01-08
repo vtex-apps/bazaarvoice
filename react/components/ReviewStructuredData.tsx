@@ -14,6 +14,7 @@ const ReviewStructuredData: FC<Props> = ({ productName, review }) => {
   const reviewStructuredData = {
     '@context': 'http://schema.org',
     '@type': 'Product',
+    '@id': window.location.href,
     name: productName,
     review: {
       '@type': 'Review',
