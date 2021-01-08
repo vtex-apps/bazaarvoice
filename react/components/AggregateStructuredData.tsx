@@ -18,6 +18,7 @@ const AggregateStructuredData: FC<Props> = ({
   const aggregate = {
     '@context': 'http://schema.org',
     '@type': 'Product',
+    '@id': window.location.href,
     name: productName,
     aggregateRating: {
       '@type': 'AggregateRating',
