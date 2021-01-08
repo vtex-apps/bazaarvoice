@@ -7,9 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Product @id field to schema
+
+### Fixed
+
+- Bazaarvoice transaction pixel order values
+
 ## [1.8.2] - 2021-01-05
 
 ### Added
+
 - Add metadata to app store
 
 ## [1.8.1] - 2020-12-02
