@@ -9,7 +9,10 @@ export function handleEvents(e: PixelMessage) {
       const { data } = e
       const transactionData = {
         orderId: data.orderGroup,
-        total: data.transactionSubtotal - Math.abs(data.transactionDiscounts),
+        total:
+          Math.round(
+            data.transactionSubtotal + data.transactionDiscounts * 100
+          ) / 100,
         currency: data.currency,
         tax: data.transactionTax,
         shipping: data.transactionShipping,
@@ -17,15 +20,15 @@ export function handleEvents(e: PixelMessage) {
         state: data.visitorAddressState,
         email: data.visitorContactInfo[0],
         nickname: data.visitorContactInfo[1],
-        discount: Math.abs(data.transactionDiscounts),
         items: data.transactionProducts.map((product) => {
           return {
             productId: getProductId(product),
             sku: product.sku,
-            discount: product.originalPrice - product.price,
+            discount:
+              Math.round((product.originalPrice - product.price) * 100) / 100,
             quantity: product.quantity,
             name: product.name,
-            price: product.price,
+            price: product.originalPrice,
             category: product.category,
           }
         }),
