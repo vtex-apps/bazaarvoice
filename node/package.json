@@ -1,13 +1,13 @@
 {
   "name": "node",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.18.0"
   },
   "devDependencies": {
-    "@vtex/api": "6.37.0",
+    "@vtex/api": "6.37.1",
     "@vtex/tsconfig": "^0.4.4",
     "typescript": "3.9.7",
     "vtex.pixel-interfaces": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.pixel-interfaces@1.1.1/public/_types/react",
