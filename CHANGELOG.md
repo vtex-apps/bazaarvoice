@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Modal to display full sized review images
+
+### Fixed
+
+- Review image thumbnail sizing
+- Use locale review count in Rating Summary
+
 ## [1.8.3] - 2021-01-08
 
 ### Added
