@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Review image thumbnail sizing
+- Use locale review count in Rating Summary
 
 ## [1.8.3] - 2021-01-08
 
