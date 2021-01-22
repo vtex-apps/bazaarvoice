@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ProductContext } from 'vtex.product-context'
 
-import styles from '../styles.css'
+import styles from './styles.css'
 
 const QnA = ({ appSettings }: { appSettings: Settings }) => {
   const [loaded, setLoaded] = useState(false)
