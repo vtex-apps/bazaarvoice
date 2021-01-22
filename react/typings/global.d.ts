@@ -41,7 +41,7 @@ interface BazaarvoiceClient {
 
 interface TransactionData {
   orderId: string
-  total: number
+  total: string
   currency: string
   country: string
   state: string
@@ -52,7 +52,7 @@ interface BazaarvoiceItem {
   sku: string
   quantity: number
   name: string
-  price: number
+  price: string
   category: string
 }
 
