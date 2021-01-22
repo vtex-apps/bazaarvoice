@@ -129,5 +129,14 @@
     "vtex.product-context": "0.x",
     "vtex.pixel-interfaces": "1.x"
   },
+  "billingOptions": {
+    "support": {
+      "url": "https://help-tickets.vtex.com/en/support?app=vtex.bazaarvoice"
+    },
+    "type": "free",
+    "availableCountries": [
+      "*"
+    ]
+  },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

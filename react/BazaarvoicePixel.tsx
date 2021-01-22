@@ -9,10 +9,9 @@ export function handleEvents(e: PixelMessage) {
       const { data } = e
       const transactionData = {
         orderId: data.orderGroup,
-        total:
-          Math.round(
-            data.transactionSubtotal + data.transactionDiscounts * 100
-          ) / 100,
+        total: (data.transactionSubtotal + data.transactionDiscounts).toFixed(
+          2
+        ),
         currency: data.currency,
         tax: data.transactionTax,
         shipping: data.transactionShipping,
@@ -24,11 +23,10 @@ export function handleEvents(e: PixelMessage) {
           return {
             productId: getProductId(product),
             sku: product.sku,
-            discount:
-              Math.round((product.originalPrice - product.price) * 100) / 100,
+            discount: (product.originalPrice - product.price).toFixed(2),
             quantity: product.quantity,
             name: product.name,
-            price: product.originalPrice,
+            price: product.originalPrice.toFixed(2),
             category: product.category,
           }
         }),

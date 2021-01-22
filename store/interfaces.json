@@ -11,6 +11,9 @@
   "product-rating-inline.bazaarvoice": {
     "component": "RatingInline"
   },
+  "product-questions-and-answers.bazaarvoice": {
+    "component": "QnA"
+  },
   "pixel.bazaarvoice": {
     "component": "BazaarvoicePixel"
   }
