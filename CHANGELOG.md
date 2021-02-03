@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Billingoptions to manifest
+
 ## [2.0.0] - 2021-01-22
 
 ### Added
 
-- Billingoptions to manifest
 - Add Questions and Answers Bazaarvoice component
 
 ## [1.9.0] - 2021-01-15
