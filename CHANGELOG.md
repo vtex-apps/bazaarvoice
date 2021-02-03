@@ -10,6 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Billingoptions to manifest
 
+## [2.0.0] - 2021-01-22
+
+### Added
+
+- Add Questions and Answers Bazaarvoice component
+
+## [1.9.0] - 2021-01-15
+
+### Added
+
+- Modal to display full sized review images
+
+### Fixed
+
+- Review image thumbnail sizing
+- Use locale review count in Rating Summary
+
 ## [1.8.3] - 2021-01-08
 
 ### Added

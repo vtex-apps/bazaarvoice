@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react'
-import { defineMessages, useIntl } from 'react-intl'
+import { defineMessages, useIntl, IntlShape } from 'react-intl'
 import { ProductContext } from 'vtex.product-context'
 
 import Stars from './Stars'
@@ -11,6 +11,7 @@ import {
   useTrackViewedCGC,
 } from '../modules/trackers'
 import ReviewStructuredData from './ReviewStructuredData'
+import ReviewImages from './ReviewImages'
 
 const messages = defineMessages({
   timeAgo: {
@@ -71,7 +72,7 @@ const messages = defineMessages({
   },
 })
 
-const getTimeAgo = (intl: any, time: string) => {
+const getTimeAgo = (intl: IntlShape, time: string) => {
   const before = new Date(time)
   const now = new Date()
   const diff = new Date(now.valueOf() - before.valueOf())
@@ -157,24 +158,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
               review.UserLocation ? `, from ${review.UserLocation}` : ''
             }`}
           </div>
-
-          {review.Photos.length ? (
-            <div
-              className={`${styles.reviewImagesContainer} mt6 flex items-start`}
-            >
-              {review.Photos.map((item, i: number) => {
-                return (
-                  <img
-                    alt="Product"
-                    className={`${styles.reviewImage} w-20 db mb5`}
-                    key={i}
-                    src={item.Sizes.thumbnail.Url}
-                  />
-                )
-              })}
-            </div>
-          ) : null}
-
+          <ReviewImages review={review} />
           <p className={`${styles.reviewText} t-body lh-copy mw7 pr5-ns`}>
             {review.ReviewText}
           </p>

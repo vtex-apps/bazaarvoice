@@ -33,9 +33,8 @@ const RatingSummary = ({ appSettings }: { appSettings: Settings }) => {
       : null
 
   const totalReviews =
-    !loading && !error && data && data.productReviews.Includes.Products[0]
-      ? data.productReviews.Includes.Products[0].ReviewStatistics
-          .TotalReviewCount
+    !loading && !error && data && data.productReviews
+      ? data.productReviews.TotalResults
       : null
 
   const { uniqueId } = appSettings

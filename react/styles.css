@@ -84,6 +84,9 @@
 .histogramDivisions {
 }
 
+.QnAContainer {
+}
+
 .review {
 }
 
@@ -136,6 +139,7 @@
 }
 
 .reviewImage {
+  cursor: pointer;
 }
 
 .reviewsContainer {

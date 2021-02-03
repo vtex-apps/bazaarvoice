@@ -3,7 +3,7 @@
   "name": "bazaarvoice",
   "title": "Bazaarvoice",
   "description": "Leverage authentic opinions, photos, and videos to sell your products.",
-  "version": "1.8.3",
+  "version": "2.0.0",
   "builders": {
     "react": "3.x",
     "graphql": "1.x",
@@ -125,6 +125,7 @@
     "vtex.product-summary-context": "0.x",
     "vtex.store-header": "2.x",
     "vtex.store": "2.x",
+    "vtex.slider-layout": "0.x",
     "vtex.product-context": "0.x",
     "vtex.pixel-interfaces": "1.x"
   },
