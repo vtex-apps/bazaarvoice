@@ -7,14 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Adjust structured data `@id` property to match property from `vtex.structured-data`
+- Remove `AggregateStructuredData` from `Reviews` to prevent duplicate aggregate review data on the PDP
+
 ## [2.0.2] - 2021-02-10
 
 ### Fixed
+
 - Icon size
 
 ## [2.0.1] - 2021-02-03
 
 ### Added
+
 - Billingoptions to manifest
 
 ## [2.0.0] - 2021-01-22

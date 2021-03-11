@@ -52,6 +52,8 @@ const RatingSummary = ({ appSettings }: { appSettings: Settings }) => {
           <Fragment>
             <AggregateStructuredData
               productName={product?.productName}
+              productId={product?.productId}
+              productUrl={product?.link}
               average={average}
               total={totalReviews}
             />

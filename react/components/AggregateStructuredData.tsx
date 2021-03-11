@@ -2,12 +2,16 @@ import React, { FC } from 'react'
 
 interface Props {
   productName: string
+  productId: string
+  productUrl: string
   average: number
   total: number
 }
 
 const AggregateStructuredData: FC<Props> = ({
   productName,
+  productId,
+  productUrl,
   average,
   total,
 }) => {
@@ -18,7 +22,8 @@ const AggregateStructuredData: FC<Props> = ({
   const aggregate = {
     '@context': 'http://schema.org',
     '@type': 'Product',
-    '@id': window.location.href,
+    '@id': productUrl,
+    mpn: productId,
     name: productName,
     aggregateRating: {
       '@type': 'AggregateRating',

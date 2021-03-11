@@ -141,7 +141,12 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
       id={elementId}
       className={`${styles.review} bw2 bb b--muted-5 mb5 pb4-ns pb8-s`}
     >
-      <ReviewStructuredData productName={product.productName} review={review} />
+      <ReviewStructuredData
+        productName={product.productName}
+        productId={product.productId}
+        productUrl={product.link}
+        review={review}
+      />
       <div className={`${styles.reviewRating} flex items-center`}>
         <Stars rating={review.Rating} />
         <span className="c-muted-1 t-small ml2">
