@@ -2,6 +2,8 @@ import React, { FC } from 'react'
 
 interface Props {
   productName: string
+  productId: string
+  productUrl: string
   review: {
     Rating: number
     UserNickname: string
@@ -10,11 +12,17 @@ interface Props {
   }
 }
 
-const ReviewStructuredData: FC<Props> = ({ productName, review }) => {
+const ReviewStructuredData: FC<Props> = ({
+  productName,
+  productId,
+  productUrl,
+  review,
+}) => {
   const reviewStructuredData = {
     '@context': 'http://schema.org',
     '@type': 'Product',
-    '@id': window.location.href,
+    '@id': productUrl,
+    mpn: productId,
     name: productName,
     review: {
       '@type': 'Review',

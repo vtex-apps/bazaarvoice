@@ -17,7 +17,6 @@ import ReviewsContainer from './components/ReviewsContainer'
 import queryRatingSummary from './graphql/queries/queryRatingSummary.gql'
 import { trackPageViewData } from './modules/trackers'
 import styles from './styles.css'
-import AggregateStructuredData from './components/AggregateStructuredData'
 
 const initialState = {
   reviews: null,
@@ -343,11 +342,6 @@ const Reviews = ({
           ({fixedAverage})
         </span>
       </div>
-      <AggregateStructuredData
-        productName={product && product.productName}
-        average={average}
-        total={state.count}
-      />
       <Histogram
         percentages={state.percentage}
         histogram={histogram}
