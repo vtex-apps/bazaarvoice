@@ -131,18 +131,17 @@ export const queries = {
 
       // Creating Local Rating Distribution
       let batchReviews: BazaarVoiceReviews
-      let allReviews: any = []
-      let newOffset = offset
-
-      console.log(reviews.TotalResults)
+      const allReviews: any = []
+      let newOffset: number = offset
 
       while (newOffset < reviews.TotalResults) {
         try {
+          // eslint-disable-next-line no-await-in-loop
           batchReviews = await reviewsClient.getReviews({
             appKey,
             fieldProductId,
             sort,
-            offset: newOffset,
+            offset: newOffset.toString(),
             filter,
             quantity: 100,
             contentLocale: locale,
@@ -150,13 +149,13 @@ export const queries = {
         } catch (error) {
           throw new TypeError(error.response.data)
         }
-  
+
         if (batchReviews.HasErrors && batchReviews.Errors) {
           throw new GraphQLError(
             batchReviews.Errors[0].Message,
             parseInt(batchReviews.Errors[0].Code, 10)
           )
-        } 
+        }
 
         batchReviews.Results.forEach((review) => {
           allReviews.push(review.Rating)
@@ -166,29 +165,35 @@ export const queries = {
       }
 
       let products: ProductGraphQL[] = []
-      
+
       if (reviews.Includes.Products) {
         products = Object.keys(reviews.Includes.Products).map((productName) => {
           const currentProduct = reviews.Includes.Products[productName]
-          const ratingOrders = currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
-          
-          let LocalRatingDistribution: any = currentProduct.ReviewStatistics.LocalRatingDistribution || []
-          
+          const ratingOrders =
+            currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
+
+          const LocalRatingDistribution: any =
+            currentProduct.ReviewStatistics.LocalRatingDistribution || []
+
           const countRating = (rating: number) => {
             return allReviews.filter((item: any) => item === rating).length
           }
 
           if (!LocalRatingDistribution.length) {
-            [1, 2, 3, 4, 5].forEach((i) => {
-              return LocalRatingDistribution.push({ RatingValue: i, Count: countRating(i) })
+            ;[1, 2, 3, 4, 5].forEach((i) => {
+              return LocalRatingDistribution.push({
+                RatingValue: i,
+                Count: countRating(i),
+              })
             })
           }
 
           let localSum = 0
+
           LocalRatingDistribution.forEach((distribution: any) => {
-            localSum += (distribution.RatingValue * distribution.Count)
+            localSum += distribution.RatingValue * distribution.Count
           })
-          
+
           const AverageLocalRating: number = localSum / reviews.TotalResults
 
           const productExtended: ProductGraphQL = {

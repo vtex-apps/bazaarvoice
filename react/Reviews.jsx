@@ -211,16 +211,18 @@ const Reviews = ({
           : null
 
         const reviews = response.data.productReviews.Results
-        const reviewLength = reviews.length
         const paging = {
           pageSize: response.data.productReviews.Limit,
           totalResults: response.data.productReviews.TotalResults,
         }
 
-        const currentHistogram = rollup != null ? rollup.LocalRatingDistribution : []
+        const currentHistogram =
+          rollup != null ? rollup.LocalRatingDistribution : []
+
         const currentCount = response.data.productReviews.TotalResults
         const currentAverage = rollup != null ? rollup.AverageLocalRating : 0
-        const currentSecondaryRatingsAverages = rollup != null ? rollup.SecondaryRatingsAverages : []
+        const currentSecondaryRatingsAverages =
+          rollup != null ? rollup.SecondaryRatingsAverages : []
 
         const percentage = []
 
