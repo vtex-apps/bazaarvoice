@@ -68,7 +68,6 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
             RatingValue
             Count
           }
-          LocalReviewCount
           AverageLocalRating
           LocalRatingDistribution {
             RatingValue

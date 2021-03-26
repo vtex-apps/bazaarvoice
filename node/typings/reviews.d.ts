@@ -103,7 +103,6 @@ interface ReviewStatistics {
   AverageOverallRating: number
   NotRecommendedCount: number
   RatingDistribution: RatingDistribution[]
-  LocalReviewCount: number
   AverageLocalRating: number
   LocalRatingDistribution: RatingDistribution[]
   SecondaryRatingsAveragesOrder: string[]

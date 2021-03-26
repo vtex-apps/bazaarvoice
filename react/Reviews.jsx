@@ -206,19 +206,19 @@ const Reviews = ({
         },
       })
       .then((response) => {
-        console.log(response)
         const rollup = response.data.productReviews.TotalResults
           ? response.data.productReviews.Includes.Products[0].ReviewStatistics
           : null
 
         const reviews = response.data.productReviews.Results
+        const reviewLength = reviews.length
         const paging = {
           pageSize: response.data.productReviews.Limit,
           totalResults: response.data.productReviews.TotalResults,
         }
 
         const currentHistogram = rollup != null ? rollup.LocalRatingDistribution : []
-        const currentCount = rollup != null ? rollup.LocalReviewCount : 0
+        const currentCount = response.data.productReviews.TotalResults
         const currentAverage = rollup != null ? rollup.AverageLocalRating : 0
         const currentSecondaryRatingsAverages = rollup != null ? rollup.SecondaryRatingsAverages : []
 
@@ -229,17 +229,6 @@ const Reviews = ({
         })
         percentage.reverse() // layout starts from 5, hence the .reverse()
         dispatch({
-          type: 'SET_REVIEWS',
-          reviews,
-          average: currentAverage,
-          histogram: currentHistogram,
-          count: currentCount,
-          secondaryRatingsAverage: currentSecondaryRatingsAverages,
-          paging,
-          percentage,
-        })
-
-        console.log("dispatch =>", {
           type: 'SET_REVIEWS',
           reviews,
           average: currentAverage,
