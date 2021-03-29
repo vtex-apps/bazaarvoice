@@ -48,6 +48,8 @@ type ReviewStatistics {
   TotalReviewCount: Int
   AverageOverallRating: Float
   RatingDistribution: [RatingDistribution]
+  AverageLocalRating: Float
+  LocalRatingDistribution: [RatingDistribution]
   SecondaryRatingsAverages: [SecondaryRatingsAverage]
 }
 

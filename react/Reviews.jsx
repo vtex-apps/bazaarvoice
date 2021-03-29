@@ -216,9 +216,11 @@ const Reviews = ({
           totalResults: response.data.productReviews.TotalResults,
         }
 
-        const currentHistogram = rollup != null ? rollup.RatingDistribution : []
-        const currentCount = rollup != null ? rollup.TotalReviewCount : 0
-        const currentAverage = rollup != null ? rollup.AverageOverallRating : 0
+        const currentHistogram =
+          rollup != null ? rollup.LocalRatingDistribution : []
+
+        const currentCount = response.data.productReviews.TotalResults
+        const currentAverage = rollup != null ? rollup.AverageLocalRating : 0
         const currentSecondaryRatingsAverages =
           rollup != null ? rollup.SecondaryRatingsAverages : []
 

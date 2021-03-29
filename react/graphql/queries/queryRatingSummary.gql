@@ -1,5 +1,5 @@
 query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String, $quantity: Int) {
-	productReviews(sort: $sort, offset: $offset, pageId: $pageId, filter: $filter, quantity: $quantity) {
+	productReviews(sort: $sort, offset: $offset, pageId: $pageId, filter: $filter, quantity: $quantity) @context(provider:"vtex.bazaarvoice") {
     Limit
     Offset
     TotalResults
@@ -65,6 +65,11 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
           TotalReviewCount
           AverageOverallRating
           RatingDistribution {
+            RatingValue
+            Count
+          }
+          AverageLocalRating
+          LocalRatingDistribution {
             RatingValue
             Count
           }
