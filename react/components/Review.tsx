@@ -1,6 +1,9 @@
 import React, { FunctionComponent, useContext } from 'react'
 import { defineMessages, useIntl, IntlShape } from 'react-intl'
 import { ProductContext } from 'vtex.product-context'
+// import {
+//   useApolloClient,
+// } from 'react-apollo'
 
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
@@ -12,6 +15,7 @@ import {
 } from '../modules/trackers'
 import ReviewStructuredData from './ReviewStructuredData'
 import ReviewImages from './ReviewImages'
+import GetReviews from '../graphql/queries/querySyndicatedReview.gql'
 
 const messages = defineMessages({
   timeAgo: {
@@ -129,12 +133,23 @@ const getTimeAgo = (intl: IntlShape, time: string) => {
 const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
   const { product } = useContext(ProductContext)
   const intl = useIntl()
+  // const client = useApolloClient()
+
+  const query = {
+    query: GetReviews,
+    variables: { reviewId: review.Id, appKey: appSettings.appKey },
+  }
+
+  console.log(query)
 
   const elementId = `bazaarvoice-review-${review.Id}`
 
   useTrackImpression(product.productId, review.Id)
   useTrackInView(product.productId, elementId)
   useTrackViewedCGC(product.productId, elementId)
+
+  console.log('REVIEW', review)
+  console.log('APP SETTINGS', appSettings)
 
   return (
     <div

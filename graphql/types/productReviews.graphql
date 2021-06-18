@@ -81,6 +81,7 @@ type Results {
   UserNickname: String
   UserLocation: String
   SubmissionTime: String
+  IsSyndicated: String
   Title: String
   ReviewText: String
   SecondaryRatings: [SecondaryRating]

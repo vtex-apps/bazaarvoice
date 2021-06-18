@@ -10,6 +10,7 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
       IsRatingsOnly
       TotalFeedbackCount
       IsRecommended
+      IsSyndicated
       SecondaryRatingsOrder
       TotalNegativeFeedbackCount
       TotalPositiveFeedbackCount

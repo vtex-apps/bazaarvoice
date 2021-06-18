@@ -243,6 +243,40 @@ export const queries = {
       }
     })
   },
+  getReview: async (_: any, args:any, ctx: Context) => {    
+    const { reviewId, appKey } = args
+    const {
+      clients: { reviews: reviewsClient },
+    } = ctx
+
+    let review: any
+
+    try {
+      review = await reviewsClient.getReview({
+        reviewId,
+        appKey,
+      })
+    } catch (error) {
+      throw new TypeError(error.response.data)
+    }
+
+    if (review.HasErrors && review.Errors) {
+      throw new GraphQLError(
+        review.Errors[0].Message,
+        parseInt(review.Errors[0].Code, 10)
+      )
+    }
+
+    if (review.Results[0].IsSyndicated) {
+      return {
+        isSyndicated: true,
+        syndicateName: review.Results[0].SyndicationSource.Name,
+        logoImage: review.Results[0].SyndicationSource.LogoImageUrl
+      }
+    }
+
+    return {isSyndicated: true, syndicateName: '', logoImage: ''}
+  },
   getConfig: async (_: any, __: any, ctx: Context) => {
     const {
       clients: { apps },
