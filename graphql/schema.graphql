@@ -6,7 +6,7 @@
 type Query {
   productReviews(sort: String!, filter: Int, offset: Int, pageId: String, quantity: Int): Review @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
   getConfig: GetConfigResponse @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
-  getReview(reviewId: String): SyndicateReview @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
+  getReview(reviewId: String, appKey: String): SyndicateReview @cacheControl(scope: PUBLIC, maxAge: MEDIUM)
 }
 
 type Mutation {

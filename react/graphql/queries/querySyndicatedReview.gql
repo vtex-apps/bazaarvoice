@@ -1,5 +1,5 @@
-query getReview($reviewId: String!) {
-  getReview(reviewId: $reviewId) @context(provider:"vtex.bazaarvoice") { 
+query getReview($reviewId: String!,$appKey: String!) {
+  getReview(reviewId: $reviewId, appKey: $appKey) @context(provider:"vtex.bazaarvoice") { 
     isSyndicated
     syndicateName
     logoImage

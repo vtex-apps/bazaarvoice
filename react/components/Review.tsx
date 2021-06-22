@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { useState, FunctionComponent, useContext } from 'react'
 import { defineMessages, useIntl, IntlShape } from 'react-intl'
 import { ProductContext } from 'vtex.product-context'
-// import {
-//   useApolloClient,
-// } from 'react-apollo'
+import {
+  useApolloClient,
+} from 'react-apollo'
 
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
@@ -74,6 +74,10 @@ const messages = defineMessages({
     id: 'store/bazaar-voice.timeAgo.justNow',
     defaultMessage: 'just now',
   },
+  originalPost: {
+    id: 'store/bazaar-voice.original-post.text',
+    defaultMessage: 'Originally posted on ',
+  }
 })
 
 const getTimeAgo = (intl: IntlShape, time: string) => {
@@ -131,25 +135,47 @@ const getTimeAgo = (intl: IntlShape, time: string) => {
 }
 
 const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
+  const [state, setState] = useState<any>({
+    isSyndicated: false,
+    syndicateName: '',
+    logoImage: ''
+  })
+
+  const {
+    isSyndicated,
+    syndicateName,
+    logoImage,
+  } = state
+
   const { product } = useContext(ProductContext)
   const intl = useIntl()
-  // const client = useApolloClient()
+  const client = useApolloClient()
 
-  const query = {
-    query: GetReviews,
-    variables: { reviewId: review.Id, appKey: appSettings.appKey },
+  const getSyndicatedReview = async () => {
+    const query = {
+      query: GetReviews,
+      variables: { reviewId: review.Id, appKey: appSettings.appKey },
+    }
+  
+    const data: any = await client.query(query)
+    const reviewData = data.data.getReview
+    
+    if (reviewData.isSyndicated) {
+      setState({isSyndicated: reviewData.isSyndicated, logoImage: reviewData.logoImage, syndicateName: reviewData.syndicateName})
+      return true
+    }
+
+    return false
   }
 
-  console.log(query)
-
+  if (state.isSyndicated === false) {
+    getSyndicatedReview()
+  }
   const elementId = `bazaarvoice-review-${review.Id}`
 
   useTrackImpression(product.productId, review.Id)
   useTrackInView(product.productId, elementId)
   useTrackViewedCGC(product.productId, elementId)
-
-  console.log('REVIEW', review)
-  console.log('APP SETTINGS', appSettings)
 
   return (
     <div
@@ -182,6 +208,16 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
           <p className={`${styles.reviewText} t-body lh-copy mw7 pr5-ns`}>
             {review.ReviewText}
           </p>
+
+          {isSyndicated && (
+            <div className="flex bg-muted-5 pa4">
+              <img src={logoImage} className="db mr2" width="50"/>
+              <p className={`t-body lh-copy mw7 pr5-ns`}>
+                {intl.formatMessage(messages.originalPost)}
+                {syndicateName}
+              </p>
+            </div>
+          )}
 
           {appSettings.showClientResponses && review.ClientResponses.length ? (
             <div className={`${styles.clientResponseContainer} mw7 pr5-ns pl7`}>

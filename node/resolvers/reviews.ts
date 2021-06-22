@@ -243,8 +243,7 @@ export const queries = {
       }
     })
   },
-  getReview: async (_: any, args:any, ctx: Context) => {    
-    const { reviewId, appKey } = args
+  getReview: async (_: any, {reviewId, appKey}: any, ctx: Context) => {    
     const {
       clients: { reviews: reviewsClient },
     } = ctx
