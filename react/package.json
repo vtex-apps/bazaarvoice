@@ -26,12 +26,12 @@
     "vtex.pixel-interfaces": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.pixel-interfaces@1.1.1/public/_types/react",
     "vtex.product-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.product-context@0.9.9/public/@types/vtex.product-context",
     "vtex.product-review-interfaces": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.product-review-interfaces@1.0.2/public/_types/react",
-    "vtex.product-summary-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.product-summary-context@0.8.0/public/@types/vtex.product-summary-context",
-    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.128.4/public/@types/vtex.render-runtime",
+    "vtex.product-summary-context": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.product-summary-context@0.8.1/public/@types/vtex.product-summary-context",
+    "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.130.0/public/@types/vtex.render-runtime",
     "vtex.slider-layout": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.slider-layout@0.19.0/public/@types/vtex.slider-layout",
-    "vtex.store": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.119.0/public/@types/vtex.store",
+    "vtex.store": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.120.0/public/@types/vtex.store",
     "vtex.store-header": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-header@2.26.0/public/@types/vtex.store-header",
-    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.143.0/public/@types/vtex.styleguide"
+    "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.144.0/public/@types/vtex.styleguide"
   },
   "version": "2.1.0"
 }
