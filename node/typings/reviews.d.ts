@@ -23,6 +23,7 @@ interface Include {
   Products: Record<string, Product>
   ProductsOrder: string[]
   Comments: Record<string, Comment>
+  AllProducts: string
 }
 
 interface BadgeObject {
@@ -61,10 +62,12 @@ interface Comment {
   ProductRecommendationIds: any[]
   CampaignId?: any
   Title?: string
+  ProductId: string
 }
 
 interface IncludeGraphQL {
   Products: ProductGraphQL[]
+  AllProducts: AllProducts[]
 }
 
 interface Product {
@@ -190,6 +193,7 @@ interface Result {
   CommentIds?: []
   AdditionalFields?: Record<string, unknown>
   Cons?: null
+  ProductId: string
 }
 
 interface ClientResponse {
@@ -254,4 +258,9 @@ interface ImageSize {
 
 interface Image {
   Url: string
+}
+
+interface AllProducts {
+  ProductId: string
+  Name: string
 }

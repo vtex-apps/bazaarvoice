@@ -82,6 +82,8 @@ const getBindingSettings = (appSettings: any, currentBindingId?: string) => {
   return bindingSettings
 }
 
+const allProducts: any = {}
+
 export const queries = {
   productReviews: async (
     _: any,
@@ -169,6 +171,7 @@ export const queries = {
       if (reviews.Includes.Products) {
         products = Object.keys(reviews.Includes.Products).map((productName) => {
           const currentProduct = reviews.Includes.Products[productName]
+          allProducts[productName] = {ProductId: currentProduct.Id, Name: currentProduct.Name}
           const ratingOrders =
             currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
 
@@ -222,12 +225,15 @@ export const queries = {
           return productExtended
         })
       }
+      
+      const arrProducts: any = Object.values(allProducts)
 
       return {
         ...reviews,
         Includes: {
           ...reviews.Includes,
           Products: products,
+          AllProducts: arrProducts,
         },
         Results: reviews.Results.map((result) => {
           const secondaryRatings = convertSecondaryRatings(
@@ -274,7 +280,7 @@ export const queries = {
       }
     }
 
-    return {isSyndicated: true, syndicateName: '', logoImage: ''}
+    return {isSyndicated: false, syndicateName: '', logoImage: ''}
   },
   getConfig: async (_: any, __: any, ctx: Context) => {
     const {

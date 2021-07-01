@@ -7,7 +7,7 @@
     "axios": "^0.18.0"
   },
   "devDependencies": {
-    "@vtex/api": "6.42.1",
+    "@vtex/api": "6.43.0",
     "@vtex/tsconfig": "^0.4.4",
     "typescript": "3.9.7",
     "vtex.bazaarvoice": "https://tony--ecowaterqa.myvtex.com/_v/private/typings/linked/v1/vtex.bazaarvoice@2.1.0+build1624384921/public/@types/vtex.bazaarvoice",

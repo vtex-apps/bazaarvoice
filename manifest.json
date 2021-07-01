@@ -116,6 +116,13 @@
         "title": "Show responses",
         "description": "Display responses to reviews.",
         "default": false
+      },
+      "showSimilarProducts": {
+        "type": "boolean",
+        "access": "public",
+        "title": "Show reviews from similar products",
+        "description": "Display reviews made on similar products.",
+        "default": false
       }
     }
   },

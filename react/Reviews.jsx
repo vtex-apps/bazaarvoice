@@ -32,6 +32,7 @@ const initialState = {
   offset: 0,
   hasError: false,
   isModalOpen: false,
+  relatedProducts: [],
 }
 
 const reducer = (state, action) => {
@@ -47,6 +48,7 @@ const reducer = (state, action) => {
         count: action.count,
         paging: action.paging,
         hasError: false,
+        relatedProducts: action.relatedProducts,
       }
     }
 
@@ -176,7 +178,7 @@ const Reviews = ({
   const { linkText, productId, productReference } = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { filter, selected, offset, count, histogram, average } = state
+  const { filter, selected, offset, count, histogram, average, relatedProducts } = state
 
   const reviewsQuantityToShow =
     offset === 0 ? quantityFirstPage : quantityPerPage
@@ -239,6 +241,7 @@ const Reviews = ({
           secondaryRatingsAverage: currentSecondaryRatingsAverages,
           paging,
           percentage,
+          relatedProducts: response.data.productReviews.Includes.AllProducts
         })
         if (state.loadedConfigData) {
           trackPageViewData(productId, 'Product', state.count)
@@ -263,6 +266,7 @@ const Reviews = ({
     reviewsQuantityToShow,
     state.loadedConfigData,
     state.count,
+    relatedProducts,
   ])
 
   const handleSort = useCallback(
@@ -327,6 +331,9 @@ const Reviews = ({
     )
   }
 
+  console.log("related products 1", state.relatedProducts)
+  console.log("state", state)
+
   const fixedAverage = average.toFixed(1)
 
   return state.reviews.length ? (
@@ -360,6 +367,7 @@ const Reviews = ({
         linkText={linkText}
         reviews={state.reviews}
         appSettings={appSettings}
+        relatedProducts={relatedProducts}
       />
       <div className="review__paging">
         <Pagination

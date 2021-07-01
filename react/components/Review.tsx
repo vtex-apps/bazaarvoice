@@ -134,17 +134,21 @@ const getTimeAgo = (intl: IntlShape, time: string) => {
   return intl.formatMessage(messages.timeAgoJustNow)
 }
 
-const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
+const Review: FunctionComponent<ReviewProps> = ({ review, appSettings, relatedProducts }) => {
   const [state, setState] = useState<any>({
-    isSyndicated: false,
+    isSyndicated: null,
     syndicateName: '',
-    logoImage: ''
+    logoImage: '',
+    showRelated: null,
+    relatedProductName: ''
   })
 
   const {
     isSyndicated,
     syndicateName,
     logoImage,
+    showRelated,
+    relatedProductName,
   } = state
 
   const { product } = useContext(ProductContext)
@@ -161,16 +165,34 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
     const reviewData = data.data.getReview
     
     if (reviewData.isSyndicated) {
-      setState({isSyndicated: reviewData.isSyndicated, logoImage: reviewData.logoImage, syndicateName: reviewData.syndicateName})
+      setState({...state, isSyndicated: reviewData.isSyndicated, logoImage: reviewData.logoImage, syndicateName: reviewData.syndicateName})
       return true
     }
 
     return false
   }
 
-  if (state.isSyndicated === false) {
+  const relatedProduct = async () => {
+    if (appSettings.showSimilarProducts && relatedProducts?.length && review.ProductId !== product.productId) {
+      for (const prod of relatedProducts) {
+        if (prod.ProductId === product.productId) {
+          setState({...state, showRelated: true, relatedProductName: prod.Name})
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
+  if (state.isSyndicated === null) {
     getSyndicatedReview()
   }
+
+  if (showRelated === null) {
+    relatedProduct()
+  }
+  console.log("state", state)
   const elementId = `bazaarvoice-review-${review.Id}`
 
   useTrackImpression(product.productId, review.Id)
@@ -208,16 +230,6 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
           <p className={`${styles.reviewText} t-body lh-copy mw7 pr5-ns`}>
             {review.ReviewText}
           </p>
-
-          {isSyndicated && (
-            <div className="flex bg-muted-5 pa4">
-              <img src={logoImage} className="db mr2" width="50"/>
-              <p className={`t-body lh-copy mw7 pr5-ns`}>
-                {intl.formatMessage(messages.originalPost)}
-                {syndicateName}
-              </p>
-            </div>
-          )}
 
           {appSettings.showClientResponses && review.ClientResponses.length ? (
             <div className={`${styles.clientResponseContainer} mw7 pr5-ns pl7`}>
@@ -257,6 +269,25 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
               })}
             </div>
           ) : null}
+
+          {isSyndicated && (
+            <div className="flex bg-muted-5 pa4 ma3">
+              <img src={logoImage} className="db mr2" width="50"/>
+              <p className={`t-body lh-copy mw7 pr5-ns`}>
+                {intl.formatMessage(messages.originalPost)}
+                {syndicateName}
+              </p>
+            </div>
+          )}
+
+          {showRelated && (
+            <div className="flex bg-muted-5 pl4 ma3">
+              <p className={`t-body lh-copy mw7 pr5-ns`}>
+                {intl.formatMessage(messages.originalPost)}
+                {relatedProductName}
+              </p>
+            </div>
+          )}
         </div>
 
         {review.SecondaryRatings && (
@@ -295,6 +326,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
 interface ReviewProps {
   review: Review
   appSettings: any
+  relatedProducts: any
 }
 
 interface Review {
@@ -308,6 +340,7 @@ interface Review {
   Title: string
   UserLocation: string
   UserNickname: string
+  ProductId: string
 }
 
 interface Photo {

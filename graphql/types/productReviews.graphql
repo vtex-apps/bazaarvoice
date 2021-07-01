@@ -9,6 +9,12 @@ type Review {
 type Include {
   Products: [Products]
   Comments: [Comment]
+  AllProducts: [AllProducts]
+}
+
+type AllProducts {
+  ProductId: String
+  Name: String
 }
 
 type Comment {
@@ -32,6 +38,7 @@ type Comment {
   UserLocation: String
   IsSyndicated: Boolean
   Title: String
+  ProductId: String
 }
 
 type BadgeObject {
@@ -88,6 +95,7 @@ type Results {
   TagDimensions: TagDimensions
   Photos: [Photo]
   ClientResponses: [ClientResponse]
+  ProductId: String
 }
 
 type ClientResponse {

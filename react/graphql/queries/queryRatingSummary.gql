@@ -19,6 +19,7 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
       SubmissionTime
       Title
       ReviewText
+      ProductId
       SecondaryRatings {
         Value
         Id
@@ -61,6 +62,10 @@ query productReviews($sort: String!, $filter: Int, $offset: Int, $pageId: String
       }
     }
     Includes {
+      AllProducts {
+        ProductId
+        Name
+      }
       Products {
         ReviewStatistics {
           TotalReviewCount
