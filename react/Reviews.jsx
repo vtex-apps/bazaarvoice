@@ -178,7 +178,15 @@ const Reviews = ({
   const { linkText, productId, productReference } = product || {}
 
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { filter, selected, offset, count, histogram, average, relatedProducts } = state
+  const {
+    filter,
+    selected,
+    offset,
+    count,
+    histogram,
+    average,
+    relatedProducts,
+  } = state
 
   const reviewsQuantityToShow =
     offset === 0 ? quantityFirstPage : quantityPerPage
@@ -241,7 +249,7 @@ const Reviews = ({
           secondaryRatingsAverage: currentSecondaryRatingsAverages,
           paging,
           percentage,
-          relatedProducts: response.data.productReviews.Includes.AllProducts
+          relatedProducts: response.data.productReviews.Includes.AllProducts,
         })
         if (state.loadedConfigData) {
           trackPageViewData(productId, 'Product', state.count)
@@ -330,9 +338,6 @@ const Reviews = ({
       </div>
     )
   }
-
-  console.log("related products 1", state.relatedProducts)
-  console.log("state", state)
 
   const fixedAverage = average.toFixed(1)
 

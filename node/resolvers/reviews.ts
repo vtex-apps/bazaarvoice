@@ -171,7 +171,11 @@ export const queries = {
       if (reviews.Includes.Products) {
         products = Object.keys(reviews.Includes.Products).map((productName) => {
           const currentProduct = reviews.Includes.Products[productName]
-          allProducts[productName] = {ProductId: currentProduct.Id, Name: currentProduct.Name}
+
+          allProducts[productName] = {
+            ProductId: currentProduct.Id,
+            Name: currentProduct.Name,
+          }
           const ratingOrders =
             currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
 
@@ -225,7 +229,7 @@ export const queries = {
           return productExtended
         })
       }
-      
+
       const arrProducts: any = Object.values(allProducts)
 
       return {
@@ -249,7 +253,7 @@ export const queries = {
       }
     })
   },
-  getReview: async (_: any, {reviewId, appKey}: any, ctx: Context) => {    
+  getReview: async (_: any, { reviewId, appKey }: any, ctx: Context) => {
     const {
       clients: { reviews: reviewsClient },
     } = ctx
@@ -276,11 +280,11 @@ export const queries = {
       return {
         isSyndicated: true,
         syndicateName: review.Results[0].SyndicationSource.Name,
-        logoImage: review.Results[0].SyndicationSource.LogoImageUrl
+        logoImage: review.Results[0].SyndicationSource.LogoImageUrl,
       }
     }
 
-    return {isSyndicated: false, syndicateName: '', logoImage: ''}
+    return { isSyndicated: false, syndicateName: '', logoImage: '' }
   },
   getConfig: async (_: any, __: any, ctx: Context) => {
     const {

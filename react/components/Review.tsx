@@ -1,9 +1,7 @@
 import React, { useState, FunctionComponent, useContext } from 'react'
 import { defineMessages, useIntl, IntlShape } from 'react-intl'
 import { ProductContext } from 'vtex.product-context'
-import {
-  useApolloClient,
-} from 'react-apollo'
+import { useApolloClient } from 'react-apollo'
 
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
@@ -77,7 +75,7 @@ const messages = defineMessages({
   originalPost: {
     id: 'store/bazaar-voice.original-post.text',
     defaultMessage: 'Originally posted on ',
-  }
+  },
 })
 
 const getTimeAgo = (intl: IntlShape, time: string) => {
@@ -134,13 +132,17 @@ const getTimeAgo = (intl: IntlShape, time: string) => {
   return intl.formatMessage(messages.timeAgoJustNow)
 }
 
-const Review: FunctionComponent<ReviewProps> = ({ review, appSettings, relatedProducts }) => {
+const Review: FunctionComponent<ReviewProps> = ({
+  review,
+  appSettings,
+  relatedProducts,
+}) => {
   const [state, setState] = useState<any>({
     isSyndicated: null,
     syndicateName: '',
     logoImage: '',
     showRelated: null,
-    relatedProductName: ''
+    relatedProductName: '',
   })
 
   const {
@@ -160,12 +162,18 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings, relatedPr
       query: GetReviews,
       variables: { reviewId: review.Id, appKey: appSettings.appKey },
     }
-  
+
     const data: any = await client.query(query)
     const reviewData = data.data.getReview
-    
+
     if (reviewData.isSyndicated) {
-      setState({...state, isSyndicated: reviewData.isSyndicated, logoImage: reviewData.logoImage, syndicateName: reviewData.syndicateName})
+      setState({
+        ...state,
+        isSyndicated: reviewData.isSyndicated,
+        logoImage: reviewData.logoImage,
+        syndicateName: reviewData.syndicateName,
+      })
+
       return true
     }
 
@@ -173,10 +181,19 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings, relatedPr
   }
 
   const relatedProduct = async () => {
-    if (appSettings.showSimilarProducts && relatedProducts?.length && review.ProductId !== product.productId) {
+    if (
+      appSettings.showSimilarProducts &&
+      relatedProducts?.length &&
+      review.ProductId !== product.productId
+    ) {
       for (const prod of relatedProducts) {
         if (prod.ProductId === product.productId) {
-          setState({...state, showRelated: true, relatedProductName: prod.Name})
+          setState({
+            ...state,
+            showRelated: true,
+            relatedProductName: prod.Name,
+          })
+
           return true
         }
       }
@@ -192,7 +209,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings, relatedPr
   if (showRelated === null) {
     relatedProduct()
   }
-  console.log("state", state)
+
   const elementId = `bazaarvoice-review-${review.Id}`
 
   useTrackImpression(product.productId, review.Id)
@@ -272,8 +289,8 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings, relatedPr
 
           {isSyndicated && (
             <div className="flex bg-muted-5 pa4 ma3">
-              <img src={logoImage} className="db mr2" width="50"/>
-              <p className={`t-body lh-copy mw7 pr5-ns`}>
+              <img src={logoImage} className="db mr2" width="50" alt="" />
+              <p className="t-body lh-copy mw7 pr5-ns">
                 {intl.formatMessage(messages.originalPost)}
                 {syndicateName}
               </p>
@@ -282,7 +299,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings, relatedPr
 
           {showRelated && (
             <div className="flex bg-muted-5 pl4 ma3">
-              <p className={`t-body lh-copy mw7 pr5-ns`}>
+              <p className="t-body lh-copy mw7 pr5-ns">
                 {intl.formatMessage(messages.originalPost)}
                 {relatedProductName}
               </p>
