@@ -34,4 +34,12 @@ export default class Reviews extends ExternalClient {
       metric: 'bazaarvoice-get-reviews',
     })
   }
+
+  public async getReview({ reviewId, appKey }: any) {
+    const endpoint = `/data/reviews.json?apiversion=5.4&passkey=${appKey}&filter=id:${reviewId}`
+
+    return this.http.get(endpoint, {
+      metric: 'bazaarvoice-get-reviews',
+    })
+  }
 }

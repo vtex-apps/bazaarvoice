@@ -82,6 +82,8 @@ const getBindingSettings = (appSettings: any, currentBindingId?: string) => {
   return bindingSettings
 }
 
+const allProducts: any = {}
+
 export const queries = {
   productReviews: async (
     _: any,
@@ -169,6 +171,11 @@ export const queries = {
       if (reviews.Includes.Products) {
         products = Object.keys(reviews.Includes.Products).map((productName) => {
           const currentProduct = reviews.Includes.Products[productName]
+
+          allProducts[productName] = {
+            ProductId: currentProduct.Id,
+            Name: currentProduct.Name,
+          }
           const ratingOrders =
             currentProduct.ReviewStatistics.SecondaryRatingsAveragesOrder
 
@@ -223,11 +230,14 @@ export const queries = {
         })
       }
 
+      const arrProducts: any = Object.values(allProducts)
+
       return {
         ...reviews,
         Includes: {
           ...reviews.Includes,
           Products: products,
+          AllProducts: arrProducts,
         },
         Results: reviews.Results.map((result) => {
           const secondaryRatings = convertSecondaryRatings(
@@ -242,6 +252,39 @@ export const queries = {
         }),
       }
     })
+  },
+  getReview: async (_: any, { reviewId, appKey }: any, ctx: Context) => {
+    const {
+      clients: { reviews: reviewsClient },
+    } = ctx
+
+    let review: any
+
+    try {
+      review = await reviewsClient.getReview({
+        reviewId,
+        appKey,
+      })
+    } catch (error) {
+      throw new TypeError(error.response.data)
+    }
+
+    if (review.HasErrors && review.Errors) {
+      throw new GraphQLError(
+        review.Errors[0].Message,
+        parseInt(review.Errors[0].Code, 10)
+      )
+    }
+
+    if (review.Results[0].IsSyndicated) {
+      return {
+        isSyndicated: true,
+        syndicateName: review.Results[0].SyndicationSource.Name,
+        logoImage: review.Results[0].SyndicationSource.LogoImageUrl,
+      }
+    }
+
+    return { isSyndicated: false, syndicateName: '', logoImage: '' }
   },
   getConfig: async (_: any, __: any, ctx: Context) => {
     const {

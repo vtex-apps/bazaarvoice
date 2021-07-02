@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { useState, FunctionComponent, useContext } from 'react'
 import { defineMessages, useIntl, IntlShape } from 'react-intl'
 import { ProductContext } from 'vtex.product-context'
+import { useApolloClient } from 'react-apollo'
 
 import Stars from './Stars'
 import HistogramBar from './HistogramBar'
@@ -12,6 +13,7 @@ import {
 } from '../modules/trackers'
 import ReviewStructuredData from './ReviewStructuredData'
 import ReviewImages from './ReviewImages'
+import GetReviews from '../graphql/queries/querySyndicatedReview.gql'
 
 const messages = defineMessages({
   timeAgo: {
@@ -70,6 +72,10 @@ const messages = defineMessages({
     id: 'store/bazaar-voice.timeAgo.justNow',
     defaultMessage: 'just now',
   },
+  originalPost: {
+    id: 'store/bazaar-voice.original-post.text',
+    defaultMessage: 'Originally posted on ',
+  },
 })
 
 const getTimeAgo = (intl: IntlShape, time: string) => {
@@ -126,9 +132,83 @@ const getTimeAgo = (intl: IntlShape, time: string) => {
   return intl.formatMessage(messages.timeAgoJustNow)
 }
 
-const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
+const Review: FunctionComponent<ReviewProps> = ({
+  review,
+  appSettings,
+  relatedProducts,
+}) => {
+  const [state, setState] = useState<any>({
+    isSyndicated: null,
+    syndicateName: '',
+    logoImage: '',
+    showRelated: null,
+    relatedProductName: '',
+  })
+
+  const {
+    isSyndicated,
+    syndicateName,
+    logoImage,
+    showRelated,
+    relatedProductName,
+  } = state
+
   const { product } = useContext(ProductContext)
   const intl = useIntl()
+  const client = useApolloClient()
+
+  const getSyndicatedReview = async () => {
+    const query = {
+      query: GetReviews,
+      variables: { reviewId: review.Id, appKey: appSettings.appKey },
+    }
+
+    const data: any = await client.query(query)
+    const reviewData = data.data.getReview
+
+    if (reviewData.isSyndicated) {
+      setState({
+        ...state,
+        isSyndicated: reviewData.isSyndicated,
+        logoImage: reviewData.logoImage,
+        syndicateName: reviewData.syndicateName,
+      })
+
+      return true
+    }
+
+    return false
+  }
+
+  const relatedProduct = async () => {
+    if (
+      appSettings.showSimilarProducts &&
+      relatedProducts?.length &&
+      review.ProductId !== product.productId
+    ) {
+      for (const prod of relatedProducts) {
+        if (prod.ProductId === product.productId) {
+          setState({
+            ...state,
+            showRelated: true,
+            relatedProductName: prod.Name,
+          })
+
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
+  if (state.isSyndicated === null) {
+    getSyndicatedReview()
+  }
+
+  if (showRelated === null) {
+    relatedProduct()
+  }
 
   const elementId = `bazaarvoice-review-${review.Id}`
 
@@ -206,6 +286,25 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
               })}
             </div>
           ) : null}
+
+          {isSyndicated && (
+            <div className="flex bg-muted-5 pa4 ma3">
+              <img src={logoImage} className="db mr2" width="50" alt="" />
+              <p className="t-body lh-copy mw7 pr5-ns">
+                {intl.formatMessage(messages.originalPost)}
+                {syndicateName}
+              </p>
+            </div>
+          )}
+
+          {showRelated && (
+            <div className="flex bg-muted-5 pl4 ma3">
+              <p className="t-body lh-copy mw7 pr5-ns">
+                {intl.formatMessage(messages.originalPost)}
+                {relatedProductName}
+              </p>
+            </div>
+          )}
         </div>
 
         {review.SecondaryRatings && (
@@ -244,6 +343,7 @@ const Review: FunctionComponent<ReviewProps> = ({ review, appSettings }) => {
 interface ReviewProps {
   review: Review
   appSettings: any
+  relatedProducts: any
 }
 
 interface Review {
@@ -257,6 +357,7 @@ interface Review {
   Title: string
   UserLocation: string
   UserNickname: string
+  ProductId: string
 }
 
 interface Photo {

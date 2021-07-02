@@ -1,0 +1,7 @@
+query getReview($reviewId: String!,$appKey: String!) {
+  getReview(reviewId: $reviewId, appKey: $appKey) @context(provider:"vtex.bazaarvoice") { 
+    isSyndicated
+    syndicateName
+    logoImage
+  }
+}

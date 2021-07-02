@@ -35,5 +35,6 @@
   "store/bazaar-voice.timeAgo.hours": "horas",
   "store/bazaar-voice.timeAgo.minute": "minuto",
   "store/bazaar-voice.timeAgo.minutes": "minutos",
-  "store/bazaar-voice.timeAgo.justNow": "Agora mesmo"
+  "store/bazaar-voice.timeAgo.justNow": "Agora mesmo",
+  "store/bazaar-voice.original-post.text": ""
 }

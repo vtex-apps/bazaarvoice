@@ -16,6 +16,7 @@ interface Settings {
   siteId: string
   uniqueId: string
   defaultOrdinationType: string
+  showSimilarProducts: boolean
 }
 
 interface BazaarvoiceSDK {
