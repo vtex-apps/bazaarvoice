@@ -33,5 +33,5 @@
     "vtex.store-header": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-header@2.26.0/public/@types/vtex.store-header",
     "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.144.0/public/@types/vtex.styleguide"
   },
-  "version": "2.2.0"
+  "version": "2.2.1"
 }
